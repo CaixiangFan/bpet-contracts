@@ -13,3 +13,6 @@ artifacts
 
 # data
 data/
+
+# python env
+venv
