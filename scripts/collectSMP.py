@@ -1,3 +1,5 @@
+#!/home/ubuntu/p2pet/venv/bin/python3.9
+
 from time import sleep
 from datetime import datetime
 import requests

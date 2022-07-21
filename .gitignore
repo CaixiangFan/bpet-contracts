@@ -16,3 +16,4 @@ data/
 
 # python env
 venv
+*.out
