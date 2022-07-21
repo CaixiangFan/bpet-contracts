@@ -9,6 +9,7 @@ import "solidity-coverage";
 
 dotenv.config();
 
+const EXPOSED_KEY = "8f2a55949038a9610f50fb23b5883af3b4ecb3c3bb792cbcefbd1542c692be63";
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
@@ -25,6 +26,13 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 const config: HardhatUserConfig = {
   solidity: "0.8.4",
   networks: {
+    besu: {
+      url: process.env.BESU_URL || "",
+      accounts: [
+        process.env.PRIVATE_KEY !== undefined ? process.env.PRIVATE_KEY : EXPOSED_KEY,
+        process.env.PRIVATE_KEY2 !== undefined ? process.env.PRIVATE_KEY2 : EXPOSED_KEY,
+      ]
+    },  
     ropsten: {
       url: process.env.ROPSTEN_URL || "",
       accounts:
@@ -33,7 +41,7 @@ const config: HardhatUserConfig = {
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
-    currency: "USD",
+    currency: "ETK",
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,

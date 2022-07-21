@@ -1,29 +1,39 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// When running the script with `npx hardhat run <script>` you'll find the Hardhat
-// Runtime Environment's members available in the global scope.
-import { ethers } from "hardhat";
+import { ethers } from "ethers";
+import "dotenv/config";
+import * as tokenJson from "../artifacts/contracts/EnergyToken.sol/EnergyToken.json";
+import { EXPOSED_KEY, setupProvider } from "./utils";
 
 async function main() {
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
+  const wallet =
+    process.env.MNEMONIC && process.env.MNEMONIC.length > 0
+      ? ethers.Wallet.fromMnemonic(process.env.MNEMONIC)
+      : new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
+  console.log(`Using address ${wallet.address}`);
+  const provider = setupProvider();
+  const signer = wallet.connect(provider);
 
-  // We get the contract to deploy
-  const Greeter = await ethers.getContractFactory("Greeter");
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
+  const balanceBN = await signer.getBalance();
+  const balance = Number(ethers.utils.formatEther(balanceBN));
+  console.log(`Wallet balance ${balance}`);
+  if (balance < 0.01) {
+    throw new Error("Not enough ether");
+  }
+  console.log("Deploying Token contract");
+  const tokenFactory = new ethers.ContractFactory(
+    tokenJson.abi,
+    tokenJson.bytecode,
+    signer
+  );
+  const tokenContract = await tokenFactory.deploy();
+  console.log("Awaiting confirmations");
+  await tokenContract.deployed();
+  console.log("Completed");
+  console.log(`Contract deployed at ${tokenContract.address}`);
 
-  await greeter.deployed();
-
-  console.log("Greeter deployed to:", greeter.address);
+  const mintTx = await tokenContract.mint(wallet.address, 100);
+  await mintTx.wait();
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
