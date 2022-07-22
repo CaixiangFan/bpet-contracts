@@ -67,18 +67,6 @@ contract Registry is Ownable{
       registeredSuppliers[msg.sender] = Supplier(_assetId, _blockNumber, _capacity, _offerControl);
   }
 
-  // function registerSupplier (
-  //   address supplierAddress,
-  //   string memory _assetId,
-  //   uint8 _blockNumber,
-  //   uint16 _capacity,
-  //   string memory _offerControl
-  // ) public payable onlyOwner{
-  //     require(msg.value >= initialBalance * purchaseRatio, "Ether not enough to register");
-  //     energyToken.mint(msg.sender, msg.value / purchaseRatio);
-  //     registeredSuppliers[supplierAddress] = Supplier(_assetId, _blockNumber, _capacity, _offerControl);
-  // }
-
   function registerConsumer (
     string memory _assetId,
     uint8 _blockNumber,
@@ -89,18 +77,6 @@ contract Registry is Ownable{
       energyToken.mint(msg.sender, msg.value / purchaseRatio);
       registeredConsumers[msg.sender] = Consumer(_assetId, _blockNumber, _demand, _offerControl);
   }
-
-  // function registerConsumer (
-  //   address consumerAddress,
-  //   string memory _assetId,
-  //   uint8 _blockNumber,
-  //   uint16 _demand,
-  //   string memory _offerControl
-  // ) public onlyOwner{
-  //     // require(msg.value >= initialBalance * purchaseRatio, "Ether not enough to register");
-  //     // energyToken.mint(msg.sender, msg.value / purchaseRatio);
-  //     registeredConsumers[consumerAddress] = Consumer(_assetId, _blockNumber, _demand, _offerControl);
-  // }
 
   function getOwnSupplier () public view returns (Supplier memory) {
     return registeredSuppliers[msg.sender];
