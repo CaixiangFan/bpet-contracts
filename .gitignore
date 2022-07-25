@@ -12,7 +12,7 @@ artifacts
 .vscode
 
 # data
-data/
+# data/
 
 # python env
 venv
