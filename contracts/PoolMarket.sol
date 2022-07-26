@@ -10,8 +10,21 @@ interface IEnergyToken is IERC20 {
 }
 
 interface IRegistry {
-  function getSupplier(address) external;
-  function getConsumer(address) external;
+  struct Supplier {
+    string assetId; // Asset Short Name Identifier
+    uint8 blockNumber; // Block Number from 0 to 6
+    uint16 capacity; // Energy amount in MWh
+    string offerControl; // Offer control parties separated by a semi-colon
+  }
+
+  struct Consumer {
+    string assetId;
+    uint8 blockNumber;
+    uint16 demand;
+    string offerControl;
+  }
+  function getSupplier(address) external view returns(Supplier memory);
+  function getConsumer(address) external view returns(Consumer memory);
 }
 
 interface IPayment {
@@ -28,13 +41,13 @@ contract PoolMarket is Ownable{
   MarketClearanceState public marketClearanceState;
 
   struct Offer {
-    uint256 amount;
-    uint256 price;
+    uint16 amount;
+    uint16 price;
   }
 
   struct Bid {
-    uint256 amount;
-    uint256 price;
+    uint16 amount;
+    uint16 price;
   }
 
   mapping(address => Offer) public energyOffers;
@@ -46,8 +59,10 @@ contract PoolMarket is Ownable{
   IPayment public paymentContract;
   IRegistry public registryContract;
   
-  uint[] public minutePoolPrices; // record and update hour by hour
-  uint[] public hourlyPoolPrice; // record permanently to calculate payment bill
+  uint8 public minAllowedPrice;
+  uint16 public maxAllowedPrice;
+  uint16[] public minutePoolPrices; // record 60 system marginal prices and update hour by hour
+  uint16[] public hourlyPoolPrice; // record permanently to calculate payment bill
 
   constructor(
     address _etkContractAddress,
@@ -57,6 +72,42 @@ contract PoolMarket is Ownable{
     energyToken = IEnergyToken(_etkContractAddress);
     registryContract = IRegistry(_registryContractAddress);
     paymentContract = IPayment(_paymentContractAddress);
+    minAllowedPrice = 0;
+    maxAllowedPrice = 1000;
+  }
+
+  modifier registeredSupplier(
+    address offerSender
+  ) {
+    require(bytes(registryContract.getSupplier(offerSender).assetId).length != 0, "Unregistered supplier");
+    _;
+  }
+
+  modifier registeredConsumer(
+    address bidSender
+  ) {
+    require(bytes(registryContract.getConsumer(bidSender).assetId).length != 0, "Unregistered supplier");
+    _;
+  }
+
+  modifier validOffer(
+    uint16 amount,
+    uint16 price,
+    address offerSender
+  ) {
+    require(price <= maxAllowedPrice && price >= minAllowedPrice, "Invalid price");
+    require(amount <= registryContract.getSupplier(offerSender).capacity, "Offered amount exceeds capacity");
+    _;
+  }
+
+  modifier validBid(
+    uint16 amount,
+    uint16 price,
+    address bidSender
+  ) {
+    require(price <= maxAllowedPrice && price >= minAllowedPrice, "Invalid price");
+    require(energyToken.balanceOf(bidSender) >= amount * price, "Insufficient ETK balance");
+    _;
   }
 
   function initializeBidding () public onlyOwner {
@@ -65,12 +116,26 @@ contract PoolMarket is Ownable{
     // marketResettingState=MarketResettingState.NotReset;
   }
 
-  function submitOffer(uint256 amount, uint256 price) public {
+  function submitOffer(
+    uint16 amount, 
+    uint16 price
+    ) public 
+    registeredSupplier(msg.sender)
+    validOffer(amount, price, msg.sender)
+    {
+    require(biddingState == BiddingState.Open, "Bidding closed");
     energyOffers[msg.sender] = Offer(amount, price);
     suppliers.push(msg.sender);
   }
 
-  function submitBid(uint256 amount, uint256 price) public {
+  function submitBid(
+    uint16 amount, 
+    uint16 price
+    ) public 
+    registeredConsumer(msg.sender)
+    validBid(amount, price, msg.sender)
+    {
+    require(biddingState == BiddingState.Open, "Bidding closed");
     energyBids[msg.sender] = Bid(amount, price);
     consumers.push(msg.sender);
   }
@@ -78,19 +143,26 @@ contract PoolMarket is Ownable{
   ///@dev calculate the pool price for each bid interval (one minute)
   ///if the consumers or suppliers didn't change at the current interval
   ///read the previous values
-  function calculateMinutePoolPrices(uint minute) public {
+  function calculateSMP(uint8 minute) public onlyOwner{
+    //when calculating the SMP, system cannot accept new offers/bids
+    //this requires a high-performance blockchain system to process this transaction
+    //in a very short time, otherwise services stop for a long period time
     marketClearanceState = MarketClearanceState.Cleared;
     biddingState = BiddingState.Closed;
 
     uint totalBidAmount = 0;
-    uint totalOfferAmount = 0;
+    uint aggregatedOfferAmount = 0;
     for (uint i=0; i < consumers.length; i++) {
+      // slice energyBids only to be current minute's
       totalBidAmount += energyBids[consumers[i]].amount;
     }
+    // slice energyOffers only to be current minute's
+    // use the quick sort to sort the energyOffers in an ascending order
     for (uint j=0; j < suppliers.length; j++) {
-      totalOfferAmount += energyOffers[suppliers[j]].amount;
-      //use the merit order effect to calculate hourly pool price
-      if (totalOfferAmount >= totalBidAmount) {
+      aggregatedOfferAmount += energyOffers[suppliers[j]].amount;
+      //use the merit order effect to calculate the SMP,
+      //e.g., the max price of offer submitted to the market which has been dispatched 
+      if (aggregatedOfferAmount >= totalBidAmount) {
         minutePoolPrices[minute] = energyOffers[suppliers[j]].price;
         break;
       }
