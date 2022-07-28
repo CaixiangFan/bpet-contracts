@@ -84,7 +84,7 @@ describe("Testing Registry Contract", () => {
       await tx.wait();
       const registeredInfo = await registryContract.connect(accounts[1]).getOwnSupplier();
       expect(registeredInfo.assetId).to.eq("ENG03");
-      expect(registeredInfo.blockNumber).to.eq(3);
+      expect(registeredInfo.blockAmount).to.eq(3);
       expect(registeredInfo.capacity).to.eq(300);
       expect(registeredInfo.offerControl).to.eq("Albera Energy Ltd.");
     });
@@ -102,7 +102,7 @@ describe("Testing Registry Contract", () => {
       const ethBalance = await provider.getBalance(accounts[2].address)
       console.log(ethers.utils.formatEther(ethBalance));
       const tx = await registryContract.connect(accounts[2]).registerConsumer(
-        "UAENG", 3, 100, "University of Alberta.", {value: Number(INIT_TOKEN) * Number(PURCHASE_RATIO)}
+        "UAENG", 100, "University of Alberta.", {value: Number(INIT_TOKEN) * Number(PURCHASE_RATIO)}
         );
       await tx.wait();
       const balance = await etkContract.balanceOf(accounts[2].address);
@@ -110,20 +110,19 @@ describe("Testing Registry Contract", () => {
     });
     it("get correct registration ino of a registered consumer", async () => {
       const tx = await registryContract.connect(accounts[2]).registerConsumer(
-        "UAENG", 3, 100, "University of Alberta.", {value: 100}
+        "UAENG", 100, "University of Alberta.", {value: 100}
         );
       await tx.wait();
       const registeredInfo = await registryContract.connect(accounts[2]).getOwnConsumer();
       expect(registeredInfo.assetId).to.eq("UAENG");
-      expect(registeredInfo.blockNumber).to.eq(3);
-      expect(registeredInfo.demand).to.eq(100);
+      expect(registeredInfo.load).to.eq(100);
       expect(registeredInfo.offerControl).to.eq("University of Alberta.");
     });
     it("ether balance is not enough for registering consumer", async () => {
       const balanceBN = await provider.getBalance(accounts[3].address)
       console.log('Balance: ', ethers.utils.formatEther(balanceBN));
       await expect(registryContract.connect(accounts[3]).registerConsumer(
-        "UAENG", 3, 100, "University of Alberta", {value: 50}
+        "UAENG", 100, "University of Alberta", {value: 50}
       )).to.be.revertedWith("Ether not enough to register");
     })
   });
@@ -136,19 +135,18 @@ describe("Testing Registry Contract", () => {
       await tx.wait();
       const info = await registryContract.getSupplier(accounts[1].address);
       expect(info.assetId).to.eq("ENG04");
-      expect(info.blockNumber).to.eq(3);
+      expect(info.blockAmount).to.eq(3);
       expect(info.capacity).to.eq(300);
       expect(info.offerControl).to.eq("Albera Energy Ltd.");
     });
     it("registry admin get consumer registration info", async () => {
       const tx = await registryContract.connect(accounts[2]).registerConsumer(
-        "UAENG", 3, 100, "University of Alberta.", {value: 100}
+        "UAENG", 100, "University of Alberta.", {value: 100}
         );
       await tx.wait();
       const registeredInfo = await registryContract.getConsumer(accounts[2].address);
       expect(registeredInfo.assetId).to.eq("UAENG");
-      expect(registeredInfo.blockNumber).to.eq(3);
-      expect(registeredInfo.demand).to.eq(100);
+      expect(registeredInfo.load).to.eq(100);
       expect(registeredInfo.offerControl).to.eq("University of Alberta.");
     });
     it("participant cannot get other supplier's registration info", async () => {
@@ -161,7 +159,7 @@ describe("Testing Registry Contract", () => {
     });
     it("participant cannot get other consumer's registration info", async () => {
       const tx = await registryContract.connect(accounts[1]).registerConsumer(
-        "UAENG", 3, 100, "University of Alberta", {value: 100}
+        "UAENG", 100, "University of Alberta", {value: 100}
         );
       await tx.wait();
       await expect(registryContract.connect(accounts[2]).getConsumer(accounts[1].address)

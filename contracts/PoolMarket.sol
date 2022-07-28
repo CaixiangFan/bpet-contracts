@@ -3,33 +3,8 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-
-interface IEnergyToken is IERC20 {
-    function mint(address, uint256) external;
-    function burnFrom(address, uint256) external;
-}
-
-interface IRegistry {
-  struct Supplier {
-    string assetId; // Asset Short Name Identifier
-    uint8 blockAmount; // Block amount from 1 to 7
-    uint16 capacity; // Energy amount in MWh
-    string offerControl; // Offer control parties separated by a semi-colon
-  }
-
-  struct Consumer {
-    string assetId;
-    uint16 load;
-    string offerControl;
-  }
-  function getSupplier(address) external view returns(Supplier memory);
-  function getConsumer(address) external view returns(Consumer memory);
-  function getOwnSupplier() external view returns(Supplier memory);
-  function getOwnConsumer() external view returns(Consumer memory);
-  function isRegisteredSupplier() external view returns(bool);
-  function isRegisteredConsumer() external view returns(bool);
-  function getTotalCapacity() external view returns(uint16);
-}
+import { IEnergyToken } from "./IEnergyToken.sol";
+import { IRegistry } from "./IRegistry.sol";
 
 contract PoolMarket is Ownable{
 

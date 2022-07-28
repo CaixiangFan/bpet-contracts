@@ -3,27 +3,9 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
-interface IPoolMarket {
-  struct DispatchedOffer {
-    address supplierAccount;
-    uint16 dispatchedAmount;
-  }
-
-  function getPoolPrice(uint hour) external view returns(uint16);
-  function getDispatchedOffers(uint hour) external view returns(DispatchedOffer[] memory);
-}
-
-interface IEnergyToken is IERC20 {
-  function transfer(address, uint256) external returns(bool);
-  function transferFrom(address, address, uint256) external returns (bool);
-  function approve(address, uint256) external returns (bool);
-}
-
-interface IRegistry {
-  function isRegisteredSupplier() external view returns(bool);
-  function isRegisteredConsumer() external view returns(bool);
-}
+import { IPoolMarket } from "./IPoolMarket.sol";
+import { IEnergyToken } from "./IEnergyToken.sol";
+import { IRegistry } from "./IRegistry.sol";
 
 contract Payment is Ownable {
   address private marketAccount;
