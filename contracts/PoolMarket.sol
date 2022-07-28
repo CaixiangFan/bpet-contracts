@@ -45,8 +45,9 @@ contract PoolMarket is Ownable{
   struct Offer {
     uint16 amount; //Available MW for dispatch
     uint16 price; //Price in EKT per MW, 1EKT=1US dollor
-    uint256 submitMinute; //Epoch time in minute when this offer is submitted
-    bool isValid;
+    uint256 submitMinute; //Epoch time in minute when this offer is submitted or updated
+    address supplierAccount; //The account of the offer supplier
+    bool isValid; // Indicator if this offer is deleted or not
   }
 
   /**
@@ -68,9 +69,15 @@ contract PoolMarket is Ownable{
     uint lastUpdated; //The timestamp in minute when the lastest AIL updates
   }
 
+  struct DispatchedOffer {
+    address supplierAccount; //Energy supplier account
+    uint16 dispatchedAmount; //Aggregated dispatched amount sent from a suppplier account
+  }
+
   mapping(bytes32 => Offer) public energyOffers; //offerId is the Hash value of assetId+blockNumber
   mapping(bytes32 => Bid) public energyBids; //bidId is the hash value of assetId+timestamp
-  bytes32[] public validOffers; //Merit order (only IDs) of the valid offers
+  mapping(uint256 => DispatchedOffer[]) public dispatchedOffers;
+  bytes32[] public validOffers; // The valid offers (only offerIDs) used to calculate the merit order
   bytes32[] public validBids;
 
   IEnergyToken public energyToken;
@@ -152,7 +159,7 @@ contract PoolMarket is Ownable{
        "Cannot submit offer for others");
     bytes32 offerId = keccak256(abi.encodePacked(_assetId, _blockNumber));
     uint256 _submitMinute = block.timestamp / 60 * 60;
-    energyOffers[offerId] = Offer(_amount, _price, _submitMinute, true);
+    energyOffers[offerId] = Offer(_amount, _price, _submitMinute, msg.sender, true);
     
     validOffers.push(offerId);
     emit OfferSubmitted(offerId, _amount, _price);
@@ -244,17 +251,35 @@ contract PoolMarket is Ownable{
     biddingState = BiddingState.Closed;
 
     uint16 aggregatedOfferAmount = 0;
-    // slice energyOffers only to be current minute's
     // get the ascending sorted energyOffers (offerId)
     bytes32[] memory meritOrderOffers = getMeritOrderSnapshot();
+    uint256 nowHour = block.timestamp / 3600 * 3600;
     for (uint i=0; i < meritOrderOffers.length; i++) {
-      aggregatedOfferAmount += energyOffers[meritOrderOffers[i]].amount;
+      address supplierAccount = energyOffers[meritOrderOffers[i]].supplierAccount;
+      uint16 amount = energyOffers[meritOrderOffers[i]].amount;
+      aggregatedOfferAmount += amount;
+      dispatchedOffers[nowHour].push(DispatchedOffer(supplierAccount, amount));
       //use the merit order effect to calculate the SMP,
       if (aggregatedOfferAmount >= _ail) {
         uint256 nowMinute = block.timestamp / 60 * 60;
         systemMarginalPrices[nowMinute] = energyOffers[meritOrderOffers[i]].price;
         break;
       }
+    }
+
+    // Loop to aggregate all dispatched energy of each account
+    for (uint j=0; j < dispatchedOffers[nowHour].length; j++) {
+      address supplierAccount = dispatchedOffers[nowHour][j].supplierAccount;
+      uint16 dispatchedAmount = dispatchedOffers[nowHour][j].dispatchedAmount;
+      for (uint k=j+1; k < dispatchedOffers[nowHour].length; k++) {
+        if (dispatchedOffers[nowHour][k].supplierAccount == supplierAccount) {
+          uint len = dispatchedOffers[nowHour].length;
+          dispatchedAmount += dispatchedOffers[nowHour][k].dispatchedAmount;
+          dispatchedOffers[nowHour][k] = dispatchedOffers[nowHour][len - 1];
+          dispatchedOffers[nowHour].pop();
+        }
+      }
+      dispatchedOffers[nowHour][j] = DispatchedOffer(supplierAccount, dispatchedAmount);
     }
     marketClearanceState = MarketClearanceState.NotCleared;
     biddingState = BiddingState.Open;
@@ -270,7 +295,8 @@ contract PoolMarket is Ownable{
 
   /**
   @dev Calculated the weighted pool price. 
-  IN the backend, set time intervals to call calculatePoolPrice and calculateSMP by listening to the events.
+  In the backend, set time intervals to call calculatePoolPrice each hour and calculateSMP by listening to the events each minute.
+  At the beginning of each hour, calculateSMP must be executed.
    */
   function calculatePoolPrice(uint hour) public {
     require(hour < block.timestamp, "Hour is not valid");
@@ -292,5 +318,9 @@ contract PoolMarket is Ownable{
 
   function getPoolPrice(uint hour) public view returns (uint16) {
     return poolPrices[hour];
+  }
+
+  function getDispatchedOffers(uint hour) public view returns (DispatchedOffer[] memory) {
+    return dispatchedOffers[hour];
   }
 }
