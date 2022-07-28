@@ -18,20 +18,20 @@ contract Registry is Ownable{
   // enum MarketType { POOL, BILATERAL }
   uint16 public purchaseRatio;
   uint16 public initialBalance;
+  uint16 public totalCapacity;
   address public authorizedEntity;
   IEnergyToken public energyToken;
 
   struct Supplier {
     string assetId; // Asset Short Name Identifier
-    uint8 blockNumber; // Block Number from 0 to 6
-    uint16 capacity; // Energy amount in MWh
+    uint8 blockAmount; // The amount of blocks from 1 to 7
+    uint16 capacity; // The total capacity of this generator in MW
     string offerControl; // Offer control parties separated by a semi-colon
   }
 
   struct Consumer {
     string assetId;
-    uint8 blockNumber;
-    uint16 demand;
+    uint16 load;
     string offerControl;
   }
 
@@ -50,32 +50,39 @@ contract Registry is Ownable{
     energyToken = IEnergyToken(_energyTokenAddress);
   }
 
+  modifier validAssetId(string memory assetId) {
+    require(bytes(assetId).length != 0, "Invalid assetId");
+    _;
+  }
+
   function purchaseTokens() public payable {
       require(msg.value >= initialBalance * purchaseRatio, "Ether not enough to register");
       energyToken.mint(msg.sender, msg.value / purchaseRatio);
   }
 
+  /**
+  @dev Register a supplier. Each supplier has an address, an unique AssetId, 
+  multiple block numbers, offer control parties, total capacity of all blocks 
+   */
   function registerSupplier (
     string memory _assetId,
-    uint8 _blockNumber,
+    uint8 _blockAmount,
     uint16 _capacity,
     string memory _offerControl
-  ) public payable{
-      // require(msg.value >= initialBalance * purchaseRatio, "Ether not enough to register");
-      // energyToken.mint(msg.sender, msg.value / purchaseRatio);
+  ) public payable validAssetId(_assetId){
       purchaseTokens();
-      registeredSuppliers[msg.sender] = Supplier(_assetId, _blockNumber, _capacity, _offerControl);
+      registeredSuppliers[msg.sender] = Supplier(_assetId, _blockAmount, _capacity, _offerControl);
+      totalCapacity += _capacity;
   }
 
   function registerConsumer (
     string memory _assetId,
-    uint8 _blockNumber,
-    uint16 _demand,
+    uint16 _load,
     string memory _offerControl
-  ) public payable {
+  ) public payable validAssetId(_assetId){
       require(msg.value >= initialBalance * purchaseRatio, "Ether not enough to register");
       energyToken.mint(msg.sender, msg.value / purchaseRatio);
-      registeredConsumers[msg.sender] = Consumer(_assetId, _blockNumber, _demand, _offerControl);
+      registeredConsumers[msg.sender] = Consumer(_assetId, _load, _offerControl);
   }
 
   function getOwnSupplier () public view returns (Supplier memory) {
@@ -96,5 +103,17 @@ contract Registry is Ownable{
     address consumerAddress
     ) public view onlyOwner returns (Consumer memory) {
     return registeredConsumers[consumerAddress];
+  }
+
+  function isRegisteredSupplier() public view returns(bool) {
+    return bytes(registeredSuppliers[msg.sender].assetId).length != 0; 
+  }
+
+  function isRegisteredConsumer() public view returns(bool) {
+    return bytes(registeredSuppliers[msg.sender].assetId).length != 0;
+  }
+
+  function getTotalCapacity() public view returns(uint16) {
+    return totalCapacity;
   }
 }
