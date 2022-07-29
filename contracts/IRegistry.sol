@@ -16,9 +16,9 @@ interface IRegistry {
   }
   function getSupplier(address) external view returns(Supplier memory);
   function getConsumer(address) external view returns(Consumer memory);
-  function getOwnSupplier() external view returns(Supplier memory);
-  function getOwnConsumer() external view returns(Consumer memory);
-  function isRegisteredSupplier() external view returns(bool);
+  function getAllSuppliers() external view returns(address[] memory);
+  function getAllConsumers() external view returns(address[] memory);
+  function isRegisteredSupplier(address) external view returns(bool);
   function isRegisteredConsumer() external view returns(bool);
   function getTotalCapacity() external view returns(uint16);
 }
