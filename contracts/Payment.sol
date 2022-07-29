@@ -13,8 +13,8 @@ contract Payment is Ownable {
   IPoolMarket public poolMarketContract;
   IRegistry public registryContract;
 
-  modifier registeredSupplier() {
-    require(registryContract.isRegisteredSupplier(), "Unregistered supplier");
+  modifier registeredSupplier(address account) {
+    require(registryContract.isRegisteredSupplier(account), "Unregistered supplier");
     _;
   }
 
@@ -51,7 +51,7 @@ contract Payment is Ownable {
   /**
   @dev Charges from the distribution network for a specific hour. The latest hour is the last hour.
    */
-  function charge(uint _hour, uint _meteredAmount) public registeredSupplier{
+  function charge(uint _hour, uint _meteredAmount) public registeredSupplier(msg.sender){
     uint poolPrice = poolMarketContract.getPoolPrice(_hour);
     // should transfer from smart contract to generator
     energyToken.transferFrom(marketAccount, msg.sender, poolPrice * _meteredAmount);
