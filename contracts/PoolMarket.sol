@@ -1,18 +1,13 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import { IEnergyToken } from "./IEnergyToken.sol";
 import { IRegistry } from "./IRegistry.sol";
 
 contract PoolMarket is Ownable{
 
-  enum BiddingState {Closed, Open}
-  enum MarketClearanceState {NotCleared,Cleared}
-
-  BiddingState public biddingState;
-  MarketClearanceState public marketClearanceState;
+  enum MarketState {Closed, Open}
+  MarketState public marketState;
 
   /**
   @dev An asset can submit multiple offers each sitting in a block
@@ -55,7 +50,6 @@ contract PoolMarket is Ownable{
   bytes32[] public validOffers; // The valid offers (only offerIDs) used to calculate the merit order
   bytes32[] public validBids;
 
-  IEnergyToken public energyToken;
   IRegistry public registryContract;
   
   Demand public totalDemand;
@@ -69,16 +63,6 @@ contract PoolMarket is Ownable{
   event OfferDeleted(bytes32 offerId);
   event DemandChanged(uint256 ail);
 
-  constructor(
-    address _etkContractAddress,
-    address _registryContractAddress
-  ) {
-    energyToken = IEnergyToken(_etkContractAddress);
-    registryContract = IRegistry(_registryContractAddress);
-    minAllowedPrice = 0;
-    maxAllowedPrice = 1000;
-  }
-
   modifier registeredSupplier() {
     require(registryContract.isRegisteredSupplier(), "Unregistered supplier");
     _;
@@ -91,11 +75,10 @@ contract PoolMarket is Ownable{
 
   modifier validOffer(
     uint16 amount,
-    uint16 price,
-    address offerSender
+    uint16 price
   ) {
     require(price <= maxAllowedPrice && price >= minAllowedPrice, "Invalid price");
-    require(amount <= registryContract.getSupplier(offerSender).capacity, "Offered amount exceeds capacity");
+    // require(amount <= registryContract.getOwnSupplier().capacity, "Offered amount exceeds capacity");
     _;
   }
 
@@ -105,13 +88,23 @@ contract PoolMarket is Ownable{
     address bidSender
   ) {
     require(price <= maxAllowedPrice && price >= minAllowedPrice, "Invalid price");
-    require(energyToken.balanceOf(bidSender) >= amount * price, "Insufficient ETK balance");
+    // require(energyToken.balanceOf(bidSender) >= amount * price, "Insufficient ETK balance");
     _;
   }
 
-  function initializeBidding () public onlyOwner {
-    biddingState=BiddingState.Open;
-    marketClearanceState=MarketClearanceState.NotCleared;
+  constructor(
+    address _registryContractAddress,
+    uint16 _minAllowedPrice,
+    uint16 _maxAllowedPrice
+  ) {
+    registryContract = IRegistry(_registryContractAddress);
+    minAllowedPrice = _minAllowedPrice;
+    maxAllowedPrice = _maxAllowedPrice;
+    marketState = MarketState.Open;
+  }
+
+  function getRegisteredSupplierAssetId() public view returns(string memory) {
+    return registryContract.getOwnSupplier().assetId;
   }
 
   /**
@@ -124,14 +117,16 @@ contract PoolMarket is Ownable{
     uint16 _amount, 
     uint16 _price
     ) public 
-    registeredSupplier
-    validOffer(_amount, _price, msg.sender)
+    validOffer(_amount, _price)
     {
-    require(biddingState == BiddingState.Open, "Bidding closed");
+    require(bytes(registryContract.getOwnSupplier().assetId).length != 0, "Unregistered supplier");
+    require(marketState == MarketState.Open, "Market closed");
     require(
       keccak256(abi.encodePacked(_assetId)) == 
       keccak256(abi.encodePacked(registryContract.getOwnSupplier().assetId)),
        "Cannot submit offer for others");
+    require(_amount <= registryContract.getOwnSupplier().capacity, "Offered amount exceeds capacity");
+    
     bytes32 offerId = keccak256(abi.encodePacked(_assetId, _blockNumber));
     uint256 _submitMinute = block.timestamp / 60 * 60;
     energyOffers[offerId] = Offer(_amount, _price, _submitMinute, msg.sender, true);
@@ -147,7 +142,7 @@ contract PoolMarket is Ownable{
     string memory _assetId,
     uint8 _blockNumber
   ) public registeredSupplier {
-    require(biddingState == BiddingState.Open, "Bidding closed");
+    require(marketState == MarketState.Open, "Bidding closed");
     require(
       keccak256(abi.encodePacked(_assetId)) == 
       keccak256(abi.encodePacked(registryContract.getOwnSupplier().assetId)),
@@ -178,7 +173,7 @@ contract PoolMarket is Ownable{
     registeredConsumer
     validBid(_amount, _price, msg.sender)
     {
-    require(biddingState == BiddingState.Open, "Bidding closed");
+    require(marketState == MarketState.Open, "Bidding closed");
     require(
       keccak256(abi.encodePacked(_assetId)) == 
       keccak256(abi.encodePacked(registryContract.getOwnConsumer().assetId)),
@@ -222,8 +217,7 @@ contract PoolMarket is Ownable{
     //during calculating the SMP, system cannot accept new offers/bids
     //this requires a high-performance blockchain system to process this transaction
     //in a very short time, otherwise services stop for a long period time
-    marketClearanceState = MarketClearanceState.Cleared;
-    biddingState = BiddingState.Closed;
+    marketState = MarketState.Closed;
 
     uint16 aggregatedOfferAmount = 0;
     // get the ascending sorted energyOffers (offerId)
@@ -256,8 +250,7 @@ contract PoolMarket is Ownable{
       }
       dispatchedOffers[nowHour][j] = DispatchedOffer(supplierAccount, dispatchedAmount);
     }
-    marketClearanceState = MarketClearanceState.NotCleared;
-    biddingState = BiddingState.Open;
+    marketState = MarketState.Open;
   }
 
   /**
@@ -293,6 +286,10 @@ contract PoolMarket is Ownable{
 
   function getPoolPrice(uint hour) public view returns (uint16) {
     return poolPrices[hour];
+  }
+
+  function getValidOffers() public view returns(bytes32[] memory) {
+    return validOffers;
   }
 
   function getDispatchedOffers(uint hour) public view returns (DispatchedOffer[] memory) {
