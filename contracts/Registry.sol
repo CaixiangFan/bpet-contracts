@@ -4,36 +4,24 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import { IEnergyToken } from "./IEnergyToken.sol";
+import { IRegistry } from "./IRegistry.sol";
 
 /// @title P2P-ET Registry
 /// @author Stephen Fan
 /// @notice This contract enables users to register register energy suppliers and consumers; 
 /// only registered assets can participate energy trading (on-chain permission).
 /// @dev who deploys this contract? what priorities does this role/account have?
-contract Registry is Ownable{
-  // enum MarketType { POOL, BILATERAL }
+contract Registry is Ownable, IRegistry {
   uint16 public purchaseRatio;
   uint16 public initialBalance;
   uint16 public totalCapacity;
   address public authorizedEntity;
   IEnergyToken public energyToken;
 
-  struct Supplier {
-    string assetId; // Asset Short Name Identifier
-    uint8 blockAmount; // The amount of blocks from 1 to 7
-    uint16 capacity; // The total capacity of this generator in MW
-    string offerControl; // Offer control parties separated by a semi-colon
-  }
-
-  struct Consumer {
-    string assetId;
-    uint16 load;
-    string offerControl;
-  }
-
   mapping(address => Supplier) public registeredSuppliers;
   mapping(address => Consumer) public registeredConsumers;
-  // MarketType public marketType;
+  address[] public registeredSupplierAccounts;
+  address[] public registeredConsumerAccounts;
 
   constructor(
     uint16 _initialBalance,
@@ -68,6 +56,7 @@ contract Registry is Ownable{
   ) public payable validAssetId(_assetId){
       purchaseTokens();
       registeredSuppliers[msg.sender] = Supplier(_assetId, _blockAmount, _capacity, _offerControl);
+      registeredSupplierAccounts.push(msg.sender);
       totalCapacity += _capacity;
   }
 
@@ -79,37 +68,38 @@ contract Registry is Ownable{
       require(msg.value >= initialBalance * purchaseRatio, "Ether not enough to register");
       energyToken.mint(msg.sender, msg.value / purchaseRatio);
       registeredConsumers[msg.sender] = Consumer(_assetId, _load, _offerControl);
+      registeredSupplierAccounts.push(msg.sender);
   }
 
-  function getOwnSupplier () public view returns (Supplier memory) {
-    return registeredSuppliers[msg.sender];
+  function getAllSuppliers () public view override onlyOwner returns (address[] memory) {
+    return registeredSupplierAccounts;
   }
 
-  function getOwnConsumer () public view returns (Consumer memory) {
-    return registeredConsumers[msg.sender];
+  function getAllConsumers () public view override onlyOwner returns (address[] memory) {
+    return registeredConsumerAccounts;
   }
 
   function getSupplier (
     address supplierAddress
-    ) public view onlyOwner returns (Supplier memory) {
+    ) override public view returns (Supplier memory) {
     return registeredSuppliers[supplierAddress];
   }
 
   function getConsumer (
     address consumerAddress
-    ) public view onlyOwner returns (Consumer memory) {
+    ) override public view returns (Consumer memory) {
     return registeredConsumers[consumerAddress];
   }
 
-  function isRegisteredSupplier() public view returns(bool) {
-    return bytes(registeredSuppliers[msg.sender].assetId).length != 0; 
+  function isRegisteredSupplier(address account) override public view returns(bool) {
+    return bytes(registeredSuppliers[account].assetId).length != 0; 
   }
 
-  function isRegisteredConsumer() public view returns(bool) {
+  function isRegisteredConsumer() override public view returns(bool) {
     return bytes(registeredSuppliers[msg.sender].assetId).length != 0;
   }
 
-  function getTotalCapacity() public view returns(uint16) {
+  function getTotalCapacity() override public view returns(uint16) {
     return totalCapacity;
   }
 }
