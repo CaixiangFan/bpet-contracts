@@ -95,8 +95,8 @@ contract Registry is Ownable, IRegistry {
     return bytes(registeredSuppliers[account].assetId).length != 0; 
   }
 
-  function isRegisteredConsumer() override public view returns(bool) {
-    return bytes(registeredSuppliers[msg.sender].assetId).length != 0;
+  function isRegisteredConsumer(address account) override public view returns(bool) {
+    return bytes(registeredSuppliers[account].assetId).length != 0;
   }
 
   function getTotalCapacity() override public view returns(uint16) {

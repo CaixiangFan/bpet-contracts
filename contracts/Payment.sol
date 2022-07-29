@@ -18,8 +18,8 @@ contract Payment is Ownable {
     _;
   }
 
-  modifier registeredConsumer() {
-    require(registryContract.isRegisteredConsumer(), "Unregistered consumer");
+  modifier registeredConsumer(address account) {
+    require(registryContract.isRegisteredConsumer(account), "Unregistered consumer");
     _;
   }
   constructor (
@@ -60,7 +60,7 @@ contract Payment is Ownable {
   /**
   @dev Pay EKT to the distribution network for a specific hour. The latest hour is the last hour.
    */
-  function pay(uint _hour, uint _meteredAmount) public registeredConsumer {
+  function pay(uint _hour, uint _meteredAmount) public registeredConsumer(msg.sender){
     uint poolPrice = poolMarketContract.getPoolPrice(_hour);
     // should transfer from buyer to smart contract
     energyToken.transfer(marketAccount, poolPrice * _meteredAmount);
