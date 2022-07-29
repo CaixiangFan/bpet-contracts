@@ -54,7 +54,7 @@ async function main() {
   balance = await tokenContractInstance.balanceOf(wallet2.address);
   console.log(`Balance of ${wallet2.address}: ${balance}`);
 
-  const registrationInfo =  await registryContractInstance.getOwnSupplier();
+  const registrationInfo =  await registryContractInstance.getSupplier(wallet2.address);
   console.log('Registered info:  ', registrationInfo);
 }
 
