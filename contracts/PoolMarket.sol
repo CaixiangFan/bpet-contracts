@@ -3,8 +3,9 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import { IRegistry } from "./IRegistry.sol";
+import { IPoolMarket } from "./IPoolMarket.sol";
 
-contract PoolMarket is Ownable{
+contract PoolMarket is Ownable, IPoolMarket{
 
   enum MarketState {Closed, Open}
   MarketState public marketState;
@@ -39,11 +40,6 @@ contract PoolMarket is Ownable{
     uint lastUpdated; //The timestamp in minute when the lastest AIL updates
   }
 
-  struct DispatchedOffer {
-    address supplierAccount; //Energy supplier account
-    uint16 dispatchedAmount; //Aggregated dispatched amount sent from a suppplier account
-  }
-
   mapping(bytes32 => Offer) public energyOffers; //offerId is the Hash value of assetId+blockNumber
   mapping(bytes32 => Bid) public energyBids; //bidId is the hash value of assetId+timestamp
   mapping(uint256 => DispatchedOffer[]) public dispatchedOffers;
@@ -63,8 +59,8 @@ contract PoolMarket is Ownable{
   event OfferDeleted(bytes32 offerId);
   event DemandChanged(uint256 ail);
 
-  modifier registeredSupplier() {
-    require(registryContract.isRegisteredSupplier(), "Unregistered supplier");
+  modifier registeredSupplier(address account) {
+    require(registryContract.isRegisteredSupplier(account), "Unregistered supplier");
     _;
   }
 
@@ -78,7 +74,7 @@ contract PoolMarket is Ownable{
     uint16 price
   ) {
     require(price <= maxAllowedPrice && price >= minAllowedPrice, "Invalid price");
-    // require(amount <= registryContract.getOwnSupplier().capacity, "Offered amount exceeds capacity");
+    // require(amount <= registryContract.getSupplier().capacity, "Offered amount exceeds capacity");
     _;
   }
 
@@ -104,7 +100,7 @@ contract PoolMarket is Ownable{
   }
 
   function getRegisteredSupplierAssetId() public view returns(string memory) {
-    return registryContract.getOwnSupplier().assetId;
+    return registryContract.getSupplier(msg.sender).assetId;
   }
 
   /**
@@ -112,27 +108,28 @@ contract PoolMarket is Ownable{
   the new submitted offer from the same account will update the previous one
    */
   function submitOffer(
-    string memory _assetId,
-    uint8 _blockNumber,
-    uint16 _amount, 
-    uint16 _price
+    string memory assetId,
+    uint8 blockNumber,
+    uint16 amount, 
+    uint16 price
     ) public 
-    validOffer(_amount, _price)
+    registeredSupplier(msg.sender)
+    validOffer(amount, price)
     {
-    require(bytes(registryContract.getOwnSupplier().assetId).length != 0, "Unregistered supplier");
+    // require(bytes(registryContract.getSupplier().assetId).length != 0, "Unregistered supplier");
     require(marketState == MarketState.Open, "Market closed");
     require(
-      keccak256(abi.encodePacked(_assetId)) == 
-      keccak256(abi.encodePacked(registryContract.getOwnSupplier().assetId)),
+      keccak256(abi.encodePacked(assetId)) == 
+      keccak256(abi.encodePacked(registryContract.getSupplier(msg.sender).assetId)),
        "Cannot submit offer for others");
-    require(_amount <= registryContract.getOwnSupplier().capacity, "Offered amount exceeds capacity");
+    require(amount <= registryContract.getSupplier(msg.sender).capacity, "Offered amount exceeds capacity");
     
-    bytes32 offerId = keccak256(abi.encodePacked(_assetId, _blockNumber));
-    uint256 _submitMinute = block.timestamp / 60 * 60;
-    energyOffers[offerId] = Offer(_amount, _price, _submitMinute, msg.sender, true);
+    bytes32 offerId = keccak256(abi.encodePacked(assetId, blockNumber));
+    uint256 submitMinute = block.timestamp / 60 * 60;
+    energyOffers[offerId] = Offer(amount, price, submitMinute, msg.sender, true);
     
     validOffers.push(offerId);
-    emit OfferSubmitted(offerId, _amount, _price);
+    emit OfferSubmitted(offerId, amount, price);
   }
 
   /**
@@ -141,11 +138,11 @@ contract PoolMarket is Ownable{
   function deleteOffer(
     string memory _assetId,
     uint8 _blockNumber
-  ) public registeredSupplier {
+  ) public registeredSupplier(msg.sender) {
     require(marketState == MarketState.Open, "Bidding closed");
     require(
       keccak256(abi.encodePacked(_assetId)) == 
-      keccak256(abi.encodePacked(registryContract.getOwnSupplier().assetId)),
+      keccak256(abi.encodePacked(registryContract.getSupplier(msg.sender).assetId)),
        "Cannot submit offer for others");
     bytes32 offerId = keccak256(abi.encodePacked(_assetId, _blockNumber));
     uint256 submitMinute = block.timestamp / 60 * 60;
@@ -158,6 +155,7 @@ contract PoolMarket is Ownable{
         validOffers.pop();
       }
     }
+    calculateSMP(totalDemand.ail);
     emit OfferDeleted(offerId);
   }
 
@@ -176,11 +174,12 @@ contract PoolMarket is Ownable{
     require(marketState == MarketState.Open, "Bidding closed");
     require(
       keccak256(abi.encodePacked(_assetId)) == 
-      keccak256(abi.encodePacked(registryContract.getOwnConsumer().assetId)),
+      keccak256(abi.encodePacked(registryContract.getConsumer(msg.sender).assetId)),
        "Cannot submit bid for others");
     bytes32 bidId = keccak256(abi.encodePacked(_assetId, block.timestamp));
     energyBids[bidId] = Bid(_amount, _price);
     validBids.push(bidId);
+    calculateSMP(totalDemand.ail);
     emit BidSubmitted(bidId, _amount, _price);
   }
 
@@ -227,7 +226,7 @@ contract PoolMarket is Ownable{
       address supplierAccount = energyOffers[meritOrderOffers[i]].supplierAccount;
       uint16 amount = energyOffers[meritOrderOffers[i]].amount;
       aggregatedOfferAmount += amount;
-      dispatchedOffers[nowHour].push(DispatchedOffer(supplierAccount, amount));
+      dispatchedOffers[nowHour].push(DispatchedOffer(supplierAccount, amount, block.timestamp));
       //use the merit order effect to calculate the SMP,
       if (aggregatedOfferAmount >= _ail) {
         uint256 nowMinute = block.timestamp / 60 * 60;
@@ -240,6 +239,7 @@ contract PoolMarket is Ownable{
     for (uint j=0; j < dispatchedOffers[nowHour].length; j++) {
       address supplierAccount = dispatchedOffers[nowHour][j].supplierAccount;
       uint16 dispatchedAmount = dispatchedOffers[nowHour][j].dispatchedAmount;
+      uint256 dispatchedAt = dispatchedOffers[nowHour][j].dispatchedAt;
       for (uint k=j+1; k < dispatchedOffers[nowHour].length; k++) {
         if (dispatchedOffers[nowHour][k].supplierAccount == supplierAccount) {
           uint len = dispatchedOffers[nowHour].length;
@@ -248,7 +248,7 @@ contract PoolMarket is Ownable{
           dispatchedOffers[nowHour].pop();
         }
       }
-      dispatchedOffers[nowHour][j] = DispatchedOffer(supplierAccount, dispatchedAmount);
+      dispatchedOffers[nowHour][j] = DispatchedOffer(supplierAccount, dispatchedAmount, dispatchedAt);
     }
     marketState = MarketState.Open;
   }
@@ -281,10 +281,11 @@ contract PoolMarket is Ownable{
         currSMPMinutes = 0;
       }
     }
-    poolPrices[hour] = poolWeightedPrice / 60;
+    uint16 poolPrice = poolWeightedPrice / 60;
+    poolPrices[hour] = poolPrice;
   }
 
-  function getPoolPrice(uint hour) public view returns (uint16) {
+  function getPoolPrice(uint hour) override public view returns (uint16) {
     return poolPrices[hour];
   }
 
@@ -292,7 +293,7 @@ contract PoolMarket is Ownable{
     return validOffers;
   }
 
-  function getDispatchedOffers(uint hour) public view returns (DispatchedOffer[] memory) {
+  function getDispatchedOffers(uint hour) override public view returns (DispatchedOffer[] memory) {
     return dispatchedOffers[hour];
   }
 }
