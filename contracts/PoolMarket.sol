@@ -64,8 +64,8 @@ contract PoolMarket is Ownable, IPoolMarket{
     _;
   }
 
-  modifier registeredConsumer() {
-    require(registryContract.isRegisteredConsumer(), "Unregistered consumer");
+  modifier registeredConsumer(address account) {
+    require(registryContract.isRegisteredConsumer(account), "Unregistered consumer");
     _;
   }
 
@@ -168,7 +168,7 @@ contract PoolMarket is Ownable, IPoolMarket{
     uint16 _amount, 
     uint16 _price
     ) public 
-    registeredConsumer
+    registeredConsumer(msg.sender)
     validBid(_amount, _price, msg.sender)
     {
     require(marketState == MarketState.Open, "Bidding closed");
