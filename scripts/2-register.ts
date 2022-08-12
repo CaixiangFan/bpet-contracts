@@ -19,8 +19,7 @@ async function main() {
   ) as EnergyToken;
 
   const registryContractAddress = String(process.env.REGISTRY_CONTRACT_ADDRESS);
-  const priKey2 = process.env.PRIVATE_KEY2 ?? EXPOSED_KEY;
-  const wallet2 = new ethers.Wallet(priKey2 ?? EXPOSED_KEY);
+  const wallet2 = new ethers.Wallet(process.env.PRIVATE_KEY5 ?? EXPOSED_KEY);
   const registrySigner = wallet2.connect(provider);
   const registryContractInstance: Registry = new Contract(
     registryContractAddress,
@@ -44,7 +43,7 @@ async function main() {
   await minterRoleTx.wait();
 
   const registerSupplierTx = await registryContractInstance.registerSupplier(
-    "ENG03", 3, 500, "Albera Energy Ltd.", {value: 1000}
+    "ENG01", 4, 500, "Albera Enmax Ltd.", {value: 1000}
     );
   await registerSupplierTx.wait();
 
@@ -56,6 +55,17 @@ async function main() {
 
   const registrationInfo =  await registryContractInstance.getSupplier(wallet2.address);
   console.log('Registered info:  ', registrationInfo);
+
+  const registerConsumerTx = await registryContractInstance.registerConsumer(
+    "CONS1", 500, "Albera Factory Ltd.", {value: 100}
+    );
+  await registerConsumerTx.wait();
+
+  balance = await tokenContractInstance.balanceOf(wallet2.address);
+  console.log(`Balance of ${wallet2.address}: ${balance}`);
+
+  const consumerRegistrationInfo =  await registryContractInstance.getConsumer(wallet2.address);
+  console.log('Consumer Registration info:  ', consumerRegistrationInfo);
 }
 
 main().catch((error) => {

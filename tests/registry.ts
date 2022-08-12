@@ -95,6 +95,15 @@ describe("Testing Registry Contract", () => {
         "ENG04", 3, 300, "Albera Energy Ltd.", {value: 50}
       )).to.be.revertedWith("Ether not enough to register");
     })
+    it("cannot re-register supplier with the same account", async () => {
+      await registryContract.connect(accounts[0]).registerSupplier(
+        "ENG04", 3, 300, "Albera Energy Ltd.", {value: 100});
+
+      console.log('Successfully register account first time: ', accounts[0].address);
+      await expect(registryContract.connect(accounts[0]).registerSupplier(
+        "ENG04", 3, 300, "Albera Energy Ltd.", {value: 100}
+      )).to.be.revertedWith("Account has already registered");
+    })
   });
 
   describe("when a consumer is registered", async () => {
@@ -124,6 +133,15 @@ describe("Testing Registry Contract", () => {
       await expect(registryContract.connect(accounts[3]).registerConsumer(
         "UAENG", 100, "University of Alberta", {value: 50}
       )).to.be.revertedWith("Ether not enough to register");
+    })
+    it("cannot re-register consumer with the same account", async () => {
+      await registryContract.connect(accounts[0]).registerConsumer(
+        "CONSUMER1", 300, "Albera Energy Ltd.", {value: 100});
+
+      console.log('Successfully register account first time: ', accounts[0].address);
+      await expect(registryContract.connect(accounts[0]).registerConsumer(
+        "CONSUMER1", 300, "Albera Energy Ltd.", {value: 100}
+      )).to.be.revertedWith("Account has already registered");
     })
   });
 
