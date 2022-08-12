@@ -54,6 +54,7 @@ contract Registry is Ownable, IRegistry {
     uint16 _capacity,
     string memory _offerControl
   ) public payable validAssetId(_assetId){
+      require(bytes(registeredSuppliers[msg.sender].assetId).length == 0, "Account has already registered");
       purchaseTokens();
       registeredSuppliers[msg.sender] = Supplier(_assetId, _blockAmount, _capacity, _offerControl);
       registeredSupplierAccounts.push(msg.sender);
@@ -65,10 +66,11 @@ contract Registry is Ownable, IRegistry {
     uint16 _load,
     string memory _offerControl
   ) public payable validAssetId(_assetId){
+      require(bytes(registeredConsumers[msg.sender].assetId).length == 0, "Account has already registered");
       require(msg.value >= initialBalance * purchaseRatio, "Ether not enough to register");
       energyToken.mint(msg.sender, msg.value / purchaseRatio);
       registeredConsumers[msg.sender] = Consumer(_assetId, _load, _offerControl);
-      registeredSupplierAccounts.push(msg.sender);
+      registeredConsumerAccounts.push(msg.sender);
   }
 
   function getAllSuppliers () public view override onlyOwner returns (address[] memory) {
