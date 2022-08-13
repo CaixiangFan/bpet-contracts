@@ -3,6 +3,7 @@ pragma solidity ^0.8.4;
 
 interface IRegistry {
   struct Supplier {
+    address account; //Account address
     string assetId; // Asset Short Name Identifier
     uint8 blockAmount; // Block amount from 1 to 7
     uint16 capacity; // Energy amount in MWh
@@ -10,6 +11,7 @@ interface IRegistry {
   }
 
   struct Consumer {
+    address account; //Account address
     string assetId;
     uint16 load;
     string offerControl;
