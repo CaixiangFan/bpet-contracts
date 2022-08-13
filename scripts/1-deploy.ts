@@ -4,18 +4,14 @@ import * as tokenJson from "../artifacts/contracts/EnergyToken.sol/EnergyToken.j
 import * as registryJson from "../artifacts/contracts/Registry.sol/Registry.json";
 import * as poolMarketJson from "../artifacts/contracts/PoolMarket.sol/PoolMarket.json";
 import * as paymentJson from "../artifacts/contracts/Payment.sol/Payment.json";
-import { EXPOSED_KEY, setupProvider } from "./utils";
+import { EXPOSED_KEY, setupGoerliProvider } from "./utils";
 
 // Glabal parameters:
-const INIT_TOKEN = 100;
-const PURCHASE_RATIO = 1;
+// const PURCHASE_RATIO = 1;
 const MINALLOWEDPRICE = 0;
 const MAXALLOWEDPRICE = 1000;
-const wallet =
-  process.env.MNEMONIC && process.env.MNEMONIC.length > 0
-    ? ethers.Wallet.fromMnemonic(process.env.MNEMONIC)
-    : new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
-const provider = setupProvider();
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
+const provider = setupGoerliProvider();
 const signer = wallet.connect(provider);
 
 async function deployEnergyToken() {
@@ -32,16 +28,14 @@ async function deployEnergyToken() {
   return tokenContract.address;
 }
 
-async function deployRegistry(tokenAddress: string) {
+async function deployRegistry() {
   console.log("Deploying Registry contract");
   const registryFactory = new ethers.ContractFactory(
     registryJson.abi,
     registryJson.bytecode,
     signer
   );
-  const registryContract = await registryFactory.deploy(
-    INIT_TOKEN, PURCHASE_RATIO, tokenAddress
-  );
+  const registryContract = await registryFactory.deploy();
   console.log("Awaiting confirmations");
   await registryContract.deployed();
   console.log(`Completed! Registry contract deployed at ${registryContract.address}`);
@@ -82,16 +76,16 @@ async function deployPayment(tokenAddress: string, registryAddress: string, pool
 
 async function main() {
   const tokenAddress = await deployEnergyToken();
-  const registryAddress = await deployRegistry(tokenAddress);
+  const registryAddress = await deployRegistry();
   const poolmarketAddress = await deployPoolMarket(registryAddress);
-  const paymentAddress = await deployPayment(poolmarketAddress, tokenAddress, registryAddress);
+  // const paymentAddress = await deployPayment(poolmarketAddress, tokenAddress, registryAddress);
 
   console.log('Copy the following to the .env file:');
   console.log('=====================');
   console.log(`TOKEN_CONTRACT_ADDRESS = ${tokenAddress}`);
   console.log(`REGISTRY_CONTRACT_ADDRESS = ${registryAddress}`);
   console.log(`POOLMARKET_CONTRACT_ADDRESS = ${poolmarketAddress}`);
-  console.log(`PAYMENT_CONTRACT_ADDRESS = ${paymentAddress}`);
+  // console.log(`PAYMENT_CONTRACT_ADDRESS = ${paymentAddress}`);
 }
 
 main().catch((error) => {

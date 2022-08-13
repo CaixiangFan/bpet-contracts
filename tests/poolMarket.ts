@@ -6,9 +6,7 @@ import { ethers, waffle } from "hardhat";
 // eslint-disable-next-line node/no-missing-import
 import { EnergyToken, Registry, PoolMarket } from "../typechain";
 
-const PREMINT = ethers.utils.parseEther("0");
-const INIT_TOKEN = "100";
-const PURCHASE_RATIO = "1";
+
 
 describe("Testing PoolMarket Contract", () => {
   let registryContract: Contract;
@@ -31,8 +29,7 @@ describe("Testing PoolMarket Contract", () => {
     etkContract = await etkContractFactory.deploy();
     await etkContract.deployed();
 
-    registryContract = await registryContractFactory.deploy(
-      INIT_TOKEN, PURCHASE_RATIO, etkContract.address);
+    registryContract = await registryContractFactory.deploy();
     await registryContract.deployed();
 
     const minterRole = await etkContract.MINTER_ROLE();
@@ -48,17 +45,17 @@ describe("Testing PoolMarket Contract", () => {
     await poolMarketContract.deployed();
 
     const tx1 = await registryContract.connect(accounts[1]).registerSupplier(
-      "ENG01", 2, 300, "Albera Energy Ltd.", {value: Number(INIT_TOKEN) * Number(PURCHASE_RATIO)}
+      "ENG01", 2, 300, "Albera Energy Ltd."
       );
     await tx1.wait();
 
     const tx2 = await registryContract.connect(accounts[2]).registerSupplier(
-      "ENG02", 3, 300, "Albera Energy Ltd.", {value: Number(INIT_TOKEN) * Number(PURCHASE_RATIO)}
+      "ENG02", 3, 300, "Albera Energy Ltd."
       );
     await tx2.wait();
 
     const tx3 = await registryContract.connect(accounts[3]).registerSupplier(
-      "ENG03", 4, 300, "Albera Energy Ltd.", {value: Number(INIT_TOKEN) * Number(PURCHASE_RATIO)}
+      "ENG03", 4, 300, "Albera Energy Ltd."
       );
     await tx3.wait();
   });
@@ -75,8 +72,11 @@ describe("Testing PoolMarket Contract", () => {
   });
   describe("when offer is submitted",async () => {
     it("ENG01 submits a valid offer",async () => {
+      const registeredSuppliers = await registryContract.getAllSuppliers();
+      console.log(registeredSuppliers);
       const isRegistered = await registryContract.connect(accounts[1]).isRegisteredSupplier(accounts[1].address);
       expect(isRegistered).to.eq(true);
+      console.log(accounts[1].address);
       const tx = await poolMarketContract.connect(accounts[1]).submitOffer(
         "ENG01", 0, 5, 50
       );
@@ -142,7 +142,7 @@ describe("Testing PoolMarket Contract", () => {
     });
     it("calculate the smp when updating ail demand",async () => {
       const txRegister = await registryContract.connect(accounts[4]).registerSupplier(
-        "ENG04", 3, 300, "Albera Energy Ltd.", {value: Number(INIT_TOKEN) * Number(PURCHASE_RATIO)}
+        "ENG04", 3, 300, "Albera Energy Ltd."
       );
       await txRegister.wait();
       const txSubmitOffer = await poolMarketContract.connect(accounts[4])
@@ -165,7 +165,7 @@ describe("Testing PoolMarket Contract", () => {
     });
     it("get dispatched offers after calculating smp",async () => {
       const txRegister = await registryContract.connect(accounts[4]).registerSupplier(
-        "ENG04", 3, 300, "Albera Energy Ltd.", {value: Number(INIT_TOKEN) * Number(PURCHASE_RATIO)}
+        "ENG04", 3, 300, "Albera Energy Ltd."
       );
       await txRegister.wait();
       const txSubmitOffer = await poolMarketContract.connect(accounts[4])
@@ -183,7 +183,7 @@ describe("Testing PoolMarket Contract", () => {
     });
     it("calculate pool price after calculating smp",async () => {
       const txRegister = await registryContract.connect(accounts[4]).registerSupplier(
-        "ENG04", 3, 300, "Albera Energy Ltd.", {value: Number(INIT_TOKEN) * Number(PURCHASE_RATIO)}
+        "ENG04", 3, 300, "Albera Energy Ltd."
       );
       await txRegister.wait();
       const txSubmitOffer = await poolMarketContract.connect(accounts[4])
