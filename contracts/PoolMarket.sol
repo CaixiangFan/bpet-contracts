@@ -116,7 +116,6 @@ contract PoolMarket is Ownable, IPoolMarket{
     registeredSupplier(msg.sender)
     validOffer(amount, price)
     {
-    // require(bytes(registryContract.getSupplier().assetId).length != 0, "Unregistered supplier");
     require(marketState == MarketState.Open, "Market closed");
     require(
       keccak256(abi.encodePacked(assetId)) == 
