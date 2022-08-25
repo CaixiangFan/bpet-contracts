@@ -76,15 +76,15 @@ async function deployPayment(tokenAddress: string, registryAddress: string, pool
 
 async function main() {
   const tokenAddress = await deployEnergyToken();
-  const registryAddress = await deployRegistry();
-  const poolmarketAddress = await deployPoolMarket(registryAddress);
+  // const registryAddress = await deployRegistry();
+  // const poolmarketAddress = await deployPoolMarket(registryAddress);
   // const paymentAddress = await deployPayment(poolmarketAddress, tokenAddress, registryAddress);
 
   console.log('Copy the following to the .env file:');
   console.log('=====================');
   console.log(`TOKEN_CONTRACT_ADDRESS = ${tokenAddress}`);
-  console.log(`REGISTRY_CONTRACT_ADDRESS = ${registryAddress}`);
-  console.log(`POOLMARKET_CONTRACT_ADDRESS = ${poolmarketAddress}`);
+  // console.log(`REGISTRY_CONTRACT_ADDRESS = ${registryAddress}`);
+  // console.log(`POOLMARKET_CONTRACT_ADDRESS = ${poolmarketAddress}`);
   // console.log(`PAYMENT_CONTRACT_ADDRESS = ${paymentAddress}`);
 }
 
