@@ -45,8 +45,8 @@ contract PoolMarket is Ownable, IPoolMarket{
   mapping(bytes32 => Offer) public energyOffers; //offerId is the Hash value of assetId+blockNumber
   mapping(bytes32 => Bid) public energyBids; //bidId is the hash value of assetId
   mapping(uint256 => DispatchedOffer[]) public dispatchedOffers;
-  bytes32[] public validOffers; // The valid offers (only offerIDs) used to calculate the merit order
-  bytes32[] public validBids;
+  bytes32[] public validOfferIDs; // The valid offers (only offerIDs) used to calculate the merit order
+  bytes32[] public validBidIDs; // The valid bids (only bidIDs) used to calculate the merit order
 
   IRegistry public registryContract;
   
@@ -132,14 +132,14 @@ contract PoolMarket is Ownable, IPoolMarket{
     // check if offerId exists or not; if yes, update offer content but leaves offerId unchanged
     // if not, push new offerId to offer list
     bool offerIdExists = false;
-    for (uint i=0; i < validOffers.length; i++) {
-      if (offerId == validOffers[i]) {
+    for (uint i=0; i < validOfferIDs.length; i++) {
+      if (offerId == validOfferIDs[i]) {
         offerIdExists = true;
         break;
       }
     }
     if (!offerIdExists) {
-      validOffers.push(offerId);
+      validOfferIDs.push(offerId);
     }
     if (totalDemand.ail > 0) {
       calculateSMP(totalDemand.ail);
@@ -163,11 +163,11 @@ contract PoolMarket is Ownable, IPoolMarket{
     uint256 submitMinute = block.timestamp / 60 * 60;
     energyOffers[offerId].submitMinute = submitMinute;
     energyOffers[offerId].isValid = false;
-    //retrieve and delete the corresponding element(offerId) from the validOffers array
-    for (uint i=0; i < validOffers.length; i++) {
-      if (offerId == validOffers[i]) {
-        validOffers[i] = validOffers[validOffers.length - 1];
-        validOffers.pop();
+    //retrieve and delete the corresponding element(offerId) from the validOfferIDs array
+    for (uint i=0; i < validOfferIDs.length; i++) {
+      if (offerId == validOfferIDs[i]) {
+        validOfferIDs[i] = validOfferIDs[validOfferIDs.length - 1];
+        validOfferIDs.pop();
       }
     }
     calculateSMP(totalDemand.ail);
@@ -180,8 +180,8 @@ contract PoolMarket is Ownable, IPoolMarket{
    */
   function updateDemand() private {
     uint16 totalAmount = 0;
-    for (uint i = 0; i < validBids.length; i ++) {
-      totalAmount += energyBids[validBids[i]].amount;
+    for (uint i = 0; i < validBidIDs.length; i ++) {
+      totalAmount += energyBids[validBidIDs[i]].amount;
     }
     require( totalAmount < registryContract.getTotalCapacity(), "Demand exceeds total supply");
     totalDemand.ail = totalAmount;
@@ -212,18 +212,18 @@ contract PoolMarket is Ownable, IPoolMarket{
     uint256 submitMinute = block.timestamp / 60 * 60;
     energyBids[bidId] = Bid(_amount, _price, submitMinute, msg.sender);
     bool _bidIdExists = false;
-    for (uint i=0; i < validBids.length; i++) {
-      if (bidId == validBids[i]) {
+    for (uint i=0; i < validBidIDs.length; i++) {
+      if (bidId == validBidIDs[i]) {
         _bidIdExists = true;
       }
     }
-    if (!_bidIdExists) { validBids.push(bidId); }
+    if (!_bidIdExists) { validBidIDs.push(bidId); }
     updateDemand();
     emit BidSubmitted(bidId, _amount, _price);
   }
 
   function getMeritOrderSnapshot() private view returns(bytes32[] memory){
-    bytes32[] memory meritOrderSnapshot = validOffers;
+    bytes32[] memory meritOrderSnapshot = validOfferIDs;
     uint256 len = meritOrderSnapshot.length;
     for(uint i = 0; i < len; i++) {
       for(uint256 j = i+1; j < len; j++) {
@@ -316,21 +316,19 @@ contract PoolMarket is Ownable, IPoolMarket{
     return poolPrices[hour];
   }
 
-  function getValidOffers() public view returns(bytes32[] memory) {
-    return validOffers;
+  function getValidOfferIDs() public view returns(bytes32[] memory) {
+    return validOfferIDs;
   }
 
-  function getValidBids() public view returns(bytes32[] memory) {
-    return validBids;
+  function getValidBidIDs() public view returns(bytes32[] memory) {
+    return validBidIDs;
   }
 
-  function getEnergyBid(string memory assetId) public view returns(Bid memory) {
-    bytes32 bidId = keccak256(abi.encodePacked(assetId));
+  function getEnergyBid(bytes32 bidId) public view returns(Bid memory) {
     return energyBids[bidId];
   }
 
-  function getEnergyOffer(string memory assetId, uint8 blockNumber) public view returns(Offer memory) {
-    bytes32 offerId = keccak256(abi.encodePacked(assetId, blockNumber));
+  function getEnergyOffer(bytes32 offerId) public view returns(Offer memory) {
     return energyOffers[offerId];
   }
 
