@@ -27,6 +27,8 @@ contract PoolMarket is Ownable, IPoolMarket{
   struct Bid {
     uint16 amount;
     uint16 price;
+    uint submitMinute; //Epoch time in minute when this bid is submitted or updated
+    address consumerAccount; //The account of the consumer
   }
 
   /**
@@ -41,7 +43,7 @@ contract PoolMarket is Ownable, IPoolMarket{
   }
 
   mapping(bytes32 => Offer) public energyOffers; //offerId is the Hash value of assetId+blockNumber
-  mapping(bytes32 => Bid) public energyBids; //bidId is the hash value of assetId+timestamp
+  mapping(bytes32 => Bid) public energyBids; //bidId is the hash value of assetId
   mapping(uint256 => DispatchedOffer[]) public dispatchedOffers;
   bytes32[] public validOffers; // The valid offers (only offerIDs) used to calculate the merit order
   bytes32[] public validBids;
@@ -97,6 +99,8 @@ contract PoolMarket is Ownable, IPoolMarket{
     minAllowedPrice = _minAllowedPrice;
     maxAllowedPrice = _maxAllowedPrice;
     marketState = MarketState.Open;
+    totalDemand.ail = 0;
+    totalDemand.lastUpdated = block.timestamp;
   }
 
   function getRegisteredSupplierAssetId() public view returns(string memory) {
@@ -122,12 +126,24 @@ contract PoolMarket is Ownable, IPoolMarket{
       keccak256(abi.encodePacked(registryContract.getSupplier(msg.sender).assetId)),
        "Cannot submit offer for others");
     require(amount <= registryContract.getSupplier(msg.sender).capacity, "Offered amount exceeds capacity");
-    
     bytes32 offerId = keccak256(abi.encodePacked(assetId, blockNumber));
     uint256 submitMinute = block.timestamp / 60 * 60;
     energyOffers[offerId] = Offer(amount, price, submitMinute, msg.sender, true);
-    
-    validOffers.push(offerId);
+    // check if offerId exists or not; if yes, update offer content but leaves offerId unchanged
+    // if not, push new offerId to offer list
+    bool offerIdExists = false;
+    for (uint i=0; i < validOffers.length; i++) {
+      if (offerId == validOffers[i]) {
+        offerIdExists = true;
+        break;
+      }
+    }
+    if (!offerIdExists) {
+      validOffers.push(offerId);
+    }
+    if (totalDemand.ail > 0) {
+      calculateSMP(totalDemand.ail);
+    }
     emit OfferSubmitted(offerId, amount, price);
   }
 
@@ -159,8 +175,25 @@ contract PoolMarket is Ownable, IPoolMarket{
   }
 
   /**
-  @dev Submit AIL as one big bid to the pool market; one account only allows to have one bid in an interval
-  the new submitted bid from the same account will update the previous one
+  @dev Updates AIL in realtime. This triggers SMP calculation.
+  AIL is collected from substations/smart meters.
+   */
+  function updateDemand() private {
+    uint16 totalAmount = 0;
+    for (uint i = 0; i < validBids.length; i ++) {
+      totalAmount += energyBids[validBids[i]].amount;
+    }
+    require( totalAmount < registryContract.getTotalCapacity(), "Demand exceeds total supply");
+    totalDemand.ail = totalAmount;
+    totalDemand.lastUpdated = block.timestamp;
+    calculateSMP(totalDemand.ail);
+    emit DemandChanged(totalDemand.ail);
+  }
+
+  /**
+  @dev Submit bid to pool market will change AIL; one account only allows to have one bid in an interval;
+  the new submitted bid from the same account will update the previous one, increasing or decreasing
+  the AIL.
    */
   function submitBid(
     string memory _assetId,
@@ -175,10 +208,17 @@ contract PoolMarket is Ownable, IPoolMarket{
       keccak256(abi.encodePacked(_assetId)) == 
       keccak256(abi.encodePacked(registryContract.getConsumer(msg.sender).assetId)),
        "Cannot submit bid for others");
-    bytes32 bidId = keccak256(abi.encodePacked(_assetId, block.timestamp));
-    energyBids[bidId] = Bid(_amount, _price);
-    validBids.push(bidId);
-    calculateSMP(totalDemand.ail);
+    bytes32 bidId = keccak256(abi.encodePacked(_assetId));
+    uint256 submitMinute = block.timestamp / 60 * 60;
+    energyBids[bidId] = Bid(_amount, _price, submitMinute, msg.sender);
+    bool _bidIdExists = false;
+    for (uint i=0; i < validBids.length; i++) {
+      if (bidId == validBids[i]) {
+        _bidIdExists = true;
+      }
+    }
+    if (!_bidIdExists) { validBids.push(bidId); }
+    updateDemand();
     emit BidSubmitted(bidId, _amount, _price);
   }
 
@@ -198,20 +238,8 @@ contract PoolMarket is Ownable, IPoolMarket{
     return meritOrderSnapshot;
   }
 
-  /**
-  @dev Updates AIL in realtime. This triggers SMP calculation.
-  AIL is collected from substations/smart meters.
-   */
-  function updateDemand(uint16 ail) public onlyOwner{
-    require(ail < registryContract.getTotalCapacity(), "Demand exceeds total supply");
-    totalDemand.ail = ail;
-    totalDemand.lastUpdated = block.timestamp;
-    calculateSMP(ail);
-    emit DemandChanged(ail);
-  }
-
   ///@dev calculate the system marginal price when demand or offers change
-  function calculateSMP(uint16 _ail) public {
+  function calculateSMP(uint16 _ail) private {
     //during calculating the SMP, system cannot accept new offers/bids
     //this requires a high-performance blockchain system to process this transaction
     //in a very short time, otherwise services stop for a long period time
@@ -253,14 +281,6 @@ contract PoolMarket is Ownable, IPoolMarket{
   }
 
   /**
-  @dev Query the price of given minute in unix time. 
-   */
-  function getSMP(uint minute) public view returns (uint16) {
-    // try minute by minute before the given timestamp; once find in the systemMarginalPrices mapping, return it.
-    return systemMarginalPrices[minute];
-  }
-
-  /**
   @dev Calculated the weighted pool price. 
   In the backend, set time intervals to call calculatePoolPrice each hour and calculateSMP by listening to the events each minute.
   At the beginning of each hour, calculateSMP must be executed.
@@ -284,12 +304,34 @@ contract PoolMarket is Ownable, IPoolMarket{
     poolPrices[hour] = poolPrice;
   }
 
+  /**
+  @dev Query the price of given minute in unix time. 
+   */
+  function getSMP(uint minute) public view returns (uint16) {
+    // try minute by minute before the given timestamp; once find in the systemMarginalPrices mapping, return it.
+    return systemMarginalPrices[minute];
+  }
+  
   function getPoolPrice(uint hour) override public view returns (uint16) {
     return poolPrices[hour];
   }
 
   function getValidOffers() public view returns(bytes32[] memory) {
     return validOffers;
+  }
+
+  function getValidBids() public view returns(bytes32[] memory) {
+    return validBids;
+  }
+
+  function getEnergyBid(string memory assetId) public view returns(Bid memory) {
+    bytes32 bidId = keccak256(abi.encodePacked(assetId));
+    return energyBids[bidId];
+  }
+
+  function getEnergyOffer(string memory assetId, uint8 blockNumber) public view returns(Offer memory) {
+    bytes32 offerId = keccak256(abi.encodePacked(assetId, blockNumber));
+    return energyOffers[offerId];
   }
 
   function getDispatchedOffers(uint hour) override public view returns (DispatchedOffer[] memory) {
