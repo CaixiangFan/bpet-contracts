@@ -49,7 +49,7 @@ contract PoolMarket is Ownable, IPoolMarket{
   uint[] public systemMarginalMinutes; //store time in minute in the form of Unix time (uint32) used to index the systemMarginalOfferIDs 
   uint[] public poolPriceHours; //store time in hour in the form of Unix time (uint32) used to index the poolPrices
   uint[] public totalDemandMinutes; // store time in minute in the form of Unix time (uint32) used to index the totalDemands
-  
+
   event OfferSubmitted(bytes32 offerId, uint amount, uint price);
   event BidSubmitted(bytes32 bidId, uint amount, uint price);
   event OfferDeleted(bytes32 offerId);
@@ -301,10 +301,18 @@ contract PoolMarket is Ownable, IPoolMarket{
     }
     poolPrice = cummulatedPrice / 60;
     poolPrices[hour] = poolPrice;
+    poolPriceHours.push(hour);
   }
 
+  /**
+  @dev Query the index in timestamps of all demands. 
+   */
   function getTotalDemandMinutes() public view returns(uint[] memory) {
     return totalDemandMinutes;
+  }
+
+  function getPoolpriceHours() public view returns(uint[] memory) {
+    return poolPriceHours;
   }
 
   function getLatestTotalDemand() public view returns(uint) {
