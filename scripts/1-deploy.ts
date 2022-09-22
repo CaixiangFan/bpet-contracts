@@ -95,10 +95,10 @@ async function main() {
 
   console.log('Copy the following to the frontend const file:');
   console.log('=====================');
-  console.log(`const TOKEN_CONTRACT_ADDRESS = '${tokenAddress}'`);
-  console.log(`const REGISTRY_CONTRACT_ADDRESS = '${registryAddress}'`);
-  console.log(`const POOLMARKET_CONTRACT_ADDRESS = '${poolmarketAddress}'`);
-  console.log(`const PAYMENT_CONTRACT_ADDRESS = '${paymentAddress}'`);
+  console.log(`var TOKEN_CONTRACT_ADDRESS = '${tokenAddress}'`);
+  console.log(`var REGISTRY_CONTRACT_ADDRESS = '${registryAddress}'`);
+  console.log(`var POOLMARKET_CONTRACT_ADDRESS = '${poolmarketAddress}'`);
+  console.log(`var PAYMENT_CONTRACT_ADDRESS = '${paymentAddress}'`);
 }
 
 main().catch((error) => {
