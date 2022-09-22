@@ -92,6 +92,13 @@ async function main() {
   console.log(`REGISTRY_CONTRACT_ADDRESS = ${registryAddress}`);
   console.log(`POOLMARKET_CONTRACT_ADDRESS = ${poolmarketAddress}`);
   console.log(`PAYMENT_CONTRACT_ADDRESS = ${paymentAddress}`);
+
+  console.log('Copy the following to the frontend const file:');
+  console.log('=====================');
+  console.log(`const TOKEN_CONTRACT_ADDRESS = '${tokenAddress}'`);
+  console.log(`const REGISTRY_CONTRACT_ADDRESS = '${registryAddress}'`);
+  console.log(`const POOLMARKET_CONTRACT_ADDRESS = '${poolmarketAddress}'`);
+  console.log(`const PAYMENT_CONTRACT_ADDRESS = '${paymentAddress}'`);
 }
 
 main().catch((error) => {
