@@ -1,0 +1,11 @@
+﻿No.,User Type,Price($/MWh),Amount(MWh)
+1,Supplier,20,500
+2,Supplier,40,600
+3,Supplier,70,700
+4,Supplier,80,1000
+5,Supplier,90,1300
+6,Consumer,20,800
+7,Consumer,40,900
+8,Consumer,70,800
+9,Consumer,90,500
+10,Consumer,100,500
