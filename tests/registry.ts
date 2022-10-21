@@ -48,7 +48,7 @@ describe("Testing Registry Contract", () => {
   describe("when a supplier is registered", async () => {
     it("get correct registration ino of a registered supplier", async () => {
       const tx = await registryContract.connect(accounts[1]).registerSupplier(
-        "ENG03", 3, 300, "Albera Energy Ltd."
+        accounts[1].address, "ENG03", 3, 300, "Albera Energy Ltd."
         );
       await tx.wait();
       const registeredInfo = await registryContract.getSupplier(accounts[1].address);
@@ -59,11 +59,11 @@ describe("Testing Registry Contract", () => {
     });
      it("cannot re-register supplier with the same account", async () => {
       await registryContract.connect(accounts[0]).registerSupplier(
-        "ENG04", 3, 300, "Albera Energy Ltd.");
+        accounts[0].address, "ENG04", 3, 300, "Albera Energy Ltd.");
 
       console.log('Successfully register account first time: ', accounts[0].address);
       await expect(registryContract.connect(accounts[0]).registerSupplier(
-        "ENG04", 3, 300, "Albera Energy Ltd."
+        accounts[0].address, "ENG04", 3, 300, "Albera Energy Ltd."
       )).to.be.revertedWith("Account has already registered");
     })
   });
@@ -71,7 +71,7 @@ describe("Testing Registry Contract", () => {
   describe("when a consumer is registered", async () => {
     it("get correct registration ino of a registered consumer", async () => {
       const tx = await registryContract.connect(accounts[2]).registerConsumer(
-        "UAENG", 100, "University of Alberta."
+        accounts[2].address, "UAENG", 100, "University of Alberta."
         );
       await tx.wait();
       const registeredInfo = await registryContract.getConsumer(accounts[2].address);
@@ -81,11 +81,11 @@ describe("Testing Registry Contract", () => {
     });
     it("cannot re-register consumer with the same account", async () => {
       await registryContract.connect(accounts[0]).registerConsumer(
-        "CONSUMER1", 300, "Albera Energy Ltd.");
+        accounts[0].address, "CONSUMER1", 300, "Albera Energy Ltd.");
 
       console.log('Successfully register account first time: ', accounts[0].address);
       await expect(registryContract.connect(accounts[0]).registerConsumer(
-        "CONSUMER1", 300, "Albera Energy Ltd."
+        accounts[0].address, "CONSUMER1", 300, "Albera Energy Ltd."
       )).to.be.revertedWith("Account has already registered");
     })
   });
@@ -93,7 +93,7 @@ describe("Testing Registry Contract", () => {
   describe("query the registered participants", async () => {
     it("registry admin get supplier registration info", async () => {
       const tx = await registryContract.connect(accounts[1]).registerSupplier(
-        "ENG04", 3, 300, "Albera Energy Ltd."
+        accounts[1].address, "ENG04", 3, 300, "Albera Energy Ltd."
         );
       await tx.wait();
       const info = await registryContract.getSupplier(accounts[1].address);
@@ -104,7 +104,7 @@ describe("Testing Registry Contract", () => {
     });
     it("registry admin get consumer registration info", async () => {
       const tx = await registryContract.connect(accounts[2]).registerConsumer(
-        "UAENG", 100, "University of Alberta."
+        accounts[2].address, "UAENG", 100, "University of Alberta."
         );
       await tx.wait();
       const registeredInfo = await registryContract.getConsumer(accounts[2].address);
@@ -112,25 +112,10 @@ describe("Testing Registry Contract", () => {
       expect(registeredInfo.load).to.eq(100);
       expect(registeredInfo.offerControl).to.eq("University of Alberta.");
     });
-    // it("participant cannot get other supplier's registration info", async () => {
-    //   const tx = await registryContract.connect(accounts[1]).registerSupplier(
-    //     "ENG04", 3, 300, "Albera Energy Ltd."
-    //     );
-    //   await tx.wait();
-    //   await expect(registryContract.connect(accounts[2]).getSupplier(accounts[1].address)
-    //   ).to.be.revertedWith("Cannot query others");
-    // });
-    // it("participant cannot get other consumer's registration info", async () => {
-    //   const tx = await registryContract.connect(accounts[1]).registerConsumer(
-    //     "UAENG", 100, "University of Alberta"
-    //     );
-    //   await tx.wait();
-    //   await expect(registryContract.connect(accounts[2]).getConsumer(accounts[1].address)
-    //   ).to.be.revertedWith("Cannot query others");
-    // });
+  
     it("Admin can get other supplier's registration info", async () => {
       const tx = await registryContract.connect(accounts[1]).registerSupplier(
-        "ENG04", 3, 300, "Albera Energy Ltd."
+        accounts[1].address, "ENG04", 3, 300, "Albera Energy Ltd."
         );
       await tx.wait();
       const registryInfo = await registryContract.connect(accounts[0]).getSupplier(accounts[1].address);
@@ -139,7 +124,7 @@ describe("Testing Registry Contract", () => {
     });
     it("Admin can get other consumer's registration info", async () => {
       const tx = await registryContract.connect(accounts[1]).registerConsumer(
-        "UAENG", 100, "University of Alberta"
+        accounts[1].address, "UAENG", 100, "University of Alberta"
         );
       await tx.wait();
       const registryInfo = await registryContract.connect(accounts[0]).getConsumer(accounts[1].address);
@@ -150,17 +135,17 @@ describe("Testing Registry Contract", () => {
   describe("Delete registered participant", async () => {
     beforeEach(async () => {
       const tx1 = await registryContract.connect(accounts[1]).registerSupplier(
-        "ENG01", 2, 300, "Albera Energy Ltd."
+        accounts[1].address, "ENG01", 2, 300, "Albera Energy Ltd."
         );
       await tx1.wait();
   
       const tx2 = await registryContract.connect(accounts[2]).registerSupplier(
-        "ENG02", 3, 300, "Albera Energy Ltd."
+        accounts[2].address, "ENG02", 3, 300, "Albera Energy Ltd."
         );
       await tx2.wait();
   
       const tx3 = await registryContract.connect(accounts[3]).registerSupplier(
-        "ENG03", 4, 300, "Albera Energy Ltd."
+        accounts[3].address, "ENG03", 4, 300, "Albera Energy Ltd."
         );
       await tx3.wait();
     });

@@ -15,7 +15,7 @@ contract PoolMarket is Ownable, IPoolMarket{
    */
   struct Offer {
     uint amount; //Available MW for dispatch
-    uint price; //Price in EKT per MW, 1EKT=1US dollor
+    uint price; //Price in ETK per MW, 1ETK=1US dollor
     uint submitMinute; //Epoch time in minute when this offer is submitted or updated
     address supplierAccount; //The account of the offer supplier
     bool isValid; // Indicator if this offer is deleted or not

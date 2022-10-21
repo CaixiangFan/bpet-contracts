@@ -58,7 +58,7 @@ contract Payment is Ownable {
   }
 
   /**
-  @dev Pay EKT to the distribution network for a specific hour. The latest hour is the last hour.
+  @dev Pay ETK to the distribution network for a specific hour. The latest hour is the last hour.
    */
   function pay(uint _hour, uint _meteredAmount) public registeredConsumer(msg.sender){
     uint poolPrice = poolMarketContract.getPoolPrice(_hour);

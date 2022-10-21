@@ -36,25 +36,27 @@ contract Registry is Ownable, IRegistry {
   multiple block numbers, offer control parties, total capacity of all blocks 
    */
   function registerSupplier (
+    address _account,
     string memory _assetId,
     uint8 _blockAmount,
     uint16 _capacity,
     string memory _offerControl
   ) public payable validAssetId(_assetId){
-      require(bytes(registeredSuppliers[msg.sender].assetId).length == 0, "Account has already registered");
-      registeredSuppliers[msg.sender] = Supplier(msg.sender, _assetId, _blockAmount, _capacity, _offerControl);
-      registeredSupplierAccounts.push(msg.sender);
+      require(bytes(registeredSuppliers[_account].assetId).length == 0, "Account has already registered");
+      registeredSuppliers[_account] = Supplier(_account, _assetId, _blockAmount, _capacity, _offerControl);
+      registeredSupplierAccounts.push(_account);
       totalCapacity += _capacity;
   }
 
   function registerConsumer (
+    address _account,
     string memory _assetId,
     uint16 _load,
     string memory _offerControl
   ) public payable validAssetId(_assetId){
-      require(bytes(registeredConsumers[msg.sender].assetId).length == 0, "Account has already registered");
-      registeredConsumers[msg.sender] = Consumer(msg.sender, _assetId, _load, _offerControl);
-      registeredConsumerAccounts.push(msg.sender);
+      require(bytes(registeredConsumers[_account].assetId).length == 0, "Account has already registered");
+      registeredConsumers[_account] = Consumer(_account, _assetId, _load, _offerControl);
+      registeredConsumerAccounts.push(_account);
   }
 
   function getAllSuppliers () public view override onlyOwner returns (address[] memory) {
