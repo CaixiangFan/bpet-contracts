@@ -102,7 +102,6 @@ contract PoolMarket is Ownable, IPoolMarket{
   the new submitted offer from the same account will update the previous one
    */
   function submitOffer(
-    string memory assetId,
     uint8 blockNumber,
     uint amount, 
     uint price
@@ -111,12 +110,8 @@ contract PoolMarket is Ownable, IPoolMarket{
     validOffer(amount, price)
     {
     require(marketState == MarketState.Open, "Market closed");
-    require(
-      keccak256(abi.encodePacked(assetId)) == 
-      keccak256(abi.encodePacked(registryContract.getSupplier(msg.sender).assetId)),
-       "Cannot submit offer for others");
     require(amount <= registryContract.getSupplier(msg.sender).capacity, "Offered amount exceeds capacity");
-    bytes32 offerId = keccak256(abi.encodePacked(assetId, blockNumber));
+    bytes32 offerId = keccak256(abi.encodePacked(msg.sender, blockNumber));
     uint submitMinute = block.timestamp / 60 * 60;
     energyOffers[offerId] = Offer(amount, price, submitMinute, msg.sender, true);
     // check if offerId exists or not; if yes, update offer content but leaves offerId unchanged
@@ -187,7 +182,6 @@ contract PoolMarket is Ownable, IPoolMarket{
   the AIL.
    */
   function submitBid(
-    string memory _assetId,
     uint _amount, 
     uint _price
     ) public 
@@ -195,11 +189,7 @@ contract PoolMarket is Ownable, IPoolMarket{
     validBid(_amount, _price, msg.sender)
     {
     require(marketState == MarketState.Open, "Bidding closed");
-    require(
-      keccak256(abi.encodePacked(_assetId)) == 
-      keccak256(abi.encodePacked(registryContract.getConsumer(msg.sender).assetId)),
-       "Cannot submit bid for others");
-    bytes32 bidId = keccak256(abi.encodePacked(_assetId));
+    bytes32 bidId = keccak256(abi.encodePacked(msg.sender));
     uint submitMinute = block.timestamp / 60 * 60;
     energyBids[bidId] = Bid(_amount, _price, submitMinute, msg.sender);
     bool _bidIdExists = false;
