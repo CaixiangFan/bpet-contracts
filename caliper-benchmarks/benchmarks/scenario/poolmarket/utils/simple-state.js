@@ -24,15 +24,28 @@ class SimpleState {
     /**
      * Initializes the instance.
      */
-    constructor(workerIndex, account, assetID, blockAmount, capacity, offerControl, accounts = 0) {
-        this.workerIndex = workerIndex;  
+    constructor(
+      workerIndex, 
+      account, 
+      supplierAssetID, 
+      blockNumber, 
+      offerAmount, 
+      offerPrice, 
+      accounts = 0) 
+      {
+        this.workerIndex = workerIndex;  // starting from 0
         this.accountsGenerated = accounts;
         this.account = account;
-        this.assetID = assetID;
-        this.blockAmount = blockAmount;
-        this.capacity = capacity;
-        this.offerControl = offerControl;
-        // this.accountPrefix = this._get26Num(workerIndex);
+        this.supplierAssetID = supplierAssetID;
+        this.blockNumber = blockNumber;
+        this.offerAmount = offerAmount;
+        this.offerPrice = offerPrice;
+        
+        this.consumerAssetID = consumerAssetID;
+        this.consumerLoad = consumerLoad;
+        this.consumerOfferPrice = consumerOfferPrice;
+
+        this.accountPrefix = this._get26Num(workerIndex);
     }
 
     /**
@@ -77,15 +90,27 @@ class SimpleState {
      * Get the arguments for registering a supplier with a given account.
      * @returns {object} The account arguments.
      */
-    getRegisterSupplierArguments() {
+    getSubmitOfferArguments() {
         return {
-          account: this.account,
-          assetID: this.assetID + this.workerIndex + this._getRandomAccount(),
-          blockAmount: 3,
-          capacity: 300,
-          offerControl: this.offerControl + this.workerIndex + this._getRandomAccount(),
+          assetID: this.supplierAssetID,
+          blockNumber: this.blockNumber,
+          offerAmount: this.offerAmount,
+          offerPrice: this.offerPrice,
         }
     }
+
+    /**
+     * Get the arguments for registering a consumer with a given account.
+     * @returns {object} The account arguments.
+     */
+    // getSubmitBidArguments() {
+    //   return {
+    //     account: this.account,
+    //     assetID: this.consumerAssetID + this.workerIndex,
+    //     load: this.consumerLoad,
+    //     offerPrice: this.consumerOfferPrice + this.workerIndex,
+    //   }
+    // }
 }
 
 module.exports = SimpleState;

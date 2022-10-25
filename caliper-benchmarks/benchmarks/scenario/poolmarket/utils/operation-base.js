@@ -15,7 +15,6 @@
 'use strict';
 
 const { WorkloadModuleBase } = require('@hyperledger/caliper-core');
-
 const SupportedConnectors = ['ethereum'];
 
 /**
@@ -44,17 +43,28 @@ class OperationBase extends WorkloadModuleBase {
 
         this.assertConnectorType();
         this.assertSetting('numberOfAccounts');
-        this.assertSetting('assetID');
-        this.assertSetting('blockAmount');
-        this.assertSetting('capacity');
-        this.assertSetting('offerControl');
+        this.assertSetting('blockNumber');
+        this.assertSetting('offerAmount');
+        this.assertSetting('offerPrice');
+
+        // this.assertSetting('consumerAssetID');
+        // this.assertSetting('consumerLoad');
+        // this.assertSetting('consumerOfferPrice');
 
         this.numberOfAccounts = this.roundArguments.numberOfAccounts;
         this.account = this.sutContext.fromAddress;
-        this.assetID = this.roundArguments.assetID;
-        this.blockAmount = this.roundArguments.blockAmount;
-        this.capacity = this.roundArguments.capacity;
-        this.offerControl = this.roundArguments.offerControl;
+        this.supplierRegistryInfo = await this.sutContext.contracts['registry'].getSupplier(this.account);
+        // this.consumerRegistryInfo = await this.sutContext.contracts['registry'].getCustomer(this.account);
+        this.supplierAssetID = this.supplierRegistryInfo.assetId;
+        // this.consumerAssetID = this.consumerRegistryInfo.assetId;
+
+        this.blockNumber = this.roundArguments.blockNumber;
+        this.offerAmount = this.roundArguments.offerAmount;
+        this.offerPrice = this.roundArguments.offerPrice;
+
+        // this.consumerAssetID = this.roundArguments.consumerAssetID;
+        // this.consumerLoad = this.roundArguments.consumerLoad;
+        // this.consumerOfferPrice = this.roundArguments.consumerOfferPrice;
 
         this.simpleState = this.createSimpleState();
     }
@@ -118,7 +128,7 @@ class OperationBase extends WorkloadModuleBase {
     _createEthereumConnectorRequest(operation, args) {
         const query = operation === 'query';
         return {
-            contract: 'registry',
+            contract: 'poolmarket',
             verb: operation,
             args: Object.keys(args).map(k => args[k]),
             readOnly: query

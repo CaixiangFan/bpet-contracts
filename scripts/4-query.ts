@@ -36,13 +36,23 @@ async function main() {
   console.log(ethers.utils.formatBytes32String(registeredInfo.offerControl));
 
   await getSuppliersInfo(registeredSuppliers, registryContractInstance);
+  await getConsumersInfo(registeredConsumers, registryContractInstance)
 }
 
 async function getSuppliersInfo(supplierAccounts: string[], registryContractInstance: Registry) {
   if (supplierAccounts.length !== 0) {
     for (let i = 0; i < supplierAccounts.length; i++) {
       let registryInfo = await registryContractInstance.getSupplier(supplierAccounts[i]);
-      console.log(supplierAccounts[i], registryInfo);
+      console.log(supplierAccounts[i], registryInfo.assetId, registryInfo.blockAmount, registryInfo.capacity, registryInfo.offerControl);
+    }
+  }
+}
+
+async function getConsumersInfo(consumerAccounts: string[], registryContractInstance: Registry) {
+  if (consumerAccounts.length !== 0) {
+    for (let i = 0; i < consumerAccounts.length; i++) {
+      let registryInfo = await registryContractInstance.getConsumer(consumerAccounts[i]);
+      console.log(consumerAccounts[i], registryInfo.assetId, registryInfo.load, registryInfo.offerControl);
     }
   }
 }

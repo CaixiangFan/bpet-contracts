@@ -1,0 +1,36 @@
+simpleArgs: &simple-args
+  numberOfAccounts: 10
+  blockNumber: 1
+  offerAmount: 280
+  offerPrice: 45
+
+test:
+  name: poolmarket
+  description: >-
+    To benchmark the network transactions.
+  workers:
+    type: local
+    number: 10
+  rounds:
+    - label: submit offers
+      description: Sumitting an offer to market with given account and info.
+      txNumber: 10
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 10
+      workload:
+        module: benchmarks/scenario/poolmarket/submitOffer.js
+        arguments:
+          << : *simple-args
+    # - label: register consumers
+    #   description: Registering a consumer with given account and info.
+    #   txNumber: 10
+    #   rateControl:
+    #     type: fixed-rate
+    #     opts:
+    #       tps: 10
+    #   workload:
+    #     module: benchmarks/scenario/registry/registerConsumer.js
+    #     arguments:
+    #       << : *simple-args
