@@ -24,10 +24,15 @@ class SimpleState {
     /**
      * Initializes the instance.
      */
-    constructor(workerIndex, moneyToTransfer, accounts = 0) {
+    constructor(workerIndex, account, assetID, blockAmount, capacity, offerControl, accounts = 0) {
+        this.workerIndex = workerIndex;  
         this.accountsGenerated = accounts;
-        this.moneyToTransfer = moneyToTransfer;
-        this.accountPrefix = this._get26Num(workerIndex);
+        this.account = account;
+        this.assetID = assetID;
+        this.blockAmount = blockAmount;
+        this.capacity = capacity;
+        this.offerControl = offerControl;
+        // this.accountPrefix = this._get26Num(workerIndex);
     }
 
     /**
@@ -69,14 +74,17 @@ class SimpleState {
       }
 
     /**
-     * Get the arguments for transfering money between accounts.
+     * Get the arguments for registering a supplier with a given account.
      * @returns {object} The account arguments.
      */
-    getTransferArguments() {
+    getRegisterSupplierArguments() {
         return {
-            target: "0x747Ae77d47665f0F0F176d6C6b5C4940632D5751",
-            amount: this.moneyToTransfer
-        };
+          account: this.account,
+          assetID: this.assetID + this.workerIndex + this._getRandomAccount(),
+          blockAmount: 3,
+          capacity: 300,
+          offerControl: this.offerControl + this.workerIndex + this._getRandomAccount(),
+        }
     }
 }
 

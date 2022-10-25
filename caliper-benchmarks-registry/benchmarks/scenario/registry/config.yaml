@@ -1,0 +1,39 @@
+simpleArgs: &simple-args
+  numberOfAccounts: 10
+  assetID: 'SUPPLIER'
+  blockAmount: 3
+  capacity: 300
+  offerControl: 'Alberta Supplier'
+
+test:
+  name: registry
+  description: >-
+    To benchmark the network transactions.
+  workers:
+    type: local
+    number: 5
+  rounds:
+    - label: register suppliers
+      description: Registering a supplier with given account and info.
+      txNumber: 10
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 10
+      workload:
+        module: benchmarks/scenario/registry/registerSupplier.js
+        arguments:
+          << : *simple-args
+          # money: *money-to-transfer
+    # - label: register consumers
+    #   description: Transfering erc20 token between accounts.
+    #   txNumber: 1000
+    #   rateControl:
+    #     type: fixed-rate
+    #     opts:
+    #       tps: 400
+    #   workload:
+    #     module: benchmarks/scenario/simple/transfer.js
+    #     arguments:
+    #       << : *simple-args
+    #       money: *money-to-transfer

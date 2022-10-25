@@ -3,14 +3,14 @@
         "blockchain": "ethereum"
     },
     "ethereum": {
-        "url": "ws://192.168.226.150:8546",
-        "contractDeployerAddress": "0x8d99DE09916B459545CFD9e1e4f9f03E634daf96",
-        "contractDeployerAddressPrivateKey": "0x4d065dc958ef3f8f292ddfa3c1280b47e8e9875a06968a07a70c199b9438a628",
+        "url": "ws://192.168.226.22:8546",
+        "contractDeployerAddress": "0x627306090abaB3A6e1400e9345bC60c78a8BEf57",
+        "contractDeployerAddressPrivateKey": "0xc87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3",
         "fromAddressSeed": "0x3f841bf589fdf83a521e55d51afddc34fa65351161eead24f064855fc29c9580",
         "transactionConfirmationBlocks": 1,
         "contracts": {
             "erc20": {
-                "address": "0xE3d9dbE0bC85414e1942d9A071BC9D073e9b0587",
+                "address": "0xF12b5dd4EAD5F743C6BaA640B0216200e89B60Da",
                 "estimateGas": true,
                 "gas": {
                     "transfer": 80000
