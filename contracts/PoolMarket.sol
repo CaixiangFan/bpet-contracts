@@ -93,8 +93,6 @@ contract PoolMarket is Ownable, IPoolMarket{
     minAllowedPrice = _minAllowedPrice;
     maxAllowedPrice = _maxAllowedPrice;
     marketState = MarketState.Open;
-    // totalDemand.ail = 0;
-    // totalDemand.lastUpdated = block.timestamp;
   }
 
   /**
