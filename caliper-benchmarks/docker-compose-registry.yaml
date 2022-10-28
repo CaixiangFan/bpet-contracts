@@ -9,8 +9,8 @@ services:
         network_mode: host
         environment:
         - CALIPER_BIND_SUT=besu:latest
-        - CALIPER_BENCHCONFIG=benchmarks/scenario/poolmarket/config.yaml
+        - CALIPER_BENCHCONFIG=benchmarks/scenario/registry/config.yaml
         - CALIPER_NETWORKCONFIG=networks/networkconfig.json
         - CALIPER-FLOW-SKIP-INSTALL=true
         volumes:
-        - ./caliper-benchmarks:/hyperledger/caliper/workspace
+        - .:/hyperledger/caliper/workspace

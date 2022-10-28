@@ -26,26 +26,21 @@ class SimpleState {
      */
     constructor(
       workerIndex, 
-      account, 
-      supplierAssetID, 
       blockNumber, 
       offerAmount, 
       offerPrice, 
+      bidAmount,
+      bidPrice,
       accounts = 0) 
       {
         this.workerIndex = workerIndex;  // starting from 0
         this.accountsGenerated = accounts;
-        this.account = account;
-        this.supplierAssetID = supplierAssetID;
         this.blockNumber = blockNumber;
         this.offerAmount = offerAmount;
         this.offerPrice = offerPrice;
         
-        this.consumerAssetID = consumerAssetID;
-        this.consumerLoad = consumerLoad;
-        this.consumerOfferPrice = consumerOfferPrice;
-
-        this.accountPrefix = this._get26Num(workerIndex);
+        this.bidAmount = bidAmount;
+        this.bidPrice = bidPrice;
     }
 
     /**
@@ -92,7 +87,6 @@ class SimpleState {
      */
     getSubmitOfferArguments() {
         return {
-          assetID: this.supplierAssetID,
           blockNumber: this.blockNumber,
           offerAmount: this.offerAmount,
           offerPrice: this.offerPrice,
@@ -103,14 +97,12 @@ class SimpleState {
      * Get the arguments for registering a consumer with a given account.
      * @returns {object} The account arguments.
      */
-    // getSubmitBidArguments() {
-    //   return {
-    //     account: this.account,
-    //     assetID: this.consumerAssetID + this.workerIndex,
-    //     load: this.consumerLoad,
-    //     offerPrice: this.consumerOfferPrice + this.workerIndex,
-    //   }
-    // }
+    getSubmitBidArguments() {
+      return {
+        bidAmount: this.bidAmount,
+        bidPrice: this.bidPrice,
+      }
+    }
 }
 
 module.exports = SimpleState;

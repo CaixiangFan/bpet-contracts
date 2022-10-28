@@ -1,4 +1,4 @@
-import  { Bytes, ethers } from "ethers";
+import { Bytes, ethers } from "ethers";
 import "dotenv/config";
 import * as tokenJson from "../artifacts/contracts/EnergyToken.sol/EnergyToken.json";
 import { exit } from "process";
@@ -7,7 +7,7 @@ const EXPOSED_KEY =
   "8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f";
 
 function setupProvider() {
-  const provider = new ethers.providers.JsonRpcProvider(process.env.BESU_URL);
+  const provider = ethers.providers.getDefaultProvider(process.env.BESU_URL);
   return provider;
 }
 
@@ -30,8 +30,8 @@ async function attach(contractAddress: string, priKey: string) {
     );
     console.log(`Contract attached to account ${contractInstance.address}`);
     return { contractInstance, provider, signer };
-  }else{
-    console.log("Please provide a valid smart contract address.")
+  } else {
+    console.log("Please provide a valid smart contract address.");
     exit();
   }
 }
@@ -39,7 +39,7 @@ async function attach(contractAddress: string, priKey: string) {
 function convertStringArrayToBytes32(array: string[]) {
   const bytes32Array = [];
   for (let index = 0; index < array.length; index++) {
-      bytes32Array.push(ethers.utils.formatBytes32String(array[index]));
+    bytes32Array.push(ethers.utils.formatBytes32String(array[index]));
   }
   return bytes32Array;
 }
@@ -66,5 +66,5 @@ export {
   setupProvider,
   setupGoerliProvider,
   convertStringArrayToBytes32,
-  attach
-}
+  attach,
+};

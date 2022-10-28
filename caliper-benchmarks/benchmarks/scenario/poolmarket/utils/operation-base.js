@@ -47,24 +47,17 @@ class OperationBase extends WorkloadModuleBase {
         this.assertSetting('offerAmount');
         this.assertSetting('offerPrice');
 
-        // this.assertSetting('consumerAssetID');
-        // this.assertSetting('consumerLoad');
-        // this.assertSetting('consumerOfferPrice');
+        this.assertSetting('bidAmount');
+        this.assertSetting('bidPrice');
 
         this.numberOfAccounts = this.roundArguments.numberOfAccounts;
         this.account = this.sutContext.fromAddress;
-        this.supplierRegistryInfo = await this.sutContext.contracts['registry'].getSupplier(this.account);
-        // this.consumerRegistryInfo = await this.sutContext.contracts['registry'].getCustomer(this.account);
-        this.supplierAssetID = this.supplierRegistryInfo.assetId;
-        // this.consumerAssetID = this.consumerRegistryInfo.assetId;
-
         this.blockNumber = this.roundArguments.blockNumber;
         this.offerAmount = this.roundArguments.offerAmount;
         this.offerPrice = this.roundArguments.offerPrice;
 
-        // this.consumerAssetID = this.roundArguments.consumerAssetID;
-        // this.consumerLoad = this.roundArguments.consumerLoad;
-        // this.consumerOfferPrice = this.roundArguments.consumerOfferPrice;
+        this.bidAmount = this.roundArguments.bidAmount;
+        this.bidPrice = this.roundArguments.bidPrice;
 
         this.simpleState = this.createSimpleState();
     }

@@ -29,36 +29,6 @@ async function main() {
   const wallet_supplier1 = new ethers.Wallet(process.env.SUPPLIER1_PRIVATE_KEY ?? EXPOSED_KEY);
   const wallet_supplier2 = new ethers.Wallet(process.env.SUPPLIER2_PRIVATE_KEY ?? EXPOSED_KEY);
   const wallet_supplier3 = new ethers.Wallet(process.env.SUPPLIER3_PRIVATE_KEY ?? EXPOSED_KEY);
-
-  console.log('Registered Consumer1 ', wallet_consumer1.address);
-  const registryContract1 = getContract(wallet_consumer1);
-  const registerConsumerTx1 = await registryContract1.registerConsumer(
-    wallet_consumer1.address,
-    "CONSUMER1",
-    200,
-    "Alberta Consumer Ltd1"
-  );
-  await registerConsumerTx1.wait()
-
-  console.log('Registered Consumer2 ', wallet_consumer2.address);
-  const registryContract2 = getContract(wallet_consumer1);
-  const registerConsumerTx2 = await registryContract2.registerConsumer(
-    wallet_consumer2.address,
-    "CONSUMER2",
-    300,
-    "Alberta Consumer Ltd2"
-  );
-  await registerConsumerTx2.wait()
-  
-  console.log('Registered Consumer3 ', wallet_consumer3.address);
-  const registryContract3 = getContract(wallet_consumer1);
-  const registerConsumerTx3 = await registryContract3.registerConsumer(
-    wallet_consumer3.address,
-    "CONSUMER3",
-    400,
-    "Alberta Consumer Ltd3"
-  );
-  await registerConsumerTx3.wait()
   
   console.log('Registered Supplier1 ', wallet_supplier1.address);
   const registryContract4 = getContract(wallet_supplier1);
@@ -92,6 +62,40 @@ async function main() {
     "Alberta Supplier Ltd3"
   );
   await registerSupplierTx3.wait()
+
+  console.log('Registered Consumer1 ', wallet_consumer1.address);
+  const registryContract1 = getContract(wallet_consumer1);
+  try{
+    const registerConsumerTx1 = await registryContract1.registerConsumer(
+      wallet_consumer1.address,
+      "CONSUMER1",
+      200,
+      "Alberta Consumer Ltd1"
+    );
+    await registerConsumerTx1.wait();
+  } catch(error) {
+    console.log(error);
+  }
+
+  console.log('Registered Consumer2 ', wallet_consumer2.address);
+  const registryContract2 = getContract(wallet_consumer1);
+  const registerConsumerTx2 = await registryContract2.registerConsumer(
+    wallet_consumer2.address,
+    "CONSUMER2",
+    300,
+    "Alberta Consumer Ltd2"
+  );
+  await registerConsumerTx2.wait()
+  
+  console.log('Registered Consumer3 ', wallet_consumer3.address);
+  const registryContract3 = getContract(wallet_consumer1);
+  const registerConsumerTx3 = await registryContract3.registerConsumer(
+    wallet_consumer3.address,
+    "CONSUMER3",
+    400,
+    "Alberta Consumer Ltd3"
+  );
+  await registerConsumerTx3.wait()
 
   const wallet_admin = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
   const contract = getContract(wallet_admin);

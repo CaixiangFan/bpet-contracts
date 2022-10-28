@@ -38,10 +38,11 @@ class SubmitOffer extends OperationBase {
         const accountsPerWorker = this.numberOfAccounts / this.totalWorkers;
         return new SimpleState(
           this.workerIndex, 
-          this.assetID,
           this.blockNumber,
           this.offerAmount,
           this.offerPrice,
+          this.bidAmount,
+          this.bidPrice,
           accountsPerWorker);
     }
 

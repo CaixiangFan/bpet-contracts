@@ -24,9 +24,10 @@ class SimpleState {
     /**
      * Initializes the instance.
      */
-    constructor(workerIndex, moneyToTransfer, accounts = 0) {
+    constructor(workerIndex, moneyToTransfer, toAddress, accounts = 0) {
         this.accountsGenerated = accounts;
         this.moneyToTransfer = moneyToTransfer;
+        this.toAddress = toAddress;
         this.accountPrefix = this._get26Num(workerIndex);
     }
 
@@ -74,7 +75,7 @@ class SimpleState {
      */
     getTransferArguments() {
         return {
-            target: "0x747Ae77d47665f0F0F176d6C6b5C4940632D5751",
+            target: this.toAddress,
             amount: this.moneyToTransfer
         };
     }

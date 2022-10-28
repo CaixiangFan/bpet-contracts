@@ -45,11 +45,14 @@ class OperationBase extends WorkloadModuleBase {
         this.assertConnectorType();
         // this.assertSetting('initialMoney');
         this.assertSetting('moneyToTransfer');
-        // this.assertSetting('numberOfAccounts');
+        this.assertSetting('numberOfAccounts');
+        this.assertSetting('toAddress');
+
 
         // this.initialMoney = this.roundArguments.initialMoney;
         this.moneyToTransfer = this.roundArguments.moneyToTransfer;
-        // this.numberOfAccounts = this.roundArguments.numberOfAccounts;
+        this.numberOfAccounts = this.roundArguments.numberOfAccounts;
+        this.toAddress = this.roundArguments.toAddress;
         this.simpleState = this.createSimpleState();
     }
 
@@ -112,7 +115,7 @@ class OperationBase extends WorkloadModuleBase {
     _createEthereumConnectorRequest(operation, args) {
         const query = operation === 'query';
         return {
-            contract: 'erc20',
+            contract: 'etk',
             verb: operation,
             args: Object.keys(args).map(k => args[k]),
             readOnly: query

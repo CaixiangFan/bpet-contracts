@@ -1,8 +1,7 @@
-import  { ethers, Contract } from "ethers";
+import { ethers, Contract } from "ethers";
 import "dotenv/config";
 import * as registryJson from "../artifacts/contracts/Registry.sol/Registry.json";
 import * as tokenJson from "../artifacts/contracts/EnergyToken.sol/EnergyToken.json";
-import { exit } from "process";
 import { EXPOSED_KEY, setupProvider, setupGoerliProvider } from "./utils";
 import { Registry, EnergyToken } from "../typechain";
 
@@ -23,36 +22,51 @@ async function main() {
     registrySigner
   ) as Registry;
 
-  const registeredSuppliers =  await registryContractInstance.getAllSuppliers();
-  console.log('All registered supplier accounts:  ', registeredSuppliers);
+  const registeredSuppliers = await registryContractInstance.getAllSuppliers();
+  console.log("All registered supplier accounts:  ", registeredSuppliers);
 
-  const registeredConsumers =  await registryContractInstance.getAllConsumers();
-  console.log('All registered consumer accounts:  ', registeredConsumers);
-
-  const supplierWallet = new ethers.Wallet(process.env.PRIVATE_KEY_3 ?? EXPOSED_KEY);
-  const registeredInfo =  await registryContractInstance.getSupplier(supplierWallet.address);
-  console.log('Registered supplier info:  ', registeredInfo);
-  console.log(ethers.utils.formatBytes32String(registeredInfo.assetId));
-  console.log(ethers.utils.formatBytes32String(registeredInfo.offerControl));
+  const registeredConsumers = await registryContractInstance.getAllConsumers();
+  console.log("All registered consumer accounts:  ", registeredConsumers);
 
   await getSuppliersInfo(registeredSuppliers, registryContractInstance);
-  await getConsumersInfo(registeredConsumers, registryContractInstance)
+  await getConsumersInfo(registeredConsumers, registryContractInstance);
 }
 
-async function getSuppliersInfo(supplierAccounts: string[], registryContractInstance: Registry) {
+async function getSuppliersInfo(
+  supplierAccounts: string[],
+  registryContractInstance: Registry
+) {
   if (supplierAccounts.length !== 0) {
     for (let i = 0; i < supplierAccounts.length; i++) {
-      let registryInfo = await registryContractInstance.getSupplier(supplierAccounts[i]);
-      console.log(supplierAccounts[i], registryInfo.assetId, registryInfo.blockAmount, registryInfo.capacity, registryInfo.offerControl);
+      let registryInfo = await registryContractInstance.getSupplier(
+        supplierAccounts[i]
+      );
+      console.log(
+        supplierAccounts[i],
+        registryInfo.assetId,
+        registryInfo.blockAmount,
+        registryInfo.capacity,
+        registryInfo.offerControl
+      );
     }
   }
 }
 
-async function getConsumersInfo(consumerAccounts: string[], registryContractInstance: Registry) {
+async function getConsumersInfo(
+  consumerAccounts: string[],
+  registryContractInstance: Registry
+) {
   if (consumerAccounts.length !== 0) {
     for (let i = 0; i < consumerAccounts.length; i++) {
-      let registryInfo = await registryContractInstance.getConsumer(consumerAccounts[i]);
-      console.log(consumerAccounts[i], registryInfo.assetId, registryInfo.load, registryInfo.offerControl);
+      let registryInfo = await registryContractInstance.getConsumer(
+        consumerAccounts[i]
+      );
+      console.log(
+        consumerAccounts[i],
+        registryInfo.assetId,
+        registryInfo.load,
+        registryInfo.offerControl
+      );
     }
   }
 }
@@ -61,4 +75,3 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
-

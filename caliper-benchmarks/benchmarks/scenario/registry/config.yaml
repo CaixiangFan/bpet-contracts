@@ -14,26 +14,27 @@ test:
     To benchmark the network transactions.
   workers:
     type: local
-    number: 10
+    number: 50
   rounds:
     - label: register suppliers
       description: Registering a supplier with given account and info.
-      txNumber: 10
+      txNumber: 50
       rateControl:
         type: fixed-rate
         opts:
-          tps: 10
+          tps: 50
       workload:
         module: benchmarks/scenario/registry/registerSupplier.js
         arguments:
           << : *simple-args
+          
     - label: register consumers
       description: Registering a consumer with given account and info.
-      txNumber: 10
+      txNumber: 50
       rateControl:
         type: fixed-rate
         opts:
-          tps: 10
+          tps: 50
       workload:
         module: benchmarks/scenario/registry/registerConsumer.js
         arguments:

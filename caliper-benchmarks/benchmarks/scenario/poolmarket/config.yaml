@@ -1,8 +1,10 @@
 simpleArgs: &simple-args
-  numberOfAccounts: 10
+  numberOfAccounts: 1
   blockNumber: 1
   offerAmount: 280
   offerPrice: 45
+  bidAmount: 250
+  bidPrice: 40
 
 test:
   name: poolmarket
@@ -10,27 +12,28 @@ test:
     To benchmark the network transactions.
   workers:
     type: local
-    number: 10
+    number: 50
   rounds:
     - label: submit offers
       description: Sumitting an offer to market with given account and info.
-      txNumber: 10
+      txNumber: 50
       rateControl:
         type: fixed-rate
         opts:
-          tps: 10
+          tps: 50
       workload:
         module: benchmarks/scenario/poolmarket/submitOffer.js
         arguments:
           << : *simple-args
-    # - label: register consumers
-    #   description: Registering a consumer with given account and info.
-    #   txNumber: 10
-    #   rateControl:
-    #     type: fixed-rate
-    #     opts:
-    #       tps: 10
-    #   workload:
-    #     module: benchmarks/scenario/registry/registerConsumer.js
-    #     arguments:
-    #       << : *simple-args
+
+    - label: submit bids
+      description: Sumitting a bid to market with given account and info.
+      txNumber: 50
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 50
+      workload:
+        module: benchmarks/scenario/poolmarket/submitBid.js
+        arguments:
+          << : *simple-args

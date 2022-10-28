@@ -11,7 +11,7 @@ import { EXPOSED_KEY, setupGoerliProvider, setupProvider } from "./utils";
 const MINALLOWEDPRICE = 0;
 const MAXALLOWEDPRICE = 1000;
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
-var provider = setupGoerliProvider()
+var provider = setupGoerliProvider();
 const network = process.env.PROVIDER_NETWORK;
 if (network === "Besu") {
   provider = setupProvider();
@@ -43,7 +43,9 @@ async function deployRegistry() {
   const registryContract = await registryFactory.deploy();
   console.log("Awaiting confirmations");
   await registryContract.deployed();
-  console.log(`Completed! Registry contract deployed at ${registryContract.address}`);
+  console.log(
+    `Completed! Registry contract deployed at ${registryContract.address}`
+  );
   return registryContract.address;
 }
 
@@ -55,15 +57,23 @@ async function deployPoolMarket(registryAddress: string) {
     signer
   );
   const poolmarketContract = await poolmarketFactory.deploy(
-    registryAddress, MINALLOWEDPRICE, MAXALLOWEDPRICE
+    registryAddress,
+    MINALLOWEDPRICE,
+    MAXALLOWEDPRICE
   );
   console.log("Awaiting confirmations");
   await poolmarketContract.deployed();
-  console.log(`Completed! Pool market contract deployed at ${poolmarketContract.address}`);
+  console.log(
+    `Completed! Pool market contract deployed at ${poolmarketContract.address}`
+  );
   return poolmarketContract.address;
 }
 
-async function deployPayment(tokenAddress: string, registryAddress: string, poolmarketAddress: string) {
+async function deployPayment(
+  tokenAddress: string,
+  registryAddress: string,
+  poolmarketAddress: string
+) {
   console.log("Deploying payment contract");
   const paymentFactory = new ethers.ContractFactory(
     paymentJson.abi,
@@ -71,11 +81,15 @@ async function deployPayment(tokenAddress: string, registryAddress: string, pool
     signer
   );
   const paymentContract = await paymentFactory.deploy(
-    poolmarketAddress, tokenAddress, registryAddress
+    poolmarketAddress,
+    tokenAddress,
+    registryAddress
   );
   console.log("Awaiting confirmations");
   await paymentContract.deployed();
-  console.log(`Completed! Payment contract deployed at ${paymentContract.address}`);
+  console.log(
+    `Completed! Payment contract deployed at ${paymentContract.address}`
+  );
   return paymentContract.address;
 }
 
@@ -84,19 +98,23 @@ async function main() {
   const registryAddress = await deployRegistry();
   // const registryAddress = '0x2E5Cdd26af7E5d0ABB9CF3721Cf988dFf42B20a4';
   const poolmarketAddress = await deployPoolMarket(registryAddress);
-  const paymentAddress = await deployPayment(poolmarketAddress, tokenAddress, registryAddress);
+  const paymentAddress = await deployPayment(
+    poolmarketAddress,
+    tokenAddress,
+    registryAddress
+  );
 
-  console.log('=====================');
-  console.log('Copy the following to the .env file:');
-  console.log('=====================');
+  console.log("=====================");
+  console.log("Copy the following to the .env file:");
+  console.log("=====================");
   console.log(`TOKEN_CONTRACT_ADDRESS = ${tokenAddress}`);
   console.log(`REGISTRY_CONTRACT_ADDRESS = ${registryAddress}`);
   console.log(`POOLMARKET_CONTRACT_ADDRESS = ${poolmarketAddress}`);
   console.log(`PAYMENT_CONTRACT_ADDRESS = ${paymentAddress}`);
 
-  console.log('=====================');
-  console.log('Copy the following to the frontend const file:');
-  console.log('=====================');
+  console.log("=====================");
+  console.log("Copy the following to the frontend const file:");
+  console.log("=====================");
   console.log(`var TOKEN_CONTRACT_ADDRESS = '${tokenAddress}'`);
   console.log(`var REGISTRY_CONTRACT_ADDRESS = '${registryAddress}'`);
   console.log(`var POOLMARKET_CONTRACT_ADDRESS = '${poolmarketAddress}'`);

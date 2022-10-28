@@ -7,7 +7,7 @@ services:
         command: launch manager
         environment:
           - CALIPER_BIND_SUT=besu:1.4
-          - CALIPER_BENCHCONFIG=benchmarks/scenario/simple/config.yaml
+          - CALIPER_BENCHCONFIG=benchmarks/scenario/etk/config.yaml
           - CALIPER_NETWORKCONFIG=networks/networkconfig.json
           - CALIPER-FLOW-SKIP-INSTALL=true 
         volumes:

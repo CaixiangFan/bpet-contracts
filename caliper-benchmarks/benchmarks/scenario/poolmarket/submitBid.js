@@ -21,7 +21,7 @@ const SimpleState = require('./utils/simple-state');
 /**
  * Workload module for registering a Consumer with given account.
  */
-class RegisterConsumer extends OperationBase {
+class SubmitBid extends OperationBase {
 
     /**
      * Initializes the instance.
@@ -38,14 +38,11 @@ class RegisterConsumer extends OperationBase {
         const accountsPerWorker = this.numberOfAccounts / this.totalWorkers;
         return new SimpleState(
           this.workerIndex, 
-          this.account,
-          this.assetID,
-          this.blockAmount,
-          this.load,
-          this.offerControl,
-          this.consumerAssetID,
-          this.consumerLoad,
-          this.consumerOfferControl,
+          this.blockNumber,
+          this.offerAmount,
+          this.offerPrice,
+          this.bidAmount,
+          this.bidPrice,
           accountsPerWorker);
     }
 
@@ -54,8 +51,8 @@ class RegisterConsumer extends OperationBase {
      */
     async submitTransaction() {
       // account: str, assetId: str, blockAmount: num, Capacity: num, offerControl: str
-        const registerConsumerArgs = this.simpleState.getRegisterConsumerArguments();
-        await this.sutAdapter.sendRequests(this.createConnectorRequest('registerConsumer', registerConsumerArgs));
+        const submitBidArgs = this.simpleState.getSubmitBidArguments();
+        await this.sutAdapter.sendRequests(this.createConnectorRequest('submitBid', submitBidArgs));
     }
 }
 
@@ -64,7 +61,7 @@ class RegisterConsumer extends OperationBase {
  * @return {WorkloadModuleInterface}
  */
 function createWorkloadModule() {
-    return new RegisterConsumer();
+    return new SubmitBid();
 }
 
 module.exports.createWorkloadModule = createWorkloadModule;
