@@ -17,3 +17,6 @@ artifacts
 # python env
 venv
 *.out
+
+# benchmark logs
+caliper-benchmarks/caliper.log
