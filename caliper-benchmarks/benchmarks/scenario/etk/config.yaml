@@ -26,7 +26,7 @@ test:
     #       money: *money-to-transfer
     - label: transfer ETK tokens
       description: Transfering erc20 token between accounts.
-      txNumber: 100
+      txNumber: 1000
       rateControl:
         type: fixed-rate
         opts:
