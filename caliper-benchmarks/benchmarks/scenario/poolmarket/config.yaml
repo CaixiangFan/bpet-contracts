@@ -1,5 +1,5 @@
 simpleArgs: &simple-args
-  numberOfAccounts: 1
+  numberOfAccounts: 50
   blockNumber: 1
   offerAmount: 300
   offerPrice: 45

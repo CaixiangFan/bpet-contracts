@@ -9,6 +9,7 @@ services:
           - CALIPER_BIND_SUT=besu:1.4
           - CALIPER_BENCHCONFIG=benchmarks/scenario/etk/config.yaml
           - CALIPER_NETWORKCONFIG=networks/networkconfig.json
-          - CALIPER-FLOW-SKIP-INSTALL=true 
+          - CALIPER-FLOW-SKIP-INSTALL=true
+          - CALIPER_REPORT_PATH=reports/etk-report.html
         volumes:
           - .:/hyperledger/caliper/workspace

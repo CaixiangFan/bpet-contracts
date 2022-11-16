@@ -12,5 +12,6 @@ services:
         - CALIPER_BENCHCONFIG=benchmarks/scenario/registry/config.yaml
         - CALIPER_NETWORKCONFIG=networks/networkconfig.json
         - CALIPER-FLOW-SKIP-INSTALL=true
+        - CALIPER_REPORT_PATH=reports/registry-report.html
         volumes:
         - .:/hyperledger/caliper/workspace

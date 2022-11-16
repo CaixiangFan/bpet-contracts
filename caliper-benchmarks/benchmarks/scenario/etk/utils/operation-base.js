@@ -54,6 +54,7 @@ class OperationBase extends WorkloadModuleBase {
         this.numberOfAccounts = this.roundArguments.numberOfAccounts;
         this.toAddress = this.roundArguments.toAddress;
         this.simpleState = this.createSimpleState();
+        this.account = this.sutContext.fromAddress;
     }
 
     /**
@@ -113,7 +114,7 @@ class OperationBase extends WorkloadModuleBase {
      * @private
      */
     _createEthereumConnectorRequest(operation, args) {
-        const query = operation === 'query';
+        const query = operation === 'balanceOf';
         return {
             contract: 'etk',
             verb: operation,

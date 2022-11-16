@@ -24,8 +24,9 @@ class SimpleState {
     /**
      * Initializes the instance.
      */
-    constructor(workerIndex, moneyToTransfer, toAddress, accounts = 0) {
+    constructor(workerIndex, account, moneyToTransfer, toAddress, accounts = 0) {
         this.accountsGenerated = accounts;
+        this.account = account;
         this.moneyToTransfer = moneyToTransfer;
         this.toAddress = toAddress;
         this.accountPrefix = this._get26Num(workerIndex);
@@ -79,6 +80,16 @@ class SimpleState {
             amount: this.moneyToTransfer
         };
     }
+
+        /**
+     * Get the arguments for querying money from accounts.
+     * @returns {object} The account arguments.
+     */
+    getQueryArguments() {
+      return {
+          target: this.account,
+      };
+  }
 }
 
 module.exports = SimpleState;

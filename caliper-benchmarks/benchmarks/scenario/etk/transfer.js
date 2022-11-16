@@ -36,7 +36,7 @@ class Transfer extends OperationBase {
      */
     createSimpleState() {
         const accountsPerWorker = this.numberOfAccounts / this.totalWorkers;
-        return new SimpleState(this.workerIndex, this.moneyToTransfer, this.toAddress, accountsPerWorker);
+        return new SimpleState(this.workerIndex, this.account, this.moneyToTransfer, this.toAddress, accountsPerWorker);
     }
 
     /**
