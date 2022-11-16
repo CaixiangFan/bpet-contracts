@@ -1,6 +1,4 @@
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import os
 import progressbar as pb
@@ -36,7 +34,6 @@ def download_data(reportName: str, beginDate: str, endDate: str) -> pd.DataFrame
         )
         i += 1
         bar.update(i)
-        # print('downloading ', currDate.strftime(format))
         df = pd.read_csv(requestUrl, skiprows=skiprows, engine='python')
         concatList.append(df)
         currDate = nextDate
@@ -47,4 +44,4 @@ def download_data(reportName: str, beginDate: str, endDate: str) -> pd.DataFrame
     return concatedDf
 
 
-download_data('MeritOrderSnapshotEnergy', '09012021', '10312021')
+download_data('HistoricalSystemMarginalPrice', '09012021', '08312022')
