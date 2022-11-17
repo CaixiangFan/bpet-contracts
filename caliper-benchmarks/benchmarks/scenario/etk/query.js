@@ -48,8 +48,10 @@ class Query extends OperationBase {
      * Assemble TXs for Querying money.
      */
     async submitTransaction() {
-        const QueryArgs = this.simpleState.getQueryArguments();
-        await this.sutAdapter.sendRequests(this.createConnectorRequest('balanceOf', QueryArgs));
+        const queryArgs = this.simpleState.getQueryArguments();
+        console.log(queryArgs);
+        console.log(this.createConnectorRequest('balanceOf', queryArgs));
+        await this.sutAdapter.sendRequests(this.createConnectorRequest('balanceOf', queryArgs));
     }
 }
 

@@ -52,6 +52,7 @@ class SubmitBid extends OperationBase {
     async submitTransaction() {
       // account: str, assetId: str, blockAmount: num, Capacity: num, offerControl: str
         const submitBidArgs = this.simpleState.getSubmitBidArguments();
+        console.log(submitBidArgs);
         await this.sutAdapter.sendRequests(this.createConnectorRequest('submitBid', submitBidArgs));
     }
 }

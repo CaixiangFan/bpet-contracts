@@ -86,9 +86,9 @@ class SimpleState {
      * @returns {object} The account arguments.
      */
     getQueryArguments() {
-      return {
-          target: this.account,
-      };
+        return {
+            target: this.account,
+        };
   }
 }
 
