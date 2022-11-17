@@ -52,9 +52,9 @@ class OperationBase extends WorkloadModuleBase {
         // this.initialMoney = this.roundArguments.initialMoney;
         this.moneyToTransfer = this.roundArguments.moneyToTransfer;
         this.numberOfAccounts = this.roundArguments.numberOfAccounts;
+        this.account = this.sutContext.fromAddress;
         this.toAddress = this.roundArguments.toAddress;
         this.simpleState = this.createSimpleState();
-        this.account = this.sutContext.fromAddress;
     }
 
     /**
