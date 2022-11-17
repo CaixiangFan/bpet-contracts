@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import "dotenv/config";
+import * as _fs from "fs";
 import * as tokenJson from "../artifacts/contracts/EnergyToken.sol/EnergyToken.json";
 import * as registryJson from "../artifacts/contracts/Registry.sol/Registry.json";
 import * as poolMarketJson from "../artifacts/contracts/PoolMarket.sol/PoolMarket.json";
@@ -119,6 +120,40 @@ async function main() {
   console.log(`var REGISTRY_CONTRACT_ADDRESS = '${registryAddress}'`);
   console.log(`var POOLMARKET_CONTRACT_ADDRESS = '${poolmarketAddress}'`);
   console.log(`var PAYMENT_CONTRACT_ADDRESS = '${paymentAddress}'`);
+
+  console.log("Updating contracts addresses in the .env file...");
+
+  await updateEnvFile(
+    tokenAddress,
+    registryAddress,
+    poolmarketAddress,
+    paymentAddress
+  );
+}
+
+async function updateEnvFile(
+  tokenAddress: string,
+  registryAddress: string,
+  poolmarketAddress: string,
+  paymentAddress: string
+) {
+  // console.log(process.cwd());
+  const dirPath = ".env";
+
+  try {
+    const fileData = await _fs.promises.readFile(dirPath);
+    var fileAsStr = fileData.toString("utf8");
+
+    var str = fileAsStr.split("TOKEN_CONTRACT_ADDRESS")[0];
+    var address1 = `TOKEN_CONTRACT_ADDRESS = ${tokenAddress}`;
+    var address2 = `REGISTRY_CONTRACT_ADDRESS = ${registryAddress}`;
+    var address3 = `POOLMARKET_CONTRACT_ADDRESS = ${poolmarketAddress}`;
+    var address4 = `PAYMENT_CONTRACT_ADDRESS = ${paymentAddress}`;
+    var addresses = `${address1}\n${address2}\n${address3}\n${address4}`;
+    await _fs.promises.writeFile(dirPath, str + addresses, "utf8");
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 main().catch((error) => {
