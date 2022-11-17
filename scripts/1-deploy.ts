@@ -121,6 +121,7 @@ async function main() {
   console.log(`var POOLMARKET_CONTRACT_ADDRESS = '${poolmarketAddress}'`);
   console.log(`var PAYMENT_CONTRACT_ADDRESS = '${paymentAddress}'`);
 
+  console.log("=====================");
   console.log("Updating contracts addresses in the .env file...");
 
   await updateEnvFile(
@@ -137,7 +138,6 @@ async function updateEnvFile(
   poolmarketAddress: string,
   paymentAddress: string
 ) {
-  // console.log(process.cwd());
   const dirPath = ".env";
 
   try {

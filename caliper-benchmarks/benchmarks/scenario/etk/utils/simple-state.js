@@ -25,11 +25,11 @@ class SimpleState {
      * Initializes the instance.
      */
     constructor(workerIndex, account, moneyToTransfer, toAddress, accounts = 0) {
+        this.workerIndex = workerIndex;
         this.accountsGenerated = accounts;
         this.account = account;
         this.moneyToTransfer = moneyToTransfer;
         this.toAddress = toAddress;
-        this.accountPrefix = this._get26Num(workerIndex);
     }
 
     /**

@@ -52,6 +52,7 @@ class RegisterSupplier extends OperationBase {
     async submitTransaction() {
       // account: str, assetId: str, blockAmount: num, Capacity: num, offerControl: str
         const registerSupplierArgs = this.simpleState.getRegisterSupplierArguments();
+        // console.log(registerSupplierArgs.account);
         await this.sutAdapter.sendRequests(this.createConnectorRequest('registerSupplier', registerSupplierArgs));
     }
 }

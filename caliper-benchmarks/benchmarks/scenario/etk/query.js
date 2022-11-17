@@ -37,10 +37,10 @@ class Query extends OperationBase {
     createSimpleState() {
         const accountsPerWorker = this.numberOfAccounts / this.totalWorkers;
         return new SimpleState(
-          this.workerIndex, 
+          this.workerIndex,
           this.account,
-          this.moneyToTransfer, 
-          this.toAddress, 
+          this.moneyToTransfer,
+          this.toAddress,
           accountsPerWorker);
     }
 
@@ -49,8 +49,6 @@ class Query extends OperationBase {
      */
     async submitTransaction() {
         const queryArgs = this.simpleState.getQueryArguments();
-        console.log(queryArgs);
-        console.log(this.createConnectorRequest('balanceOf', queryArgs));
         await this.sutAdapter.sendRequests(this.createConnectorRequest('balanceOf', queryArgs));
     }
 }
