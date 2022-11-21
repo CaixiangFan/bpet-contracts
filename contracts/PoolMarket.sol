@@ -45,10 +45,8 @@ contract PoolMarket is Ownable, IPoolMarket{
   uint public maxAllowedPrice;
   mapping(uint => bytes32) public systemMarginalOfferIDs; //map the time in minute in the form of Unix time (uint32) to the system marginal offerID
   mapping(uint => uint) public poolPrices; // map the time in hour in the form of Unix time (uint32) to the poolPrices
-  // mapping(uint => uint) public totalDemands; // map the time in minute in the form of Unix time (uint32) to the total demand
   uint[] public systemMarginalMinutes; //store time in minute in the form of Unix time (uint32) used to index the systemMarginalOfferIDs 
   uint[] public poolPriceHours; //store time in hour in the form of Unix time (uint32) used to index the poolPrices
-  // uint[] public totalDemandMinutes; // store time in minute in the form of Unix time (uint32) used to index the totalDemands
   uint public currentTotalDemand; //track current total demand
 
   event OfferSubmitted(bytes32 offerId, uint amount, uint price);
@@ -152,26 +150,8 @@ contract PoolMarket is Ownable, IPoolMarket{
         validOfferIDs.pop();
       }
     }
-    // calculateSMP();
     emit OfferDeleted(offerId);
   }
-
-  // /**
-  // @dev Updates AIL in realtime. This triggers SMP calculation.
-  // AIL is collected from substations/smart meters.
-  //  */
-  // function updateDemand() private {
-  //   uint totalAmount = 0;
-  //   for (uint i = 0; i < validBidIDs.length; i ++) {
-  //     totalAmount += energyBids[validBidIDs[i]].amount;
-  //   }
-  //   require( totalAmount < registryContract.getTotalCapacity(), "Demand exceeds total supply");
-  //   uint currMinute = block.timestamp / 60 * 60;
-  //   totalDemands[currMinute] = totalAmount;
-  //   totalDemandMinutes.push(currMinute);
-  //   // calculateSMP();
-  //   emit DemandChanged(totalAmount);
-  // }
 
   /**
   @dev Submit bid to pool market will change AIL; one account only allows to have one bid in an interval;
@@ -304,7 +284,7 @@ contract PoolMarket is Ownable, IPoolMarket{
   }
 
   /**
-  @dev Get a snapshot of AIL by summating all bids' amounts.
+  @dev Set a snapshot of AIL by summating all bids' amounts.
   In reality, AIL might be collected from substations/smart meters.
    */
   function setTotalDemand() public {
@@ -314,30 +294,20 @@ contract PoolMarket is Ownable, IPoolMarket{
     }
     require( totalAmount < registryContract.getTotalCapacity(), "Demand exceeds total supply");
     currentTotalDemand = totalAmount;
+    emit DemandChanged(totalAmount);
   }
 
     /**
-  @dev Get a snapshot of AIL by summating all bids' amounts.
+  @dev Get a snapshot of current total demand.
   In reality, AIL might be collected from substations/smart meters.
    */
   function getTotalDemand() public view returns(uint) {
     return currentTotalDemand;
   }
 
-  // /**
-  // @dev Query the index in timestamps of all demands. 
-  //  */
-  // function getTotalDemandMinutes() public view returns(uint[] memory) {
-  //   return totalDemandMinutes;
-  // }
-
   function getPoolpriceHours() public view returns(uint[] memory) {
     return poolPriceHours;
   }
-
-  // function getLatestTotalDemand() public view returns(uint) {
-  //   return totalDemands[totalDemandMinutes[totalDemandMinutes.length - 1]];
-  // }
 
   function getRegisteredSupplierAssetId() public view returns(string memory) {
     return registryContract.getSupplier(msg.sender).assetId;
