@@ -32,8 +32,8 @@ contract PoolMarket is Ownable, IPoolMarket{
     address consumerAccount; //The account of the consumer
   }
 
-  mapping(bytes32 => Offer) public energyOffers; //offerId is the Hash value of assetId+blockNumber
-  mapping(bytes32 => Bid) public energyBids; //bidId is the hash value of assetId
+  mapping(bytes32 => Offer) public energyOffers; //offerId is the keccak256 Hash value of assetId+blockNumber
+  mapping(bytes32 => Bid) public energyBids; //bidId is the keccak256 hash value of assetId
   mapping(uint => DispatchedOffer[]) public dispatchedOffers;
   bytes32[] public validOfferIDs; // The valid offers (only offerIDs) used to calculate the merit order
   bytes32[] public validBidIDs; // The valid bids (only bidIDs) used to calculate the merit order
@@ -45,10 +45,11 @@ contract PoolMarket is Ownable, IPoolMarket{
   uint public maxAllowedPrice;
   mapping(uint => bytes32) public systemMarginalOfferIDs; //map the time in minute in the form of Unix time (uint32) to the system marginal offerID
   mapping(uint => uint) public poolPrices; // map the time in hour in the form of Unix time (uint32) to the poolPrices
-  mapping(uint => uint) public totalDemands; // map the time in minute in the form of Unix time (uint32) to the total demand
+  // mapping(uint => uint) public totalDemands; // map the time in minute in the form of Unix time (uint32) to the total demand
   uint[] public systemMarginalMinutes; //store time in minute in the form of Unix time (uint32) used to index the systemMarginalOfferIDs 
   uint[] public poolPriceHours; //store time in hour in the form of Unix time (uint32) used to index the poolPrices
-  uint[] public totalDemandMinutes; // store time in minute in the form of Unix time (uint32) used to index the totalDemands
+  // uint[] public totalDemandMinutes; // store time in minute in the form of Unix time (uint32) used to index the totalDemands
+  uint public currentTotalDemand; //track current total demand
 
   event OfferSubmitted(bytes32 offerId, uint amount, uint price);
   event BidSubmitted(bytes32 bidId, uint amount, uint price);
@@ -109,6 +110,7 @@ contract PoolMarket is Ownable, IPoolMarket{
     {
     require(marketState == MarketState.Open, "Market closed");
     require(amount <= registryContract.getSupplier(msg.sender).capacity, "Offered amount exceeds capacity");
+    // generate offerId as the hash value of sender account and blockNumber.
     bytes32 offerId = keccak256(abi.encodePacked(msg.sender, blockNumber));
     uint submitMinute = block.timestamp / 60 * 60;
     energyOffers[offerId] = Offer(amount, price, submitMinute, msg.sender, true);
@@ -124,9 +126,6 @@ contract PoolMarket is Ownable, IPoolMarket{
     if (!offerIdExists) {
       validOfferIDs.push(offerId);
     }
-    if (totalDemandMinutes.length > 0) {
-      calculateSMP();
-    }
     emit OfferSubmitted(offerId, amount, price);
   }
 
@@ -139,8 +138,8 @@ contract PoolMarket is Ownable, IPoolMarket{
   ) public registeredSupplier(msg.sender) {
     require(marketState == MarketState.Open, "Bidding closed");
     require(
-      keccak256(abi.encodePacked(_assetId)) == 
-      keccak256(abi.encodePacked(registryContract.getSupplier(msg.sender).assetId)),
+      keccak256(abi.encode(_assetId)) == 
+      keccak256(abi.encode(registryContract.getSupplier(msg.sender).assetId)),
        "Cannot submit offer for others");
     bytes32 offerId = keccak256(abi.encodePacked(_assetId, _blockNumber));
     uint submitMinute = block.timestamp / 60 * 60;
@@ -153,26 +152,26 @@ contract PoolMarket is Ownable, IPoolMarket{
         validOfferIDs.pop();
       }
     }
-    calculateSMP();
+    // calculateSMP();
     emit OfferDeleted(offerId);
   }
 
-  /**
-  @dev Updates AIL in realtime. This triggers SMP calculation.
-  AIL is collected from substations/smart meters.
-   */
-  function updateDemand() private {
-    uint totalAmount = 0;
-    for (uint i = 0; i < validBidIDs.length; i ++) {
-      totalAmount += energyBids[validBidIDs[i]].amount;
-    }
-    require( totalAmount < registryContract.getTotalCapacity(), "Demand exceeds total supply");
-    uint currMinute = block.timestamp / 60 * 60;
-    totalDemands[currMinute] = totalAmount;
-    totalDemandMinutes.push(currMinute);
-    calculateSMP();
-    emit DemandChanged(totalAmount);
-  }
+  // /**
+  // @dev Updates AIL in realtime. This triggers SMP calculation.
+  // AIL is collected from substations/smart meters.
+  //  */
+  // function updateDemand() private {
+  //   uint totalAmount = 0;
+  //   for (uint i = 0; i < validBidIDs.length; i ++) {
+  //     totalAmount += energyBids[validBidIDs[i]].amount;
+  //   }
+  //   require( totalAmount < registryContract.getTotalCapacity(), "Demand exceeds total supply");
+  //   uint currMinute = block.timestamp / 60 * 60;
+  //   totalDemands[currMinute] = totalAmount;
+  //   totalDemandMinutes.push(currMinute);
+  //   // calculateSMP();
+  //   emit DemandChanged(totalAmount);
+  // }
 
   /**
   @dev Submit bid to pool market will change AIL; one account only allows to have one bid in an interval;
@@ -187,17 +186,25 @@ contract PoolMarket is Ownable, IPoolMarket{
     validBid(_amount, _price, msg.sender)
     {
     require(marketState == MarketState.Open, "Bidding closed");
-    bytes32 bidId = keccak256(abi.encodePacked(msg.sender));
-    uint submitMinute = block.timestamp / 60 * 60;
-    energyBids[bidId] = Bid(_amount, _price, submitMinute, msg.sender);
-    bool _bidIdExists = false;
+    // An account can only maintain a bid state
+    // Generate bidId for a submitted bid based on the sender account
+    bytes32 bidId = keccak256(abi.encode(msg.sender));
+    uint currentBidAmount = 0;
     for (uint i=0; i < validBidIDs.length; i++) {
+      // check if current bid exists with the same account and different amounts
       if (bidId == validBidIDs[i]) {
-        _bidIdExists = true;
+        currentBidAmount = energyBids[validBidIDs[i]].amount;
+        break;
       }
     }
-    if (!_bidIdExists) { validBidIDs.push(bidId); }
-    updateDemand();
+    require(currentTotalDemand - currentBidAmount + _amount <= registryContract.getTotalCapacity(), "Demand exceeds total supply");
+    if (currentBidAmount == 0) { 
+      // if current bid does not exist, add the bidId to the index list
+      validBidIDs.push(bidId); 
+    }
+    uint submitMinute = block.timestamp / 60 * 60;
+    // update current bid or add a new bid
+    energyBids[bidId] = Bid(_amount, _price, submitMinute, msg.sender);
     emit BidSubmitted(bidId, _amount, _price);
   }
 
@@ -217,47 +224,51 @@ contract PoolMarket is Ownable, IPoolMarket{
     return meritOrderSnapshot;
   }
 
-  ///@dev calculate the system marginal price when demand or offers change
-  function calculateSMP() private {
-    //during calculating the SMP, system cannot accept new offers/bids
-    //this requires a high-performance blockchain system to process this transaction
-    //in a very short time, otherwise services stop for a long period time
-    marketState = MarketState.Closed;
-    uint aggregatedOfferAmount = 0;
-    uint latestTotalDemand = totalDemands[totalDemandMinutes[totalDemandMinutes.length - 1]]; // get the latest total demand
-    // get the ascending sorted energyOffers (offerId)
-    bytes32[] memory meritOrderOfferIDs = getMeritOrderSnapshot();
-    uint nowHour = block.timestamp / 3600 * 3600;
-    for (uint i=0; i < meritOrderOfferIDs.length; i++) {
-      address supplierAccount = energyOffers[meritOrderOfferIDs[i]].supplierAccount;
-      uint amount = energyOffers[meritOrderOfferIDs[i]].amount;
-      aggregatedOfferAmount += amount;
-      dispatchedOffers[nowHour].push(DispatchedOffer(supplierAccount, amount, block.timestamp));
-      //use the merit order effect to calculate the SMP,
-      if (aggregatedOfferAmount >= latestTotalDemand) {
-        uint nowMinute = block.timestamp / 60 * 60;
-        systemMarginalOfferIDs[nowMinute] = meritOrderOfferIDs[i];
-        systemMarginalMinutes.push(nowMinute);
-        break;
-      }
-    }
-
-    // Loop to aggregate all dispatched energy of each account
-    for (uint j=0; j < dispatchedOffers[nowHour].length; j++) {
-      address supplierAccount = dispatchedOffers[nowHour][j].supplierAccount;
-      uint dispatchedAmount = dispatchedOffers[nowHour][j].dispatchedAmount;
-      uint dispatchedAt = dispatchedOffers[nowHour][j].dispatchedAt;
-      for (uint k=j+1; k < dispatchedOffers[nowHour].length; k++) {
-        if (dispatchedOffers[nowHour][k].supplierAccount == supplierAccount) {
-          uint len = dispatchedOffers[nowHour].length;
-          dispatchedAmount += dispatchedOffers[nowHour][k].dispatchedAmount;
-          dispatchedOffers[nowHour][k] = dispatchedOffers[nowHour][len - 1];
-          dispatchedOffers[nowHour].pop();
+  ///@dev Calculate the system marginal price. This happens regularly through external function calls.
+  function calculateSMP() public onlyOwner {
+    if (validBidIDs.length>0 && validOfferIDs.length>0) {
+      //during calculating the SMP, system cannot accept new offers/bids
+      //this requires a high-performance blockchain system to process this transaction
+      //in a very short time, otherwise services stop for a long period time
+      marketState = MarketState.Closed;
+      setTotalDemand();
+      uint aggregatedOfferAmount = 0;
+      // get the latest total demand
+      uint latestTotalDemand = getTotalDemand(); 
+      // get the ascending sorted energyOffers (offerId)
+      bytes32[] memory meritOrderOfferIDs = getMeritOrderSnapshot();
+      uint nowHour = block.timestamp / 3600 * 3600;
+      for (uint i=0; i < meritOrderOfferIDs.length; i++) {
+        address supplierAccount = energyOffers[meritOrderOfferIDs[i]].supplierAccount;
+        uint amount = energyOffers[meritOrderOfferIDs[i]].amount;
+        aggregatedOfferAmount += amount;
+        dispatchedOffers[nowHour].push(DispatchedOffer(supplierAccount, amount, block.timestamp));
+        //use the merit order effect to calculate the SMP,
+        if (aggregatedOfferAmount >= latestTotalDemand) {
+          uint nowMinute = block.timestamp / 60 * 60;
+          systemMarginalOfferIDs[nowMinute] = meritOrderOfferIDs[i];
+          systemMarginalMinutes.push(nowMinute);
+          break;
         }
       }
-      dispatchedOffers[nowHour][j] = DispatchedOffer(supplierAccount, dispatchedAmount, dispatchedAt);
+
+      // Loop to aggregate all dispatched energy of each account
+      for (uint j=0; j < dispatchedOffers[nowHour].length; j++) {
+        address supplierAccount = dispatchedOffers[nowHour][j].supplierAccount;
+        uint dispatchedAmount = dispatchedOffers[nowHour][j].dispatchedAmount;
+        uint dispatchedAt = dispatchedOffers[nowHour][j].dispatchedAt;
+        for (uint k=j+1; k < dispatchedOffers[nowHour].length; k++) {
+          if (dispatchedOffers[nowHour][k].supplierAccount == supplierAccount) {
+            uint len = dispatchedOffers[nowHour].length;
+            dispatchedAmount += dispatchedOffers[nowHour][k].dispatchedAmount;
+            dispatchedOffers[nowHour][k] = dispatchedOffers[nowHour][len - 1];
+            dispatchedOffers[nowHour].pop();
+          }
+        }
+        dispatchedOffers[nowHour][j] = DispatchedOffer(supplierAccount, dispatchedAmount, dispatchedAt);
+      }
+      marketState = MarketState.Open;
     }
-    marketState = MarketState.Open;
   }
 
   /**
@@ -266,7 +277,7 @@ contract PoolMarket is Ownable, IPoolMarket{
   At the beginning of each hour, calculateSMP must be executed.
   Params: hour is the hour beginning of the calculation duration
    */
-  function calculatePoolPrice(uint hour) public {
+  function calculatePoolPrice(uint hour) public onlyOwner {
     require(hour < block.timestamp, "Hour is not valid");
     //calculate a smp for that hour timestamp before calculating pool price
     //this makes sure at least one msp exists in that hour
@@ -293,19 +304,40 @@ contract PoolMarket is Ownable, IPoolMarket{
   }
 
   /**
-  @dev Query the index in timestamps of all demands. 
+  @dev Get a snapshot of AIL by summating all bids' amounts.
+  In reality, AIL might be collected from substations/smart meters.
    */
-  function getTotalDemandMinutes() public view returns(uint[] memory) {
-    return totalDemandMinutes;
+  function setTotalDemand() public {
+    uint totalAmount = 0;
+    for (uint i = 0; i < validBidIDs.length; i ++) {
+      totalAmount += energyBids[validBidIDs[i]].amount;
+    }
+    require( totalAmount < registryContract.getTotalCapacity(), "Demand exceeds total supply");
+    currentTotalDemand = totalAmount;
   }
+
+    /**
+  @dev Get a snapshot of AIL by summating all bids' amounts.
+  In reality, AIL might be collected from substations/smart meters.
+   */
+  function getTotalDemand() public view returns(uint) {
+    return currentTotalDemand;
+  }
+
+  // /**
+  // @dev Query the index in timestamps of all demands. 
+  //  */
+  // function getTotalDemandMinutes() public view returns(uint[] memory) {
+  //   return totalDemandMinutes;
+  // }
 
   function getPoolpriceHours() public view returns(uint[] memory) {
     return poolPriceHours;
   }
 
-  function getLatestTotalDemand() public view returns(uint) {
-    return totalDemands[totalDemandMinutes[totalDemandMinutes.length - 1]];
-  }
+  // function getLatestTotalDemand() public view returns(uint) {
+  //   return totalDemands[totalDemandMinutes[totalDemandMinutes.length - 1]];
+  // }
 
   function getRegisteredSupplierAssetId() public view returns(string memory) {
     return registryContract.getSupplier(msg.sender).assetId;
