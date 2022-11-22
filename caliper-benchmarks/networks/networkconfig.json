@@ -3,7 +3,7 @@
         "blockchain": "ethereum"
     },
     "ethereum": {
-        "url": "ws://192.168.226.183:8546",
+        "url": "ws://192.168.226.178:8546",
         "contractDeployerAddress": "0x4c4F4178198f8545C70f0Fe70BdCF2Cd56e26840",
         "contractDeployerAddressPrivateKey": "0xb1eecabf290fa3300291f6c23fa5674f84407510b9975e4f8cfbe052038bc20b",
         "fromAddressSeed": "0x3f841bf589fdf83a521e55d51afddc34fa65351161eead24f064855fc29c9580",
@@ -602,6 +602,26 @@
                   "type": "function"
                 },
                 {
+                  "inputs": [],
+                  "name": "calculateSMP",
+                  "outputs": [],
+                  "stateMutability": "nonpayable",
+                  "type": "function"
+                },
+                {
+                  "inputs": [],
+                  "name": "currentTotalDemand",
+                  "outputs": [
+                    {
+                      "internalType": "uint256",
+                      "name": "",
+                      "type": "uint256"
+                    }
+                  ],
+                  "stateMutability": "view",
+                  "type": "function"
+                },
+                {
                   "inputs": [
                     {
                       "internalType": "string",
@@ -850,19 +870,6 @@
                   "type": "function"
                 },
                 {
-                  "inputs": [],
-                  "name": "getLatestTotalDemand",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
                   "inputs": [
                     {
                       "internalType": "uint256",
@@ -974,12 +981,12 @@
                 },
                 {
                   "inputs": [],
-                  "name": "getTotalDemandMinutes",
+                  "name": "getTotalDemand",
                   "outputs": [
                     {
-                      "internalType": "uint256[]",
+                      "internalType": "uint256",
                       "name": "",
-                      "type": "uint256[]"
+                      "type": "uint256"
                     }
                   ],
                   "stateMutability": "view",
@@ -1122,6 +1129,13 @@
                   "type": "function"
                 },
                 {
+                  "inputs": [],
+                  "name": "setTotalDemand",
+                  "outputs": [],
+                  "stateMutability": "nonpayable",
+                  "type": "function"
+                },
+                {
                   "inputs": [
                     {
                       "internalType": "uint256",
@@ -1195,44 +1209,6 @@
                       "internalType": "bytes32",
                       "name": "",
                       "type": "bytes32"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "totalDemandMinutes",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "totalDemands",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
                     }
                   ],
                   "stateMutability": "view",
