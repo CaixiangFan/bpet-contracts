@@ -1,5 +1,5 @@
 simpleArgs: &simple-args
-  numberOfAccounts: 50
+  numberOfAccounts: 10
   blockNumber: 1
   offerAmount: 300
   offerPrice: 45
@@ -12,15 +12,15 @@ test:
     To benchmark the network transactions.
   workers:
     type: local
-    number: 50
+    number: 10
   rounds:
     - label: submit offers
       description: Sumitting an offer to market with given account and info.
-      txNumber: 50
+      txNumber: 10
       rateControl:
         type: fixed-rate
         opts:
-          tps: 50
+          tps: 10
       workload:
         module: benchmarks/scenario/poolmarket/submitOffer.js
         arguments:
@@ -28,11 +28,11 @@ test:
 
     - label: submit bids
       description: Sumitting a bid to market with given account and info.
-      txNumber: 50
+      txNumber: 10
       rateControl:
         type: fixed-rate
         opts:
-          tps: 50
+          tps: 10
       workload:
         module: benchmarks/scenario/poolmarket/submitBid.js
         arguments:

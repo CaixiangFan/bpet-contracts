@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import "dotenv/config";
 
 async function request(body: string) {
-  const defaultURL = "http//192.168.226.178:8545";
+  const defaultURL = "http//192.168.226.162:8545";
   const response = await fetch(process.env.BESU_URL || defaultURL, {
     method: "POST",
     body: body,

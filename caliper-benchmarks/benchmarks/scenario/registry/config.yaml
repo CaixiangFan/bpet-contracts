@@ -1,5 +1,5 @@
 simpleArgs: &simple-args
-  numberOfAccounts: 50
+  numberOfAccounts: 10
   assetID: 'SUPPLIER'
   blockAmount: 3
   capacity: 300
@@ -14,15 +14,15 @@ test:
     To benchmark the network transactions.
   workers:
     type: local
-    number: 50
+    number: 10
   rounds:
     - label: register suppliers
       description: Registering a supplier with given account and info.
-      txNumber: 50
+      txNumber: 10
       rateControl:
         type: fixed-rate
         opts:
-          tps: 50
+          tps: 10
       workload:
         module: benchmarks/scenario/registry/registerSupplier.js
         arguments:
@@ -30,11 +30,11 @@ test:
           
     - label: register consumers
       description: Registering a consumer with given account and info.
-      txNumber: 50
+      txNumber: 10
       rateControl:
         type: fixed-rate
         opts:
-          tps: 50
+          tps: 10
       workload:
         module: benchmarks/scenario/registry/registerConsumer.js
         arguments:
