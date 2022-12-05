@@ -47,12 +47,24 @@ contract PoolMarket is Ownable, IPoolMarket{
   mapping(uint => uint) public poolPrices; // map the time in hour in the form of Unix time (uint32) to the poolPrices
   uint[] public systemMarginalMinutes; //store time in minute in the form of Unix time (uint32) used to index the systemMarginalOfferIDs 
   uint[] public poolPriceHours; //store time in hour in the form of Unix time (uint32) used to index the poolPrices
-  uint public currentTotalDemand; //track current total demand
+  mapping(uint => uint) public totalDemands; // map the time in minute in the form of Unix time (uint32) to the total demand
+  uint[] public totalDemandMinutes; // store time in minute in the form of Unix time (uint32) used to index the totalDemands
 
-  event OfferSubmitted(bytes32 offerId, uint amount, uint price);
-  event BidSubmitted(bytes32 bidId, uint amount, uint price);
+  event OfferSubmitted(
+    uint indexed amount, 
+    uint indexed price,
+    address sender
+  );
+  event BidSubmitted(
+    uint indexed amount, 
+    uint indexed price,
+    address sender
+  );
   event OfferDeleted(bytes32 offerId);
-  event DemandChanged(uint ail);
+  event DemandChanged(
+    uint indexed oldTotalDemand,
+    uint indexed newTotalDemand
+  );
 
   modifier registeredSupplier(address account) {
     require(registryContract.isRegisteredSupplier(account), "Unregistered supplier");
@@ -124,7 +136,7 @@ contract PoolMarket is Ownable, IPoolMarket{
     if (!offerIdExists) {
       validOfferIDs.push(offerId);
     }
-    emit OfferSubmitted(offerId, amount, price);
+    emit OfferSubmitted(amount, price, msg.sender);
   }
 
   /**
@@ -177,6 +189,7 @@ contract PoolMarket is Ownable, IPoolMarket{
         break;
       }
     }
+    uint currentTotalDemand = getLatestTotalDemand();
     require(currentTotalDemand - currentBidAmount + _amount <= registryContract.getTotalCapacity(), "Demand exceeds total supply");
     if (currentBidAmount == 0) { 
       // if current bid does not exist, add the bidId to the index list
@@ -185,19 +198,24 @@ contract PoolMarket is Ownable, IPoolMarket{
     uint submitMinute = block.timestamp / 60 * 60;
     // update current bid or add a new bid
     energyBids[bidId] = Bid(_amount, _price, submitMinute, msg.sender);
-    emit BidSubmitted(bidId, _amount, _price);
+    emit BidSubmitted(_amount, _price, msg.sender);
   }
 
+  /**
+  @dev Sort current valid offers by price and return a snapshot of merit order list (only offer IDs).
+   */
   function getMeritOrderSnapshot() private view returns(bytes32[] memory){
     bytes32[] memory meritOrderSnapshot = validOfferIDs;
     uint len = meritOrderSnapshot.length;
     for(uint i = 0; i < len; i++) {
-      for(uint j = i+1; j < len; j++) {
-        if( energyOffers[meritOrderSnapshot[i]].price > 
-        energyOffers[meritOrderSnapshot[j]].price) {
-          bytes32 temp = meritOrderSnapshot[i];
-          meritOrderSnapshot[i] = meritOrderSnapshot[j];
-          meritOrderSnapshot[j] = temp;
+      if(energyOffers[meritOrderSnapshot[i]].isValid) {
+        for(uint j = i+1; j < len; j++) {
+          if(energyOffers[meritOrderSnapshot[i]].price > 
+          energyOffers[meritOrderSnapshot[j]].price) {
+            bytes32 temp = meritOrderSnapshot[i];
+            meritOrderSnapshot[i] = meritOrderSnapshot[j];
+            meritOrderSnapshot[j] = temp;
+          }
         }
       }
     }
@@ -205,16 +223,16 @@ contract PoolMarket is Ownable, IPoolMarket{
   }
 
   ///@dev Calculate the system marginal price. This happens regularly through external function calls.
-  function calculateSMP() public onlyOwner {
+  function calculateSMP(bool bidUpdated) public onlyOwner {
     if (validBidIDs.length>0 && validOfferIDs.length>0) {
       //during calculating the SMP, system cannot accept new offers/bids
       //this requires a high-performance blockchain system to process this transaction
       //in a very short time, otherwise services stop for a long period time
       marketState = MarketState.Closed;
-      setTotalDemand();
+      if (bidUpdated) updateDemand();
       uint aggregatedOfferAmount = 0;
       // get the latest total demand
-      uint latestTotalDemand = getTotalDemand(); 
+      uint latestTotalDemand = getLatestTotalDemand(); 
       // get the ascending sorted energyOffers (offerId)
       bytes32[] memory meritOrderOfferIDs = getMeritOrderSnapshot();
       uint nowHour = block.timestamp / 3600 * 3600;
@@ -261,7 +279,7 @@ contract PoolMarket is Ownable, IPoolMarket{
     require(hour < block.timestamp, "Hour is not valid");
     //calculate a smp for that hour timestamp before calculating pool price
     //this makes sure at least one msp exists in that hour
-    calculateSMP();
+    calculateSMP(true);
     uint poolPrice = 0;
     uint cummulatedPrice = 0;
     for (uint i=0; i<systemMarginalMinutes.length; i++) {
@@ -284,25 +302,32 @@ contract PoolMarket is Ownable, IPoolMarket{
   }
 
   /**
-  @dev Set a snapshot of AIL by summating all bids' amounts.
-  In reality, AIL might be collected from substations/smart meters.
+  @dev Updates AIL in realtime. This triggers SMP calculation.
+  AIL is collected from substations/smart meters.
    */
-  function setTotalDemand() public {
+  function updateDemand() private {
     uint totalAmount = 0;
     for (uint i = 0; i < validBidIDs.length; i ++) {
       totalAmount += energyBids[validBidIDs[i]].amount;
     }
     require( totalAmount < registryContract.getTotalCapacity(), "Demand exceeds total supply");
-    currentTotalDemand = totalAmount;
-    emit DemandChanged(totalAmount);
+    uint currMinute = block.timestamp / 60 * 60;
+    uint currentTotalDemand = getLatestTotalDemand();
+    emit DemandChanged(currentTotalDemand, totalAmount);
+    totalDemands[currMinute] = totalAmount;
+    totalDemandMinutes.push(currMinute);
   }
 
     /**
   @dev Get a snapshot of current total demand.
   In reality, AIL might be collected from substations/smart meters.
    */
-  function getTotalDemand() public view returns(uint) {
-    return currentTotalDemand;
+  function getLatestTotalDemand() public view returns(uint) {
+    uint demandsLength = totalDemandMinutes.length;
+    if (demandsLength > 0) {
+      return totalDemands[totalDemandMinutes[totalDemandMinutes.length - 1]];
+    }
+    return 0;
   }
 
   function getPoolpriceHours() public view returns(uint[] memory) {
@@ -311,6 +336,10 @@ contract PoolMarket is Ownable, IPoolMarket{
 
   function getRegisteredSupplierAssetId() public view returns(string memory) {
     return registryContract.getSupplier(msg.sender).assetId;
+  }
+
+  function getSystemMarginalMinutes() public view returns (uint [] memory) {
+    return systemMarginalMinutes;
   }
 
   /**
