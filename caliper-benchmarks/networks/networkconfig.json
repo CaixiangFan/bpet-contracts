@@ -3,14 +3,14 @@
         "blockchain": "ethereum"
     },
     "ethereum": {
-        "url": "ws://192.168.226.89:8546",
-        "contractDeployerAddress": "0x4c4F4178198f8545C70f0Fe70BdCF2Cd56e26840",
-        "contractDeployerAddressPrivateKey": "0xb1eecabf290fa3300291f6c23fa5674f84407510b9975e4f8cfbe052038bc20b",
+        "url": "ws://192.168.226.243:8546",
+        "contractDeployerAddress": "0x8b7A99C5A9FD537370d94b68FBaf3F3FAfb50083",
+        "contractDeployerAddressPrivateKey": "d813a80f0534815827a582a2afe2ffad74040d4c963f6f132b33140ed0722f49",
         "fromAddressSeed": "0x3f841bf589fdf83a521e55d51afddc34fa65351161eead24f064855fc29c9584",
         "transactionConfirmationBlocks": 1,
         "contracts": {
             "registry": {
-                "address": "0x3fe4bACDd17EC8AAc34e17d86b24bd89748947D9",
+                "address": "0xd038F62117e2F546AC2806a2DcEc69E1173F0f8E",
                 "estimateGas": true,
                 "gas": {
                     "registerSupplier": 300000,
@@ -465,7 +465,7 @@
                 ]
             },
             "poolmarket": {
-                "address": "0x64e465Ae4FF1a0502DCD40FE1531bbB740623143",
+                "address": "0xf96FC70113984534F8dBc378377a2FBeE31341A5",
                 "estimateGas": true,
                 "gas": {
                     "submitOffer": 8000000,
@@ -497,22 +497,22 @@
                         "anonymous": false,
                         "inputs": [
                             {
-                                "indexed": false,
-                                "internalType": "bytes32",
-                                "name": "bidId",
-                                "type": "bytes32"
-                            },
-                            {
-                                "indexed": false,
+                                "indexed": true,
                                 "internalType": "uint256",
                                 "name": "amount",
                                 "type": "uint256"
                             },
                             {
-                                "indexed": false,
+                                "indexed": true,
                                 "internalType": "uint256",
                                 "name": "price",
                                 "type": "uint256"
+                            },
+                            {
+                                "indexed": false,
+                                "internalType": "address",
+                                "name": "sender",
+                                "type": "address"
                             }
                         ],
                         "name": "BidSubmitted",
@@ -522,9 +522,15 @@
                         "anonymous": false,
                         "inputs": [
                             {
-                                "indexed": false,
+                                "indexed": true,
                                 "internalType": "uint256",
-                                "name": "ail",
+                                "name": "oldTotalDemand",
+                                "type": "uint256"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "uint256",
+                                "name": "newTotalDemand",
                                 "type": "uint256"
                             }
                         ],
@@ -548,22 +554,22 @@
                         "anonymous": false,
                         "inputs": [
                             {
-                                "indexed": false,
-                                "internalType": "bytes32",
-                                "name": "offerId",
-                                "type": "bytes32"
-                            },
-                            {
-                                "indexed": false,
+                                "indexed": true,
                                 "internalType": "uint256",
                                 "name": "amount",
                                 "type": "uint256"
                             },
                             {
-                                "indexed": false,
+                                "indexed": true,
                                 "internalType": "uint256",
                                 "name": "price",
                                 "type": "uint256"
+                            },
+                            {
+                                "indexed": false,
+                                "internalType": "address",
+                                "name": "sender",
+                                "type": "address"
                             }
                         ],
                         "name": "OfferSubmitted",
@@ -602,23 +608,16 @@
                         "type": "function"
                     },
                     {
-                        "inputs": [],
+                        "inputs": [
+                            {
+                                "internalType": "bool",
+                                "name": "bidUpdated",
+                                "type": "bool"
+                            }
+                        ],
                         "name": "calculateSMP",
                         "outputs": [],
                         "stateMutability": "nonpayable",
-                        "type": "function"
-                    },
-                    {
-                        "inputs": [],
-                        "name": "currentTotalDemand",
-                        "outputs": [
-                            {
-                                "internalType": "uint256",
-                                "name": "",
-                                "type": "uint256"
-                            }
-                        ],
-                        "stateMutability": "view",
                         "type": "function"
                     },
                     {
@@ -870,6 +869,19 @@
                         "type": "function"
                     },
                     {
+                        "inputs": [],
+                        "name": "getLatestTotalDemand",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
                         "inputs": [
                             {
                                 "internalType": "uint256",
@@ -981,12 +993,12 @@
                     },
                     {
                         "inputs": [],
-                        "name": "getTotalDemand",
+                        "name": "getSystemMarginalMinutes",
                         "outputs": [
                             {
-                                "internalType": "uint256",
+                                "internalType": "uint256[]",
                                 "name": "",
-                                "type": "uint256"
+                                "type": "uint256[]"
                             }
                         ],
                         "stateMutability": "view",
@@ -1129,13 +1141,6 @@
                         "type": "function"
                     },
                     {
-                        "inputs": [],
-                        "name": "setTotalDemand",
-                        "outputs": [],
-                        "stateMutability": "nonpayable",
-                        "type": "function"
-                    },
-                    {
                         "inputs": [
                             {
                                 "internalType": "uint256",
@@ -1217,6 +1222,44 @@
                     {
                         "inputs": [
                             {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "totalDemandMinutes",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "totalDemands",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
                                 "internalType": "address",
                                 "name": "newOwner",
                                 "type": "address"
@@ -1268,7 +1311,7 @@
                 ]
             },
             "etk": {
-                "address": "0x9eC42BEC54075b8Ac43a4702Ad8F8f8e9B69Dd64",
+                "address": "0x9555F2B57eF7F6ea0e3bB593f5eAbE412D00de7d",
                 "estimateGas": true,
                 "gas": {
                     "transfer": 80000

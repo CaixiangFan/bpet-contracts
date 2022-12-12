@@ -74,12 +74,12 @@ def run(SEND_RATES: List, BENCH_TYPE: str) -> None:
 
 
 if __name__ == "__main__":
-    update_net_config()
+    # update_net_config()
     # deploy smart contracts
-    subprocess.run(
-        ['yarn', 'ts-node', '/mnt/bpet-contracts/scripts/1-deploy.ts'])
-    sendRates = [40]
+    # subprocess.run(
+    #     ['yarn', 'ts-node', '/mnt/bpet-contracts/scripts/1-deploy.ts'])
+    sendRates = [50]
     # bench_types = ['registry', 'etk', 'market']
-    bench_types = ['registry']
+    bench_types = ['market']
     for bench_type in bench_types:
         run(SEND_RATES=sendRates, BENCH_TYPE=bench_type)

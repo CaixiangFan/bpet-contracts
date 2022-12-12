@@ -7,31 +7,31 @@ test:
     description: To benchmark the network transactions.
     workers:
         type: local
-        number: 90
+        number: 50
     rounds:
     -   label: transfer ETK tokens
         description: Transfering erc20 token between accounts.
-        txNumber: 90
+        txNumber: 50
         rateControl:
             type: fixed-rate
             opts:
-                tps: 90
+                tps: 50
         workload:
             module: benchmarks/scenario/etk/transfer.js
             arguments:
                 moneyToTransfer: 1
-                numberOfAccounts: 90
+                numberOfAccounts: 50
                 toAddress: '0x4c4F4178198f8545C70f0Fe70BdCF2Cd56e26840'
     -   label: query ETK tokens
         description: Querying erc20 token from accounts.
-        txNumber: 90
+        txNumber: 50
         rateControl:
             type: fixed-rate
             opts:
-                tps: 90
+                tps: 50
         workload:
             module: benchmarks/scenario/etk/query.js
             arguments:
                 moneyToTransfer: 1
-                numberOfAccounts: 90
+                numberOfAccounts: 50
                 toAddress: '0x4c4F4178198f8545C70f0Fe70BdCF2Cd56e26840'

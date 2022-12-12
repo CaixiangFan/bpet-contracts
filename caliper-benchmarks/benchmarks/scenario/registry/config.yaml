@@ -3,19 +3,19 @@ test:
     description: To benchmark the network transactions.
     workers:
         type: local
-        number: 40
+        number: 50
     rounds:
     -   label: register suppliers
         description: Registering a supplier with given account and info.
-        txNumber: 40
+        txNumber: 50
         rateControl:
             type: fixed-rate
             opts:
-                tps: 40
+                tps: 50
         workload:
             module: benchmarks/scenario/registry/registerSupplier.js
             arguments:
-                numberOfAccounts: 40
+                numberOfAccounts: 50
                 assetID: SUPPLIER
                 blockAmount: 3
                 capacity: 300
@@ -25,15 +25,15 @@ test:
                 consumerOfferControl: Alberta Consumer
     -   label: register consumers
         description: Registering a consumer with given account and info.
-        txNumber: 40
+        txNumber: 50
         rateControl:
             type: fixed-rate
             opts:
-                tps: 40
+                tps: 50
         workload:
             module: benchmarks/scenario/registry/registerConsumer.js
             arguments:
-                numberOfAccounts: 40
+                numberOfAccounts: 50
                 assetID: SUPPLIER
                 blockAmount: 3
                 capacity: 300
