@@ -44,27 +44,27 @@ async function main() {
 
   console.log("Registered Supplier1 ", wallet_supplier1.address);
   const registryContract4 = getContract(wallet_supplier1);
-  const registerSupplierTx1 = await registryContract4.registerSupplier(
-    wallet_supplier1.address,
-    "SUPPLIER1",
-    2,
-    300,
-    "Alberta Solar Farm Ltd1"
-  );
-  await registerSupplierTx1.wait();
-  console.log(registerSupplierTx1);
+  // const registerSupplierTx1 = await registryContract4.registerSupplier(
+  //   wallet_supplier1.address,
+  //   "SUPPLIER1",
+  //   2,
+  //   300,
+  //   "Alberta Solar Farm Ltd1"
+  // );
+  // await registerSupplierTx1.wait();
+  // console.log(registerSupplierTx1);
 
-  console.log("Registered Supplier2 ", wallet_supplier2.address);
-  const registryContract5 = getContract(wallet_supplier2);
-  const registerSupplierTx2 = await registryContract5.registerSupplier(
-    wallet_supplier2.address,
-    "SUPPLIER2",
-    3,
-    350,
-    "Alberta Enmax Ltd2"
-  );
-  await registerSupplierTx2.wait();
-  console.log(registerSupplierTx2);
+  // console.log("Registered Supplier2 ", wallet_supplier2.address);
+  // const registryContract5 = getContract(wallet_supplier2);
+  // const registerSupplierTx2 = await registryContract5.registerSupplier(
+  //   wallet_supplier2.address,
+  //   "SUPPLIER2",
+  //   3,
+  //   350,
+  //   "Alberta Enmax Ltd2"
+  // );
+  // await registerSupplierTx2.wait();
+  // console.log(registerSupplierTx2);
 
   console.log("Registered Supplier3 ", wallet_supplier3.address);
   const registryContract6 = getContract(wallet_supplier3);
