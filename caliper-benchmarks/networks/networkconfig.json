@@ -3,1857 +3,1876 @@
         "blockchain": "ethereum"
     },
     "ethereum": {
-        "url": "ws://192.168.226.183:8546",
-        "contractDeployerAddress": "0x4c4F4178198f8545C70f0Fe70BdCF2Cd56e26840",
-        "contractDeployerAddressPrivateKey": "0xb1eecabf290fa3300291f6c23fa5674f84407510b9975e4f8cfbe052038bc20b",
-        "fromAddressSeed": "0x3f841bf589fdf83a521e55d51afddc34fa65351161eead24f064855fc29c9580",
+        "url": "ws://192.168.226.243:8546",
+        "contractDeployerAddress": "0x8b7A99C5A9FD537370d94b68FBaf3F3FAfb50083",
+        "contractDeployerAddressPrivateKey": "d813a80f0534815827a582a2afe2ffad74040d4c963f6f132b33140ed0722f49",
+        "fromAddressSeed": "0x3f841bf589fdf83a521e55d51afddc34fa65351161eead24f064855fc29c9584",
         "transactionConfirmationBlocks": 1,
         "contracts": {
             "registry": {
-                "address": "0x3fe4bACDd17EC8AAc34e17d86b24bd89748947D9",
+                "address": "0xd038F62117e2F546AC2806a2DcEc69E1173F0f8E",
                 "estimateGas": true,
                 "gas": {
                     "registerSupplier": 300000,
                     "registerConsumer": 300000
                 },
                 "abi": [
-                  {
-                    "inputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "constructor"
-                  },
-                  {
-                    "anonymous": false,
-                    "inputs": [
-                      {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "previousOwner",
-                        "type": "address"
-                      },
-                      {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "newOwner",
-                        "type": "address"
-                      }
-                    ],
-                    "name": "OwnershipTransferred",
-                    "type": "event"
-                  },
-                  {
-                    "inputs": [],
-                    "name": "authorizedEntity",
-                    "outputs": [
-                      {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "_accountToFindAndDelete",
-                        "type": "address"
-                      }
-                    ],
-                    "name": "deleteConsumer",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "_accountToFindAndDelete",
-                        "type": "address"
-                      }
-                    ],
-                    "name": "deleteSupplier",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [],
-                    "name": "getAllConsumers",
-                    "outputs": [
-                      {
-                        "internalType": "address[]",
-                        "name": "",
-                        "type": "address[]"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [],
-                    "name": "getAllSuppliers",
-                    "outputs": [
-                      {
-                        "internalType": "address[]",
-                        "name": "",
-                        "type": "address[]"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "consumerAddress",
-                        "type": "address"
-                      }
-                    ],
-                    "name": "getConsumer",
-                    "outputs": [
-                      {
-                        "components": [
-                          {
-                            "internalType": "address",
-                            "name": "account",
-                            "type": "address"
-                          },
-                          {
-                            "internalType": "string",
-                            "name": "assetId",
-                            "type": "string"
-                          },
-                          {
-                            "internalType": "uint16",
-                            "name": "load",
-                            "type": "uint16"
-                          },
-                          {
-                            "internalType": "string",
-                            "name": "offerControl",
-                            "type": "string"
-                          }
+                    {
+                        "inputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "constructor"
+                    },
+                    {
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "previousOwner",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "newOwner",
+                                "type": "address"
+                            }
                         ],
-                        "internalType": "struct IRegistry.Consumer",
-                        "name": "",
-                        "type": "tuple"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "supplierAddress",
-                        "type": "address"
-                      }
-                    ],
-                    "name": "getSupplier",
-                    "outputs": [
-                      {
-                        "components": [
-                          {
-                            "internalType": "address",
-                            "name": "account",
-                            "type": "address"
-                          },
-                          {
-                            "internalType": "string",
-                            "name": "assetId",
-                            "type": "string"
-                          },
-                          {
-                            "internalType": "uint8",
-                            "name": "blockAmount",
-                            "type": "uint8"
-                          },
-                          {
-                            "internalType": "uint16",
-                            "name": "capacity",
-                            "type": "uint16"
-                          },
-                          {
-                            "internalType": "string",
-                            "name": "offerControl",
-                            "type": "string"
-                          }
+                        "name": "OwnershipTransferred",
+                        "type": "event"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "authorizedEntity",
+                        "outputs": [
+                            {
+                                "internalType": "address",
+                                "name": "",
+                                "type": "address"
+                            }
                         ],
-                        "internalType": "struct IRegistry.Supplier",
-                        "name": "",
-                        "type": "tuple"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [],
-                    "name": "getTotalCapacity",
-                    "outputs": [
-                      {
-                        "internalType": "uint16",
-                        "name": "",
-                        "type": "uint16"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "account",
-                        "type": "address"
-                      }
-                    ],
-                    "name": "isRegisteredConsumer",
-                    "outputs": [
-                      {
-                        "internalType": "bool",
-                        "name": "",
-                        "type": "bool"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "account",
-                        "type": "address"
-                      }
-                    ],
-                    "name": "isRegisteredSupplier",
-                    "outputs": [
-                      {
-                        "internalType": "bool",
-                        "name": "",
-                        "type": "bool"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [],
-                    "name": "owner",
-                    "outputs": [
-                      {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "_account",
-                        "type": "address"
-                      },
-                      {
-                        "internalType": "string",
-                        "name": "_assetId",
-                        "type": "string"
-                      },
-                      {
-                        "internalType": "uint16",
-                        "name": "_load",
-                        "type": "uint16"
-                      },
-                      {
-                        "internalType": "string",
-                        "name": "_offerControl",
-                        "type": "string"
-                      }
-                    ],
-                    "name": "registerConsumer",
-                    "outputs": [],
-                    "stateMutability": "payable",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "_account",
-                        "type": "address"
-                      },
-                      {
-                        "internalType": "string",
-                        "name": "_assetId",
-                        "type": "string"
-                      },
-                      {
-                        "internalType": "uint8",
-                        "name": "_blockAmount",
-                        "type": "uint8"
-                      },
-                      {
-                        "internalType": "uint16",
-                        "name": "_capacity",
-                        "type": "uint16"
-                      },
-                      {
-                        "internalType": "string",
-                        "name": "_offerControl",
-                        "type": "string"
-                      }
-                    ],
-                    "name": "registerSupplier",
-                    "outputs": [],
-                    "stateMutability": "payable",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                      }
-                    ],
-                    "name": "registeredConsumerAccounts",
-                    "outputs": [
-                      {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                      }
-                    ],
-                    "name": "registeredConsumers",
-                    "outputs": [
-                      {
-                        "internalType": "address",
-                        "name": "account",
-                        "type": "address"
-                      },
-                      {
-                        "internalType": "string",
-                        "name": "assetId",
-                        "type": "string"
-                      },
-                      {
-                        "internalType": "uint16",
-                        "name": "load",
-                        "type": "uint16"
-                      },
-                      {
-                        "internalType": "string",
-                        "name": "offerControl",
-                        "type": "string"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                      }
-                    ],
-                    "name": "registeredSupplierAccounts",
-                    "outputs": [
-                      {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                      }
-                    ],
-                    "name": "registeredSuppliers",
-                    "outputs": [
-                      {
-                        "internalType": "address",
-                        "name": "account",
-                        "type": "address"
-                      },
-                      {
-                        "internalType": "string",
-                        "name": "assetId",
-                        "type": "string"
-                      },
-                      {
-                        "internalType": "uint8",
-                        "name": "blockAmount",
-                        "type": "uint8"
-                      },
-                      {
-                        "internalType": "uint16",
-                        "name": "capacity",
-                        "type": "uint16"
-                      },
-                      {
-                        "internalType": "string",
-                        "name": "offerControl",
-                        "type": "string"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [],
-                    "name": "renounceOwnership",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [],
-                    "name": "totalCapacity",
-                    "outputs": [
-                      {
-                        "internalType": "uint16",
-                        "name": "",
-                        "type": "uint16"
-                      }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                  },
-                  {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "newOwner",
-                        "type": "address"
-                      }
-                    ],
-                    "name": "transferOwnership",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                  }
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "_accountToFindAndDelete",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "deleteConsumer",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "_accountToFindAndDelete",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "deleteSupplier",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "getAllConsumers",
+                        "outputs": [
+                            {
+                                "internalType": "address[]",
+                                "name": "",
+                                "type": "address[]"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "getAllSuppliers",
+                        "outputs": [
+                            {
+                                "internalType": "address[]",
+                                "name": "",
+                                "type": "address[]"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "consumerAddress",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "getConsumer",
+                        "outputs": [
+                            {
+                                "components": [
+                                    {
+                                        "internalType": "address",
+                                        "name": "account",
+                                        "type": "address"
+                                    },
+                                    {
+                                        "internalType": "string",
+                                        "name": "assetId",
+                                        "type": "string"
+                                    },
+                                    {
+                                        "internalType": "uint16",
+                                        "name": "load",
+                                        "type": "uint16"
+                                    },
+                                    {
+                                        "internalType": "string",
+                                        "name": "offerControl",
+                                        "type": "string"
+                                    }
+                                ],
+                                "internalType": "struct IRegistry.Consumer",
+                                "name": "",
+                                "type": "tuple"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "supplierAddress",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "getSupplier",
+                        "outputs": [
+                            {
+                                "components": [
+                                    {
+                                        "internalType": "address",
+                                        "name": "account",
+                                        "type": "address"
+                                    },
+                                    {
+                                        "internalType": "string",
+                                        "name": "assetId",
+                                        "type": "string"
+                                    },
+                                    {
+                                        "internalType": "uint8",
+                                        "name": "blockAmount",
+                                        "type": "uint8"
+                                    },
+                                    {
+                                        "internalType": "uint16",
+                                        "name": "capacity",
+                                        "type": "uint16"
+                                    },
+                                    {
+                                        "internalType": "string",
+                                        "name": "offerControl",
+                                        "type": "string"
+                                    }
+                                ],
+                                "internalType": "struct IRegistry.Supplier",
+                                "name": "",
+                                "type": "tuple"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "getTotalCapacity",
+                        "outputs": [
+                            {
+                                "internalType": "uint16",
+                                "name": "",
+                                "type": "uint16"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "isRegisteredConsumer",
+                        "outputs": [
+                            {
+                                "internalType": "bool",
+                                "name": "",
+                                "type": "bool"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "isRegisteredSupplier",
+                        "outputs": [
+                            {
+                                "internalType": "bool",
+                                "name": "",
+                                "type": "bool"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "owner",
+                        "outputs": [
+                            {
+                                "internalType": "address",
+                                "name": "",
+                                "type": "address"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "_account",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "_assetId",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "uint16",
+                                "name": "_load",
+                                "type": "uint16"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "_offerControl",
+                                "type": "string"
+                            }
+                        ],
+                        "name": "registerConsumer",
+                        "outputs": [],
+                        "stateMutability": "payable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "_account",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "_assetId",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "uint8",
+                                "name": "_blockAmount",
+                                "type": "uint8"
+                            },
+                            {
+                                "internalType": "uint16",
+                                "name": "_capacity",
+                                "type": "uint16"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "_offerControl",
+                                "type": "string"
+                            }
+                        ],
+                        "name": "registerSupplier",
+                        "outputs": [],
+                        "stateMutability": "payable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "registeredConsumerAccounts",
+                        "outputs": [
+                            {
+                                "internalType": "address",
+                                "name": "",
+                                "type": "address"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "registeredConsumers",
+                        "outputs": [
+                            {
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "assetId",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "uint16",
+                                "name": "load",
+                                "type": "uint16"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "offerControl",
+                                "type": "string"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "registeredSupplierAccounts",
+                        "outputs": [
+                            {
+                                "internalType": "address",
+                                "name": "",
+                                "type": "address"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "registeredSuppliers",
+                        "outputs": [
+                            {
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "assetId",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "uint8",
+                                "name": "blockAmount",
+                                "type": "uint8"
+                            },
+                            {
+                                "internalType": "uint16",
+                                "name": "capacity",
+                                "type": "uint16"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "offerControl",
+                                "type": "string"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "renounceOwnership",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "totalCapacity",
+                        "outputs": [
+                            {
+                                "internalType": "uint16",
+                                "name": "",
+                                "type": "uint16"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "newOwner",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "transferOwnership",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    }
                 ]
             },
             "poolmarket": {
-              "address": "0x64e465Ae4FF1a0502DCD40FE1531bbB740623143",
-              "estimateGas": true,
-              "gas": {
-                  "submitOffer": 8000000,
-                  "submitBid": 1000000000
-              },
-              "abi": [
-                {
-                  "inputs": [
+                "address": "0xf96FC70113984534F8dBc378377a2FBeE31341A5",
+                "estimateGas": true,
+                "gas": {
+                    "submitOffer": 8000000,
+                    "submitBid": 1000000000
+                },
+                "abi": [
                     {
-                      "internalType": "address",
-                      "name": "_registryContractAddress",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "_registryContractAddress",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "_minAllowedPrice",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "_maxAllowedPrice",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "nonpayable",
+                        "type": "constructor"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "_minAllowedPrice",
-                      "type": "uint256"
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "uint256",
+                                "name": "price",
+                                "type": "uint256"
+                            },
+                            {
+                                "indexed": false,
+                                "internalType": "address",
+                                "name": "sender",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "BidSubmitted",
+                        "type": "event"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "_maxAllowedPrice",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "nonpayable",
-                  "type": "constructor"
-                },
-                {
-                  "anonymous": false,
-                  "inputs": [
-                    {
-                      "indexed": false,
-                      "internalType": "bytes32",
-                      "name": "bidId",
-                      "type": "bytes32"
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "internalType": "uint256",
+                                "name": "oldTotalDemand",
+                                "type": "uint256"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "uint256",
+                                "name": "newTotalDemand",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "DemandChanged",
+                        "type": "event"
                     },
                     {
-                      "indexed": false,
-                      "internalType": "uint256",
-                      "name": "amount",
-                      "type": "uint256"
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": false,
+                                "internalType": "bytes32",
+                                "name": "offerId",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "name": "OfferDeleted",
+                        "type": "event"
                     },
                     {
-                      "indexed": false,
-                      "internalType": "uint256",
-                      "name": "price",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "BidSubmitted",
-                  "type": "event"
-                },
-                {
-                  "anonymous": false,
-                  "inputs": [
-                    {
-                      "indexed": false,
-                      "internalType": "uint256",
-                      "name": "ail",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "DemandChanged",
-                  "type": "event"
-                },
-                {
-                  "anonymous": false,
-                  "inputs": [
-                    {
-                      "indexed": false,
-                      "internalType": "bytes32",
-                      "name": "offerId",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "name": "OfferDeleted",
-                  "type": "event"
-                },
-                {
-                  "anonymous": false,
-                  "inputs": [
-                    {
-                      "indexed": false,
-                      "internalType": "bytes32",
-                      "name": "offerId",
-                      "type": "bytes32"
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "uint256",
+                                "name": "price",
+                                "type": "uint256"
+                            },
+                            {
+                                "indexed": false,
+                                "internalType": "address",
+                                "name": "sender",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "OfferSubmitted",
+                        "type": "event"
                     },
                     {
-                      "indexed": false,
-                      "internalType": "uint256",
-                      "name": "amount",
-                      "type": "uint256"
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "previousOwner",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "newOwner",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "OwnershipTransferred",
+                        "type": "event"
                     },
                     {
-                      "indexed": false,
-                      "internalType": "uint256",
-                      "name": "price",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "OfferSubmitted",
-                  "type": "event"
-                },
-                {
-                  "anonymous": false,
-                  "inputs": [
-                    {
-                      "indexed": true,
-                      "internalType": "address",
-                      "name": "previousOwner",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "hour",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "calculatePoolPrice",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     },
                     {
-                      "indexed": true,
-                      "internalType": "address",
-                      "name": "newOwner",
-                      "type": "address"
-                    }
-                  ],
-                  "name": "OwnershipTransferred",
-                  "type": "event"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "hour",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "calculatePoolPrice",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "string",
-                      "name": "_assetId",
-                      "type": "string"
+                        "inputs": [
+                            {
+                                "internalType": "bool",
+                                "name": "bidUpdated",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "calculateSMP",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint8",
-                      "name": "_blockNumber",
-                      "type": "uint8"
-                    }
-                  ],
-                  "name": "deleteOffer",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
+                        "inputs": [
+                            {
+                                "internalType": "string",
+                                "name": "_assetId",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "uint8",
+                                "name": "_blockNumber",
+                                "type": "uint8"
+                            }
+                        ],
+                        "name": "deleteOffer",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "dispatchedOffers",
-                  "outputs": [
-                    {
-                      "internalType": "address",
-                      "name": "supplierAccount",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "dispatchedOffers",
+                        "outputs": [
+                            {
+                                "internalType": "address",
+                                "name": "supplierAccount",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "dispatchedAmount",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "dispatchedAt",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "dispatchedAmount",
-                      "type": "uint256"
+                        "inputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "name": "energyBids",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "price",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "submitMinute",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "address",
+                                "name": "consumerAccount",
+                                "type": "address"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "dispatchedAt",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "name": "energyBids",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "amount",
-                      "type": "uint256"
+                        "inputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "name": "energyOffers",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "price",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "submitMinute",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "address",
+                                "name": "supplierAccount",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "bool",
+                                "name": "isValid",
+                                "type": "bool"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "price",
-                      "type": "uint256"
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "hour",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "getDispatchedOffers",
+                        "outputs": [
+                            {
+                                "components": [
+                                    {
+                                        "internalType": "address",
+                                        "name": "supplierAccount",
+                                        "type": "address"
+                                    },
+                                    {
+                                        "internalType": "uint256",
+                                        "name": "dispatchedAmount",
+                                        "type": "uint256"
+                                    },
+                                    {
+                                        "internalType": "uint256",
+                                        "name": "dispatchedAt",
+                                        "type": "uint256"
+                                    }
+                                ],
+                                "internalType": "struct IPoolMarket.DispatchedOffer[]",
+                                "name": "",
+                                "type": "tuple[]"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "submitMinute",
-                      "type": "uint256"
+                        "inputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "bidId",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "name": "getEnergyBid",
+                        "outputs": [
+                            {
+                                "components": [
+                                    {
+                                        "internalType": "uint256",
+                                        "name": "amount",
+                                        "type": "uint256"
+                                    },
+                                    {
+                                        "internalType": "uint256",
+                                        "name": "price",
+                                        "type": "uint256"
+                                    },
+                                    {
+                                        "internalType": "uint256",
+                                        "name": "submitMinute",
+                                        "type": "uint256"
+                                    },
+                                    {
+                                        "internalType": "address",
+                                        "name": "consumerAccount",
+                                        "type": "address"
+                                    }
+                                ],
+                                "internalType": "struct PoolMarket.Bid",
+                                "name": "",
+                                "type": "tuple"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "address",
-                      "name": "consumerAccount",
-                      "type": "address"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "name": "energyOffers",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "amount",
-                      "type": "uint256"
+                        "inputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "offerId",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "name": "getEnergyOffer",
+                        "outputs": [
+                            {
+                                "components": [
+                                    {
+                                        "internalType": "uint256",
+                                        "name": "amount",
+                                        "type": "uint256"
+                                    },
+                                    {
+                                        "internalType": "uint256",
+                                        "name": "price",
+                                        "type": "uint256"
+                                    },
+                                    {
+                                        "internalType": "uint256",
+                                        "name": "submitMinute",
+                                        "type": "uint256"
+                                    },
+                                    {
+                                        "internalType": "address",
+                                        "name": "supplierAccount",
+                                        "type": "address"
+                                    },
+                                    {
+                                        "internalType": "bool",
+                                        "name": "isValid",
+                                        "type": "bool"
+                                    }
+                                ],
+                                "internalType": "struct PoolMarket.Offer",
+                                "name": "",
+                                "type": "tuple"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "price",
-                      "type": "uint256"
+                        "inputs": [],
+                        "name": "getLatestTotalDemand",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "submitMinute",
-                      "type": "uint256"
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "minute",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "getMarginalOffer",
+                        "outputs": [
+                            {
+                                "components": [
+                                    {
+                                        "internalType": "uint256",
+                                        "name": "amount",
+                                        "type": "uint256"
+                                    },
+                                    {
+                                        "internalType": "uint256",
+                                        "name": "price",
+                                        "type": "uint256"
+                                    },
+                                    {
+                                        "internalType": "uint256",
+                                        "name": "submitMinute",
+                                        "type": "uint256"
+                                    },
+                                    {
+                                        "internalType": "address",
+                                        "name": "supplierAccount",
+                                        "type": "address"
+                                    },
+                                    {
+                                        "internalType": "bool",
+                                        "name": "isValid",
+                                        "type": "bool"
+                                    }
+                                ],
+                                "internalType": "struct PoolMarket.Offer",
+                                "name": "",
+                                "type": "tuple"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "address",
-                      "name": "supplierAccount",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "hour",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "getPoolPrice",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "bool",
-                      "name": "isValid",
-                      "type": "bool"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "hour",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "getDispatchedOffers",
-                  "outputs": [
-                    {
-                      "components": [
-                        {
-                          "internalType": "address",
-                          "name": "supplierAccount",
-                          "type": "address"
-                        },
-                        {
-                          "internalType": "uint256",
-                          "name": "dispatchedAmount",
-                          "type": "uint256"
-                        },
-                        {
-                          "internalType": "uint256",
-                          "name": "dispatchedAt",
-                          "type": "uint256"
-                        }
-                      ],
-                      "internalType": "struct IPoolMarket.DispatchedOffer[]",
-                      "name": "",
-                      "type": "tuple[]"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "bidId",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "name": "getEnergyBid",
-                  "outputs": [
-                    {
-                      "components": [
-                        {
-                          "internalType": "uint256",
-                          "name": "amount",
-                          "type": "uint256"
-                        },
-                        {
-                          "internalType": "uint256",
-                          "name": "price",
-                          "type": "uint256"
-                        },
-                        {
-                          "internalType": "uint256",
-                          "name": "submitMinute",
-                          "type": "uint256"
-                        },
-                        {
-                          "internalType": "address",
-                          "name": "consumerAccount",
-                          "type": "address"
-                        }
-                      ],
-                      "internalType": "struct PoolMarket.Bid",
-                      "name": "",
-                      "type": "tuple"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "offerId",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "name": "getEnergyOffer",
-                  "outputs": [
-                    {
-                      "components": [
-                        {
-                          "internalType": "uint256",
-                          "name": "amount",
-                          "type": "uint256"
-                        },
-                        {
-                          "internalType": "uint256",
-                          "name": "price",
-                          "type": "uint256"
-                        },
-                        {
-                          "internalType": "uint256",
-                          "name": "submitMinute",
-                          "type": "uint256"
-                        },
-                        {
-                          "internalType": "address",
-                          "name": "supplierAccount",
-                          "type": "address"
-                        },
-                        {
-                          "internalType": "bool",
-                          "name": "isValid",
-                          "type": "bool"
-                        }
-                      ],
-                      "internalType": "struct PoolMarket.Offer",
-                      "name": "",
-                      "type": "tuple"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "getLatestTotalDemand",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "minute",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "getMarginalOffer",
-                  "outputs": [
-                    {
-                      "components": [
-                        {
-                          "internalType": "uint256",
-                          "name": "amount",
-                          "type": "uint256"
-                        },
-                        {
-                          "internalType": "uint256",
-                          "name": "price",
-                          "type": "uint256"
-                        },
-                        {
-                          "internalType": "uint256",
-                          "name": "submitMinute",
-                          "type": "uint256"
-                        },
-                        {
-                          "internalType": "address",
-                          "name": "supplierAccount",
-                          "type": "address"
-                        },
-                        {
-                          "internalType": "bool",
-                          "name": "isValid",
-                          "type": "bool"
-                        }
-                      ],
-                      "internalType": "struct PoolMarket.Offer",
-                      "name": "",
-                      "type": "tuple"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "hour",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "getPoolPrice",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "getPoolpriceHours",
-                  "outputs": [
-                    {
-                      "internalType": "uint256[]",
-                      "name": "",
-                      "type": "uint256[]"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "getRegisteredSupplierAssetId",
-                  "outputs": [
-                    {
-                      "internalType": "string",
-                      "name": "",
-                      "type": "string"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "minute",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "getSMP",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "getTotalDemandMinutes",
-                  "outputs": [
-                    {
-                      "internalType": "uint256[]",
-                      "name": "",
-                      "type": "uint256[]"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "getValidBidIDs",
-                  "outputs": [
-                    {
-                      "internalType": "bytes32[]",
-                      "name": "",
-                      "type": "bytes32[]"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "getValidOfferIDs",
-                  "outputs": [
-                    {
-                      "internalType": "bytes32[]",
-                      "name": "",
-                      "type": "bytes32[]"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "marketState",
-                  "outputs": [
-                    {
-                      "internalType": "enum PoolMarket.MarketState",
-                      "name": "",
-                      "type": "uint8"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "maxAllowedPrice",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "minAllowedPrice",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "owner",
-                  "outputs": [
-                    {
-                      "internalType": "address",
-                      "name": "",
-                      "type": "address"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "poolPriceHours",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "poolPrices",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "registryContract",
-                  "outputs": [
-                    {
-                      "internalType": "contract IRegistry",
-                      "name": "",
-                      "type": "address"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "renounceOwnership",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "_amount",
-                      "type": "uint256"
+                        "inputs": [],
+                        "name": "getPoolpriceHours",
+                        "outputs": [
+                            {
+                                "internalType": "uint256[]",
+                                "name": "",
+                                "type": "uint256[]"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "_price",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "submitBid",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint8",
-                      "name": "blockNumber",
-                      "type": "uint8"
+                        "inputs": [],
+                        "name": "getRegisteredSupplierAssetId",
+                        "outputs": [
+                            {
+                                "internalType": "string",
+                                "name": "",
+                                "type": "string"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "amount",
-                      "type": "uint256"
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "minute",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "getSMP",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "price",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "submitOffer",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
+                        "inputs": [],
+                        "name": "getSystemMarginalMinutes",
+                        "outputs": [
+                            {
+                                "internalType": "uint256[]",
+                                "name": "",
+                                "type": "uint256[]"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "systemMarginalMinutes",
-                  "outputs": [
+                        "inputs": [],
+                        "name": "getValidBidIDs",
+                        "outputs": [
+                            {
+                                "internalType": "bytes32[]",
+                                "name": "",
+                                "type": "bytes32[]"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
+                        "inputs": [],
+                        "name": "getValidOfferIDs",
+                        "outputs": [
+                            {
+                                "internalType": "bytes32[]",
+                                "name": "",
+                                "type": "bytes32[]"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "systemMarginalOfferIDs",
-                  "outputs": [
+                        "inputs": [],
+                        "name": "marketState",
+                        "outputs": [
+                            {
+                                "internalType": "enum PoolMarket.MarketState",
+                                "name": "",
+                                "type": "uint8"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "bytes32",
-                      "name": "",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
+                        "inputs": [],
+                        "name": "maxAllowedPrice",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "totalDemandMinutes",
-                  "outputs": [
+                        "inputs": [],
+                        "name": "minAllowedPrice",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
+                        "inputs": [],
+                        "name": "owner",
+                        "outputs": [
+                            {
+                                "internalType": "address",
+                                "name": "",
+                                "type": "address"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "totalDemands",
-                  "outputs": [
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "poolPriceHours",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "poolPrices",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "address",
-                      "name": "newOwner",
-                      "type": "address"
-                    }
-                  ],
-                  "name": "transferOwnership",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
+                        "inputs": [],
+                        "name": "registryContract",
+                        "outputs": [
+                            {
+                                "internalType": "contract IRegistry",
+                                "name": "",
+                                "type": "address"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "validBidIDs",
-                  "outputs": [
+                        "inputs": [],
+                        "name": "renounceOwnership",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "bytes32",
-                      "name": "",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "_amount",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "_price",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "submitBid",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "validOfferIDs",
-                  "outputs": [
+                        "inputs": [
+                            {
+                                "internalType": "uint8",
+                                "name": "blockNumber",
+                                "type": "uint8"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "price",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "submitOffer",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "bytes32",
-                      "name": "",
-                      "type": "bytes32"
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "systemMarginalMinutes",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "systemMarginalOfferIDs",
+                        "outputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "totalDemandMinutes",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "totalDemands",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "newOwner",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "transferOwnership",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "validBidIDs",
+                        "outputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "validOfferIDs",
+                        "outputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                }
-              ]
+                ]
             },
             "etk": {
-              "address": "0x9eC42BEC54075b8Ac43a4702Ad8F8f8e9B69Dd64",
-              "estimateGas": true,
-              "gas": {
-                  "transfer": 80000
-              },
-              "abi": [
-                {
-                  "inputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "constructor"
+                "address": "0x9555F2B57eF7F6ea0e3bB593f5eAbE412D00de7d",
+                "estimateGas": true,
+                "gas": {
+                    "transfer": 80000
                 },
-                {
-                  "anonymous": false,
-                  "inputs": [
+                "abi": [
                     {
-                      "indexed": true,
-                      "internalType": "address",
-                      "name": "owner",
-                      "type": "address"
+                        "inputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "constructor"
                     },
                     {
-                      "indexed": true,
-                      "internalType": "address",
-                      "name": "spender",
-                      "type": "address"
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "owner",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "spender",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": false,
+                                "internalType": "uint256",
+                                "name": "value",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "Approval",
+                        "type": "event"
                     },
                     {
-                      "indexed": false,
-                      "internalType": "uint256",
-                      "name": "value",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "Approval",
-                  "type": "event"
-                },
-                {
-                  "anonymous": false,
-                  "inputs": [
-                    {
-                      "indexed": true,
-                      "internalType": "bytes32",
-                      "name": "role",
-                      "type": "bytes32"
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "internalType": "bytes32",
+                                "name": "role",
+                                "type": "bytes32"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "bytes32",
+                                "name": "previousAdminRole",
+                                "type": "bytes32"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "bytes32",
+                                "name": "newAdminRole",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "name": "RoleAdminChanged",
+                        "type": "event"
                     },
                     {
-                      "indexed": true,
-                      "internalType": "bytes32",
-                      "name": "previousAdminRole",
-                      "type": "bytes32"
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "internalType": "bytes32",
+                                "name": "role",
+                                "type": "bytes32"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "sender",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "RoleGranted",
+                        "type": "event"
                     },
                     {
-                      "indexed": true,
-                      "internalType": "bytes32",
-                      "name": "newAdminRole",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "name": "RoleAdminChanged",
-                  "type": "event"
-                },
-                {
-                  "anonymous": false,
-                  "inputs": [
-                    {
-                      "indexed": true,
-                      "internalType": "bytes32",
-                      "name": "role",
-                      "type": "bytes32"
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "internalType": "bytes32",
+                                "name": "role",
+                                "type": "bytes32"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "sender",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "RoleRevoked",
+                        "type": "event"
                     },
                     {
-                      "indexed": true,
-                      "internalType": "address",
-                      "name": "account",
-                      "type": "address"
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "from",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": true,
+                                "internalType": "address",
+                                "name": "to",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": false,
+                                "internalType": "uint256",
+                                "name": "value",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "Transfer",
+                        "type": "event"
                     },
                     {
-                      "indexed": true,
-                      "internalType": "address",
-                      "name": "sender",
-                      "type": "address"
-                    }
-                  ],
-                  "name": "RoleGranted",
-                  "type": "event"
-                },
-                {
-                  "anonymous": false,
-                  "inputs": [
-                    {
-                      "indexed": true,
-                      "internalType": "bytes32",
-                      "name": "role",
-                      "type": "bytes32"
+                        "inputs": [],
+                        "name": "DEFAULT_ADMIN_ROLE",
+                        "outputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "indexed": true,
-                      "internalType": "address",
-                      "name": "account",
-                      "type": "address"
+                        "inputs": [],
+                        "name": "MINTER_ROLE",
+                        "outputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "indexed": true,
-                      "internalType": "address",
-                      "name": "sender",
-                      "type": "address"
-                    }
-                  ],
-                  "name": "RoleRevoked",
-                  "type": "event"
-                },
-                {
-                  "anonymous": false,
-                  "inputs": [
-                    {
-                      "indexed": true,
-                      "internalType": "address",
-                      "name": "from",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "owner",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "address",
+                                "name": "spender",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "allowance",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "indexed": true,
-                      "internalType": "address",
-                      "name": "to",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "spender",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "approve",
+                        "outputs": [
+                            {
+                                "internalType": "bool",
+                                "name": "",
+                                "type": "bool"
+                            }
+                        ],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     },
                     {
-                      "indexed": false,
-                      "internalType": "uint256",
-                      "name": "value",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "Transfer",
-                  "type": "event"
-                },
-                {
-                  "inputs": [],
-                  "name": "DEFAULT_ADMIN_ROLE",
-                  "outputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "MINTER_ROLE",
-                  "outputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "address",
-                      "name": "owner",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "balanceOf",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "address",
-                      "name": "spender",
-                      "type": "address"
-                    }
-                  ],
-                  "name": "allowance",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "address",
-                      "name": "spender",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "burn",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "amount",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "approve",
-                  "outputs": [
-                    {
-                      "internalType": "bool",
-                      "name": "",
-                      "type": "bool"
-                    }
-                  ],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "address",
-                      "name": "account",
-                      "type": "address"
-                    }
-                  ],
-                  "name": "balanceOf",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "amount",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "burn",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "address",
-                      "name": "account",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "burnFrom",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "amount",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "burnFrom",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "decimals",
-                  "outputs": [
-                    {
-                      "internalType": "uint8",
-                      "name": "",
-                      "type": "uint8"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "address",
-                      "name": "spender",
-                      "type": "address"
+                        "inputs": [],
+                        "name": "decimals",
+                        "outputs": [
+                            {
+                                "internalType": "uint8",
+                                "name": "",
+                                "type": "uint8"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "subtractedValue",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "decreaseAllowance",
-                  "outputs": [
-                    {
-                      "internalType": "bool",
-                      "name": "",
-                      "type": "bool"
-                    }
-                  ],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "role",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "name": "getRoleAdmin",
-                  "outputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "",
-                      "type": "bytes32"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "role",
-                      "type": "bytes32"
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "spender",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "subtractedValue",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "decreaseAllowance",
+                        "outputs": [
+                            {
+                                "internalType": "bool",
+                                "name": "",
+                                "type": "bool"
+                            }
+                        ],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     },
                     {
-                      "internalType": "address",
-                      "name": "account",
-                      "type": "address"
-                    }
-                  ],
-                  "name": "grantRole",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "role",
-                      "type": "bytes32"
+                        "inputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "role",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "name": "getRoleAdmin",
+                        "outputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "",
+                                "type": "bytes32"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "address",
-                      "name": "account",
-                      "type": "address"
-                    }
-                  ],
-                  "name": "hasRole",
-                  "outputs": [
-                    {
-                      "internalType": "bool",
-                      "name": "",
-                      "type": "bool"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "address",
-                      "name": "spender",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "role",
+                                "type": "bytes32"
+                            },
+                            {
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "grantRole",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "addedValue",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "increaseAllowance",
-                  "outputs": [
-                    {
-                      "internalType": "bool",
-                      "name": "",
-                      "type": "bool"
-                    }
-                  ],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "address",
-                      "name": "to",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "role",
+                                "type": "bytes32"
+                            },
+                            {
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "hasRole",
+                        "outputs": [
+                            {
+                                "internalType": "bool",
+                                "name": "",
+                                "type": "bool"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "amount",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "mint",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "name",
-                  "outputs": [
-                    {
-                      "internalType": "string",
-                      "name": "",
-                      "type": "string"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "owner",
-                  "outputs": [
-                    {
-                      "internalType": "address",
-                      "name": "",
-                      "type": "address"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "role",
-                      "type": "bytes32"
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "spender",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "addedValue",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "increaseAllowance",
+                        "outputs": [
+                            {
+                                "internalType": "bool",
+                                "name": "",
+                                "type": "bool"
+                            }
+                        ],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     },
                     {
-                      "internalType": "address",
-                      "name": "account",
-                      "type": "address"
-                    }
-                  ],
-                  "name": "renounceRole",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "bytes32",
-                      "name": "role",
-                      "type": "bytes32"
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "to",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "mint",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     },
                     {
-                      "internalType": "address",
-                      "name": "account",
-                      "type": "address"
-                    }
-                  ],
-                  "name": "revokeRole",
-                  "outputs": [],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "bytes4",
-                      "name": "interfaceId",
-                      "type": "bytes4"
-                    }
-                  ],
-                  "name": "supportsInterface",
-                  "outputs": [
-                    {
-                      "internalType": "bool",
-                      "name": "",
-                      "type": "bool"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "symbol",
-                  "outputs": [
-                    {
-                      "internalType": "string",
-                      "name": "",
-                      "type": "string"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [],
-                  "name": "totalSupply",
-                  "outputs": [
-                    {
-                      "internalType": "uint256",
-                      "name": "",
-                      "type": "uint256"
-                    }
-                  ],
-                  "stateMutability": "view",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "address",
-                      "name": "to",
-                      "type": "address"
+                        "inputs": [],
+                        "name": "name",
+                        "outputs": [
+                            {
+                                "internalType": "string",
+                                "name": "",
+                                "type": "string"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "amount",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "transfer",
-                  "outputs": [
-                    {
-                      "internalType": "bool",
-                      "name": "",
-                      "type": "bool"
-                    }
-                  ],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                },
-                {
-                  "inputs": [
-                    {
-                      "internalType": "address",
-                      "name": "from",
-                      "type": "address"
+                        "inputs": [],
+                        "name": "owner",
+                        "outputs": [
+                            {
+                                "internalType": "address",
+                                "name": "",
+                                "type": "address"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
                     },
                     {
-                      "internalType": "address",
-                      "name": "to",
-                      "type": "address"
+                        "inputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "role",
+                                "type": "bytes32"
+                            },
+                            {
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "renounceRole",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     },
                     {
-                      "internalType": "uint256",
-                      "name": "amount",
-                      "type": "uint256"
-                    }
-                  ],
-                  "name": "transferFrom",
-                  "outputs": [
+                        "inputs": [
+                            {
+                                "internalType": "bytes32",
+                                "name": "role",
+                                "type": "bytes32"
+                            },
+                            {
+                                "internalType": "address",
+                                "name": "account",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "revokeRole",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
                     {
-                      "internalType": "bool",
-                      "name": "",
-                      "type": "bool"
+                        "inputs": [
+                            {
+                                "internalType": "bytes4",
+                                "name": "interfaceId",
+                                "type": "bytes4"
+                            }
+                        ],
+                        "name": "supportsInterface",
+                        "outputs": [
+                            {
+                                "internalType": "bool",
+                                "name": "",
+                                "type": "bool"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "symbol",
+                        "outputs": [
+                            {
+                                "internalType": "string",
+                                "name": "",
+                                "type": "string"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "totalSupply",
+                        "outputs": [
+                            {
+                                "internalType": "uint256",
+                                "name": "",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "to",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "transfer",
+                        "outputs": [
+                            {
+                                "internalType": "bool",
+                                "name": "",
+                                "type": "bool"
+                            }
+                        ],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "address",
+                                "name": "from",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "address",
+                                "name": "to",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "transferFrom",
+                        "outputs": [
+                            {
+                                "internalType": "bool",
+                                "name": "",
+                                "type": "bool"
+                            }
+                        ],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
                     }
-                  ],
-                  "stateMutability": "nonpayable",
-                  "type": "function"
-                }
-              ]
-          }
+                ]
+            }
         }
     }
 }

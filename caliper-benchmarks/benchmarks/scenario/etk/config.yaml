@@ -1,37 +1,37 @@
-simpleArgs: &simple-args
-  # initialMoney: 1 # tokens to mint for each account
-  moneyToTransfer: 1
-  numberOfAccounts: 50
-  toAddress: "0x4c4F4178198f8545C70f0Fe70BdCF2Cd56e26840" # admin address 
-
+simpleArgs:
+    moneyToTransfer: 1
+    numberOfAccounts: 10
+    toAddress: '0x4c4F4178198f8545C70f0Fe70BdCF2Cd56e26840'
 test:
-  name: etk
-  description: >-
-    To benchmark the network transactions.
-  workers:
-    type: local
-    number: 50
-  rounds:
-    - label: transfer ETK tokens
-      description: Transfering erc20 token between accounts.
-      txNumber: 50
-      rateControl:
-        type: fixed-rate
-        opts:
-          tps: 50
-      workload:
-        module: benchmarks/scenario/etk/transfer.js
-        arguments:
-          << : *simple-args
-    
-    - label: query ETK tokens
-      description: Querying erc20 token from accounts.
-      txNumber: 50
-      rateControl:
-        type: fixed-rate
-        opts:
-          tps: 50
-      workload:
-        module: benchmarks/scenario/etk/query.js
-        arguments:
-          << : *simple-args
+    name: etk
+    description: To benchmark the network transactions.
+    workers:
+        type: local
+        number: 50
+    rounds:
+    -   label: transfer ETK tokens
+        description: Transfering erc20 token between accounts.
+        txNumber: 50
+        rateControl:
+            type: fixed-rate
+            opts:
+                tps: 50
+        workload:
+            module: benchmarks/scenario/etk/transfer.js
+            arguments:
+                moneyToTransfer: 1
+                numberOfAccounts: 50
+                toAddress: '0x4c4F4178198f8545C70f0Fe70BdCF2Cd56e26840'
+    -   label: query ETK tokens
+        description: Querying erc20 token from accounts.
+        txNumber: 50
+        rateControl:
+            type: fixed-rate
+            opts:
+                tps: 50
+        workload:
+            module: benchmarks/scenario/etk/query.js
+            arguments:
+                moneyToTransfer: 1
+                numberOfAccounts: 50
+                toAddress: '0x4c4F4178198f8545C70f0Fe70BdCF2Cd56e26840'

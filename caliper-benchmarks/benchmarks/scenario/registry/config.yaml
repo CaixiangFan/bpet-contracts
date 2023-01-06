@@ -1,41 +1,43 @@
-simpleArgs: &simple-args
-  numberOfAccounts: 50
-  assetID: 'SUPPLIER'
-  blockAmount: 3
-  capacity: 300
-  offerControl: 'Alberta Supplier'
-  consumerAssetID: 'CONSUMER'
-  consumerLoad: 200
-  consumerOfferControl: 'Alberta Consumer'
-
 test:
-  name: registry
-  description: >-
-    To benchmark the network transactions.
-  workers:
-    type: local
-    number: 50
-  rounds:
-    - label: register suppliers
-      description: Registering a supplier with given account and info.
-      txNumber: 50
-      rateControl:
-        type: fixed-rate
-        opts:
-          tps: 50
-      workload:
-        module: benchmarks/scenario/registry/registerSupplier.js
-        arguments:
-          << : *simple-args
-          
-    - label: register consumers
-      description: Registering a consumer with given account and info.
-      txNumber: 50
-      rateControl:
-        type: fixed-rate
-        opts:
-          tps: 50
-      workload:
-        module: benchmarks/scenario/registry/registerConsumer.js
-        arguments:
-          << : *simple-args
+    name: registry
+    description: To benchmark the network transactions.
+    workers:
+        type: local
+        number: 50
+    rounds:
+    -   label: register suppliers
+        description: Registering a supplier with given account and info.
+        txNumber: 50
+        rateControl:
+            type: fixed-rate
+            opts:
+                tps: 50
+        workload:
+            module: benchmarks/scenario/registry/registerSupplier.js
+            arguments:
+                numberOfAccounts: 50
+                assetID: SUPPLIER
+                blockAmount: 3
+                capacity: 300
+                offerControl: Alberta Supplier
+                consumerAssetID: CONSUMER
+                consumerLoad: 200
+                consumerOfferControl: Alberta Consumer
+    -   label: register consumers
+        description: Registering a consumer with given account and info.
+        txNumber: 50
+        rateControl:
+            type: fixed-rate
+            opts:
+                tps: 50
+        workload:
+            module: benchmarks/scenario/registry/registerConsumer.js
+            arguments:
+                numberOfAccounts: 50
+                assetID: SUPPLIER
+                blockAmount: 3
+                capacity: 300
+                offerControl: Alberta Supplier
+                consumerAssetID: CONSUMER
+                consumerLoad: 200
+                consumerOfferControl: Alberta Consumer

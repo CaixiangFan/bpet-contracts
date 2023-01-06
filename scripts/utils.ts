@@ -1,10 +1,11 @@
-import { Bytes, ethers } from "ethers";
+import { Bytes, ethers, BigNumber } from "ethers";
 import "dotenv/config";
 import * as tokenJson from "../artifacts/contracts/EnergyToken.sol/EnergyToken.json";
 import { exit } from "process";
 
 const EXPOSED_KEY =
   "8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f";
+const DEFAULT_RECEIVER = "0x8b7A99C5A9FD537370d94b68FBaf3F3FAfb50083";
 
 function setupProvider() {
   const provider = ethers.providers.getDefaultProvider(process.env.BESU_URL);
@@ -44,6 +45,11 @@ function convertStringArrayToBytes32(array: string[]) {
   return bytes32Array;
 }
 
+function convertBigNumberToNumber(value: BigNumber): number {
+  const decimals = 18;
+  return Math.round(Number(ethers.utils.formatEther(value)) * 10 ** decimals);
+}
+
 function setupGoerliProvider() {
   const infuraOptions = process.env.INFURA_API_KEY
     ? process.env.INFURA_API_SECRET
@@ -67,4 +73,6 @@ export {
   setupGoerliProvider,
   convertStringArrayToBytes32,
   attach,
+  DEFAULT_RECEIVER,
+  convertBigNumberToNumber,
 };

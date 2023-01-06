@@ -1,0 +1,39 @@
+test:
+    name: poolmarket
+    description: To benchmark the network transactions.
+    workers:
+        type: local
+        number: 50
+    rounds:
+    -   label: submit offers
+        description: Sumitting an offer to market with given account and info.
+        txNumber: 50
+        rateControl:
+            type: fixed-rate
+            opts:
+                tps: 50
+        workload:
+            module: benchmarks/scenario/market/submitOffer.js
+            arguments:
+                numberOfAccounts: 50
+                blockNumber: 1
+                offerAmount: 300
+                offerPrice: 45
+                bidAmount: 250
+                bidPrice: 40
+    -   label: submit bids
+        description: Sumitting a bid to market with given account and info.
+        txNumber: 50
+        rateControl:
+            type: fixed-rate
+            opts:
+                tps: 50
+        workload:
+            module: benchmarks/scenario/market/submitBid.js
+            arguments:
+                numberOfAccounts: 50
+                blockNumber: 1
+                offerAmount: 300
+                offerPrice: 45
+                bidAmount: 250
+                bidPrice: 40
