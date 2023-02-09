@@ -6,15 +6,25 @@ import * as registryJson from "../artifacts/contracts/Registry.sol/Registry.json
 import * as poolMarketJson from "../artifacts/contracts/PoolMarket.sol/PoolMarket.json";
 import * as paymentJson from "../artifacts/contracts/Payment.sol/Payment.json";
 import { EXPOSED_KEY, setupGoerliProvider, setupProvider } from "./utils";
+import nodes from '/mnt/bpet/deploy/nodes.json'
 
-// Glabal parameters:
-// const PURCHASE_RATIO = 1;
+const dirPathUpdates = [".env", 
+                        "/mnt/bpet-front/.env", 
+                        "/mnt/bpet-microservice/admin/.env", 
+                        "/mnt/bpet-microservice/etk/.env", 
+                        "/mnt/bpet-microservice/poolmarket/.env",
+                        "/mnt/bpet-microservice/register/.env"
+                      ]
+const urlre = /:\/\/.*:854/g
+const url = `://${nodes['besu-1']}:854`
+// Global parameters:
 const MINALLOWEDPRICE = 0;
 const MAXALLOWEDPRICE = 1000;
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
 var provider = setupGoerliProvider();
 const network = process.env.PROVIDER_NETWORK;
 if (network === "Besu") {
+  updateLocalEnvFileURL();
   provider = setupProvider();
 }
 
@@ -114,17 +124,9 @@ async function main() {
   console.log(`PAYMENT_CONTRACT_ADDRESS = ${paymentAddress}`);
 
   console.log("=====================");
-  console.log("Copy the following to the frontend const file:");
-  console.log("=====================");
-  console.log(`var TOKEN_CONTRACT_ADDRESS = '${tokenAddress}'`);
-  console.log(`var REGISTRY_CONTRACT_ADDRESS = '${registryAddress}'`);
-  console.log(`var POOLMARKET_CONTRACT_ADDRESS = '${poolmarketAddress}'`);
-  console.log(`var PAYMENT_CONTRACT_ADDRESS = '${paymentAddress}'`);
-
-  console.log("=====================");
   console.log("Updating contracts addresses in the .env file...");
 
-  await updateEnvFile(
+  await updateEnvFiles(
     tokenAddress,
     registryAddress,
     poolmarketAddress,
@@ -132,27 +134,41 @@ async function main() {
   );
 }
 
-async function updateEnvFile(
+async function updateLocalEnvFileURL() {
+    const firstUpdate = async () => {
+      var dirpath = dirPathUpdates[0];
+      try {
+        const fileData = await _fs.promises.readFile(dirpath);
+        var fileAsStr = fileData.toString("utf8").replace(urlre, url);
+        await _fs.promises.writeFile(dirpath, fileAsStr, "utf8");
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    await firstUpdate();
+  }
+
+async function updateEnvFiles(
   tokenAddress: string,
   registryAddress: string,
   poolmarketAddress: string,
   paymentAddress: string
 ) {
-  const dirPath = ".env";
 
-  try {
-    const fileData = await _fs.promises.readFile(dirPath);
-    var fileAsStr = fileData.toString("utf8");
-
-    var str = fileAsStr.split("TOKEN_CONTRACT_ADDRESS")[0];
-    var address1 = `TOKEN_CONTRACT_ADDRESS = ${tokenAddress}`;
-    var address2 = `REGISTRY_CONTRACT_ADDRESS = ${registryAddress}`;
-    var address3 = `POOLMARKET_CONTRACT_ADDRESS = ${poolmarketAddress}`;
-    var address4 = `PAYMENT_CONTRACT_ADDRESS = ${paymentAddress}`;
-    var addresses = `${address1}\n${address2}\n${address3}\n${address4}`;
-    await _fs.promises.writeFile(dirPath, str + addresses, "utf8");
-  } catch (err) {
-    console.log(err);
+  for(var dirpath of dirPathUpdates ) {
+    try {
+      const fileData = await _fs.promises.readFile(dirpath);
+      var fileAsStr = fileData.toString("utf8").replaceAll(urlre, url);
+      var str = fileAsStr.split("TOKEN_CONTRACT_ADDRESS")[0];
+      var address1 = `TOKEN_CONTRACT_ADDRESS = ${tokenAddress}`;
+      var address2 = `REGISTRY_CONTRACT_ADDRESS = ${registryAddress}`;
+      var address3 = `POOLMARKET_CONTRACT_ADDRESS = ${poolmarketAddress}`;
+      var address4 = `PAYMENT_CONTRACT_ADDRESS = ${paymentAddress}`;
+      var addresses = `${address1}\n${address2}\n${address3}\n${address4}`;
+      await _fs.promises.writeFile(dirpath, str + addresses, "utf8");
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 
