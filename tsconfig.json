@@ -6,7 +6,10 @@
     "esModuleInterop": true,
     "outDir": "dist",
     "declaration": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "lib": [
+      "ES2021.String"
+    ]
   },
   "include": [
     "./scripts",

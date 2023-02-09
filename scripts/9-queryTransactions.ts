@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import "dotenv/config";
 
 async function request(body: string) {
-  const defaultURL = "http//192.168.226.33:8545";
+  const defaultURL = "http//192.168.226.193:8545";
   const response = await fetch(process.env.BESU_URL || defaultURL, {
     method: "POST",
     body: body,
@@ -14,23 +14,26 @@ async function request(body: string) {
 
 async function queryPending() {
   var pendingBody =
-    '{"jsonrpc":"2.0","method":"txpool_besuPendingTransactions","params":[1000,{"gas":{"gt":"0x5209"},"nonce":{"gt":"0x1"}}],"id":1}';
+    '{"jsonrpc":"2.0","method":"txpool_besuPendingTransactions","params":[1000,{"gas":{"lt":"0xffffff"},"nonce":{"gt":"0x00"}}],"id":1}';
   const pendingResponse = await request(pendingBody);
   console.log(pendingResponse.result);
 }
 
 async function queryStats() {
+  // https://besu.hyperledger.org/en/stable/public-networks/reference/api/#txpool_besupendingtransactions
   var statsBody =
     '{"jsonrpc":"2.0","method":"txpool_besuStatistics","params":[],"id":1}';
   const statsResponse = await request(statsBody);
-  console.log(statsResponse);
+  console.log(statsResponse.result);
 }
 
 async function queryTx() {
   var txBody =
     '{"jsonrpc":"2.0","method":"txpool_besuTransactions","params":[],"id":1}';
   const txResponse = await request(txBody);
-  console.log(txResponse.result.length);
+  console.log(`There are ${txResponse.result.length} pending transactions in the txpool:`);
+
+  console.log(txResponse.result);
 }
 
 async function main() {
