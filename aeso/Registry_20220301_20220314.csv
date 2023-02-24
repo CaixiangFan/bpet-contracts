@@ -1,0 +1,143 @@
+Index,AssetId,BlockNumber,Capacity,OfferControl
+0,ME04,2,6,URICA Asset Optimization Ltd.
+1,BHL1,2,5,URICA Asset Optimization Ltd.
+2,COD1,2,5,Signalta Resources Limited
+3,ALP1,2,7,Campus Energy Partners LP
+4,BFD1,2,6,Horseshoe Power GP Ltd.
+5,ME03,2,7,URICA Asset Optimization Ltd.
+6,ME02,2,8,URICA Asset Optimization Ltd.
+7,WCD1,2,20,URICA Asset Optimization Ltd.
+8,ALP2,2,10,Campus Energy Partners LP
+9,SDH1,2,10,Tourmaline Oil Corp.
+10,GEN5,3,15,URICA Asset Optimization Ltd.
+11,SCR6,2,483,Suncor Energy Inc.
+12,BIG,7,62,TransAlta Energy Marketing Corp.
+13,BOW1,7,257,TransAlta Energy Marketing Corp.
+14,SUM1,3,10,TransAlta Corporation
+15,CCMH,4,39,Cancarb Ltd.
+16,WWD1,2,10,West Fraser Mills Ltd.
+17,AFG1,5,43,Alberta Pacific Forest Industries
+18,CRS3,3,45,ENMAX Generation Portfolio Inc.
+19,APS1,5,166,Heartland Generation Ltd.
+20,CRS2,3,44,ENMAX Generation Portfolio Inc.
+21,KH2,6,395,TransAlta Generation Partnership
+22,CRS1,3,44,ENMAX Generation Portfolio Inc.
+23,ENC1,7,44,Capital Power GP Holdings Inc.
+24,ENC2,7,99,Capital Power GP Holdings Inc.
+25,ENC3,7,99,Capital Power GP Holdings Inc.
+26,BRA,7,340,TransAlta Energy Marketing Corp.
+27,EC01,4,112,ENMAX Cavalier LP
+28,CAL1,6,307,Calgary Energy Centre No. 2 Inc.
+29,ALS1,3,103,Air Liquide Canada Inc.
+30,VVW1,2,47,Heartland Generation Ltd.
+31,SET1,2,16,Enbridge Pipelines Inc.
+32,DOWG,5,223,Dow Chemical Canada ULC 
+33,VVW2,2,47,Heartland Generation Ltd.
+34,PH1,2,37,Heartland Generation Ltd.
+35,EGC1,7,840,Capital Power GP Holdings Inc.; ENMAX Energy Corporation
+36,CMH1,7,242,City of Medicine Hat
+37,DAI1,2,24,Mercer Peace River Pulp Ltd.
+38,NPP1,7,101,"Exelon Generation Company, LLC"
+39,GEN6,2,10,URICA Asset Optimization Ltd.
+40,SH2,7,400,Alberta Power (2000) Ltd.
+41,EAGL,3,25,Whitecourt Power Ltd.
+42,SH1,7,400,TransAlta Cogeneration LP
+43,RB5,2,50,Heartland Generation Ltd.
+44,ANC1,1,63,Alberta Newsprint Company
+45,HRT1,2,52,Fengate Central Utilities Block GP Inc.
+46,JOF1,5,295,Heartland Generation Ltd.
+47,HRM,3,206,Milner Power Limited Partnership  by its General Partner Milner Power Inc. 
+48,FH1,3,199,Suncor Energy Inc.
+49,GN1,6,400,Capital Power GP Holdings Inc.
+50,TC01,2,85,TransCanada Energy Ltd
+51,GN2,2,400,Capital Power GP Holdings Inc.
+52,MKR1,3,200,Heartland Generation Ltd.
+53,DRW1,1,3,URICA Asset Optimization Ltd.
+54,OMRH,1,4,ATCO Power (2010) Ltd.
+55,DKSN,1,4,Algonquin Power Operating Trust
+56,MUL1,1,5,Tourmaline Oil Corp.
+57,GPEC,1,12,Canadian Forest Products Ltd.
+58,BRD1,1,11,"Alberta Solar One, Inc."
+59,UOC1,1,12,University of Calgary
+60,NRG3,1,12,NRGreen Power Limited Partnership
+61,BUL1,1,13,Bull Creek Wind Power Limited Partnership
+62,TLM2,1,13,Repsol Canada Energy Partnership
+63,BSC1,1,15,Brooks Solar Corporation
+64,BUL2,1,16,Bull Creek Wind Power Limited Partnership
+65,STR1,1,18,Capital Power (Ontario) Limited Partnership
+66,WEF1,1,19,Suffield Solar LP
+67,INF1,1,19,Innisfail Solar Corporation
+68,ERV2,3,20,URICA Asset Optimization Ltd.
+69,ERV1,1,20,URICA Asset Optimization Ltd.
+70,CRE3,1,20,TransAlta Corporation
+71,BUR1,1,20,Suffield Solar LP
+72,VXH1,1,22,Taber Solar 1 Inc.
+73,JER1,1,23,Suffield Solar LP
+74,HYS1,1,23,Suffield Solar LP
+75,SUF1,1,23,Suffield Solar LP
+76,HUL1,1,25,Taber Solar 2 Inc.
+77,SCR2,1,30,Suncor Energy Products Inc.
+78,SCR3,1,30,Suncor Energy Products Inc.
+79,BCR2,1,27,TransCanada Energy Ltd
+80,CRR2,1,29,Pincher Creek Limited Partnership
+81,HMT1,1,38,AltaGas Ltd.
+82,CR1,1,39,TransAlta Corporation
+83,RTL1,1,65,BHE Canada Rattlesnake L.P.
+84,SCR1,1,40,Suncor Energy Inc.
+85,SCL1,1,88,Syncrude Canada Ltd.
+86,WEY1,1,43,International Paper Canada Pulp Holdings ULC
+87,OWF1,1,46,Oldman 2 Wind Farm Ltd.
+88,RL1,1,47,Heartland Generation Ltd.
+89,ESBC,1,100,TransCanada Energy Sales Ltd.
+90,SPSK,1,153,NorthPoint Energy Solutions Inc.
+91,IEW1,1,66,TransAlta Corporation
+92,CLR1,1,58,Claresholm Solar LP
+93,BCRK,1,60,TransCanada Energy Ltd
+94,KHW1,1,63,Kettles Hill Wind Energy Inc.
+95,GWW1,1,71,TransAlta Corporation
+96,IEW2,1,66,TransAlta Corporation
+97,BTR1,1,66,TransAlta Corporation
+98,ARD1,1,68,TransAlta Corporation
+99,AKE1,1,73,ENMAX Energy Corporation 12
+100,FNG1,1,68,Powerex Corp. 
+101,TC02,1,75,Pembina NGL Corporation; TransCanada Energy Ltd
+102,CLR2,1,75,Claresholm Solar LP
+103,CRR1,1,77,Castle Rock Ridge LP
+104,TAB1,1,81,ENMAX Energy Corporation
+105,EC04,1,89,Cenovus FCCL Ltd.
+106,NEP1,1,82,"Ghost Pine Windfarm, LP"
+107,PR1,1,90,Heartland Generation Ltd.
+108,SCR4,1,88,Oldman 2 Wind Farm Ltd.
+109,CL01,1,93,Cenovus FCCL Ltd.
+110,RIV1,1,105,Riverview Limited Partnership
+111,WRW1,1,130,TransAlta Corporation
+112,MEG1,1,130,MEG Energy Corp.
+113,MOMT,1,295,Morgan Stanley Capital Group Inc.
+114,HAL1,1,150,Halkirk I Wind Project LP
+115,WHT2,1,151,Whitla 2 Wind Generation L.P.
+116,IOR1,1,169,Imperial Oil Limited
+117,IOR2,1,172,Imperial Oil Limited 1
+118,NX02,1,185,Nexen Inc.
+119,MKRC,1,200,TransCanada Energy Ltd
+120,WHT1,1,202,Capital Power (Whitla) L.P.
+121,SCR5,1,297,Suncor Energy Inc.
+122,PWBC,1,607,Powerex Corp. 
+123,BSR1,1,300,EDF Renewables Development Inc.
+124,KH3,5,463,TransAlta Energy Marketing Corp.
+125,GN3,1,466,Capital Power GP Holdings Inc.
+126,NAT1,3,20,URICA Asset Optimization Ltd.
+127,NPC3,2,9,Northstone Power Corp.
+128,NPC2,2,9,Northstone Power Corp.
+129,WST1,1,13,DAPP Power LP
+130,SD6,5,401,TransAlta Generation Partnership
+131,EMXS,1,50,Capital Power GP Holdings Inc.
+132,RESK,1,123,Rainbow Energy Marketing Corporation
+133,BR5,6,385,Heartland Generation Ltd.
+134,CWSK,1,27,Canadian Wood Products Montreal Inc.
+135,TISK,1,11,TEC Energy Inc.
+136,STR2,1,22,Capital Power (Ontario) Limited Partnership
+137,DYBC,1,48,Dynasty Power Inc.
+138,TAY1,7,14,TransAlta Corporation
+139,EMXB,1,50,Capital Power GP Holdings Inc.
+140,BR4,4,155,Heartland Generation Ltd.
+141,NX01,1,56,Nexen Inc.

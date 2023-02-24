@@ -6,7 +6,7 @@
         "url": "ws://192.168.226.243:8546",
         "contractDeployerAddress": "0x8b7A99C5A9FD537370d94b68FBaf3F3FAfb50083",
         "contractDeployerAddressPrivateKey": "d813a80f0534815827a582a2afe2ffad74040d4c963f6f132b33140ed0722f49",
-        "fromAddressSeed": "0x3f841bf589fdf83a521e55d51afddc34fa65351161eead24f064855fc29c9584",
+        "fromAddressSeed": "0x3f841bf589fdf83a521e55d51afddc34fa65351161eead24f064855fc29c9581",
         "transactionConfirmationBlocks": 1,
         "contracts": {
             "registry": {
