@@ -39,7 +39,7 @@ async function deployEnergyToken() {
   );
   const tokenContract = await tokenFactory.deploy();
   console.log("Awaiting confirmations");
-  await tokenContract.deployed();
+  await tokenContract.deployTransaction.wait();
   console.log(`Completed! Token contract deployed at ${tokenContract.address}`);
   return tokenContract.address;
 }
@@ -53,7 +53,7 @@ async function deployRegistry() {
   );
   const registryContract = await registryFactory.deploy();
   console.log("Awaiting confirmations");
-  await registryContract.deployed();
+  await registryContract.deployTransaction.wait();
   console.log(
     `Completed! Registry contract deployed at ${registryContract.address}`
   );
@@ -73,7 +73,7 @@ async function deployPoolMarket(registryAddress: string) {
     MAXALLOWEDPRICE
   );
   console.log("Awaiting confirmations");
-  await poolmarketContract.deployed();
+  await poolmarketContract.deployTransaction.wait();
   console.log(
     `Completed! Pool market contract deployed at ${poolmarketContract.address}`
   );
@@ -97,7 +97,7 @@ async function deployPayment(
     registryAddress
   );
   console.log("Awaiting confirmations");
-  await paymentContract.deployed();
+  await paymentContract.deployTransaction.wait();
   console.log(
     `Completed! Payment contract deployed at ${paymentContract.address}`
   );
@@ -107,7 +107,6 @@ async function deployPayment(
 async function main() {
   const tokenAddress = await deployEnergyToken();
   const registryAddress = await deployRegistry();
-  // const registryAddress = '0x2E5Cdd26af7E5d0ABB9CF3721Cf988dFf42B20a4';
   const poolmarketAddress = await deployPoolMarket(registryAddress);
   const paymentAddress = await deployPayment(
     poolmarketAddress,

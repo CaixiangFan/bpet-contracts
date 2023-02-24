@@ -31,9 +31,9 @@ async function queryTx() {
   var txBody =
     '{"jsonrpc":"2.0","method":"txpool_besuTransactions","params":[],"id":1}';
   const txResponse = await request(txBody);
-  console.log(`There are ${txResponse.result.length} pending transactions in the txpool:`);
-
+  console.log('Pending transactions in the txpool:');
   console.log(txResponse.result);
+  console.log(`There are ${txResponse.result.length} pending transactions in the txpool:`);
 }
 
 async function main() {
