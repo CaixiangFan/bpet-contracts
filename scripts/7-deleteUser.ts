@@ -23,17 +23,22 @@ function getContract(wallet: ethers.Wallet): Registry {
 }
 
 async function main() {
-  const wallet_supplier3 = new ethers.Wallet(process.env.SUPPLIER3_PRIVATE_KEY ?? EXPOSED_KEY);
+  const addrs = [process.env.SUPPLIER1 ?? EXPOSED_KEY, 
+                process.env.SUPPLIER2 ?? EXPOSED_KEY,
+                process.env.SUPPLIER3 ?? EXPOSED_KEY]
   const wallet_admin = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
   const contract = getContract(wallet_admin);
-  const deleteConsumerTx = await contract.deleteConsumer(wallet_supplier3.address);
-  await deleteConsumerTx.wait();
+  console.log("Deleting ... :", addrs);
+  for (var addr of addrs) {
+    const deleteUserTx = await contract.deleteSupplier(addr);
+    await deleteUserTx.wait();
+  }
 
   const registeredSuppliers =  await contract.getAllSuppliers();
-  console.log('Registered Suppliers:  ', registeredSuppliers);
+  console.log('Registered Suppliers #:  ', registeredSuppliers.length);
 
   const registeredConsumers =  await contract.getAllConsumers();
-  console.log('Registered Consumers:  ', registeredConsumers);
+  console.log('Registered Consumers #:  ', registeredConsumers.length);
 }
 
 main().catch((error) => {
