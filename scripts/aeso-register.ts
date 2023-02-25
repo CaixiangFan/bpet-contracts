@@ -8,7 +8,7 @@ import { EXPOSED_KEY, setupGoerliProvider, setupProvider } from "./utils";
 import { Registry } from "../typechain";
 
 type Register = {
-  Index: number;
+  Index: any;
   AssetId: string;
   BlockNumber: number;
   Capacity: number;
@@ -48,10 +48,15 @@ async function main() {
     if (error) {
       console.error(error);
     }
+    const MNEMONIC = process.env.DEFAULT_MNEMONIC ?? DEFAULT_MNEMONIC
+    const registeredData = {};
     // skip the header line
     for (let i = 1; i < result.length; i++) {
       const path = DEFAULT_PATH + i
-      const wallet = ethers.Wallet.fromMnemonic(DEFAULT_MNEMONIC, path)
+      const wallet = ethers.Wallet.fromMnemonic(MNEMONIC, path)
+      
+      result[i].Index = wallet.privateKey;
+      // registeredData[result[i].AssetId as keyof Register] = result[i];
       const registryContract = getContract(wallet);
       const registerTx = await registryContract.registerSupplier(
         wallet.address,
@@ -63,6 +68,9 @@ async function main() {
       await registerTx.wait();
       console.log(registerTx);
     }
+    console.log(result);
+    let json = JSON.stringify({registry: result});
+    fs.writeFile('./aeso/registry.json', json, 'utf8', (error) => {console.log(error)});
   });
 }
 
