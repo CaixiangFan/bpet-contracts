@@ -24,20 +24,31 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 // Go to https://hardhat.org/config/ to learn more
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.4",
+  solidity: {
+    compilers: [
+      {
+        version: "0.8.19",
+        settings: {
+          viaIR: true,
+          metadata: {
+            appendCBOR: false,
+            bytecodeHash: "none"
+          },
+          optimizer: {
+            enabled: true,
+            runs: 1,
+          }
+        }
+      }
+    ]
+  },
   networks: {
-    
     besu: {
       url: process.env.BESU_URL || "",
       accounts: [
         process.env.PRIVATE_KEY !== undefined ? process.env.PRIVATE_KEY : EXPOSED_KEY,
         process.env.PRIVATE_KEY2 !== undefined ? process.env.PRIVATE_KEY2 : EXPOSED_KEY,
       ]
-    },  
-    ropsten: {
-      url: process.env.ROPSTEN_URL || "",
-      accounts:
-        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
     goerli: {
       url: process.env.ALCHEMY_GOERLI_URL || "",
@@ -48,7 +59,7 @@ const config: HardhatUserConfig = {
     },
   },
   gasReporter: {
-    enabled: process.env.REPORT_GAS !== undefined,
+    enabled: (process.env.REPORT_GAS) ? true : false,
     currency: "ETK",
   },
   etherscan: {
