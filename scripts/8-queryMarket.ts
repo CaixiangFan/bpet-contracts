@@ -24,13 +24,6 @@ async function main() {
     poolMarketSigner
   ) as PoolMarket;
 
-  // const registeredSuppliers = await poolMarketContractInstance.;
-  // console.log("All registered supplier accounts:  ", registeredSuppliers);
-
-  // const registeredConsumers =
-  //   await poolMarketContractInstance.getAllConsumers();
-  // console.log("All registered consumer accounts:  ", registeredConsumers);
-
   await getOffers(poolMarketContractInstance);
   await getBids(poolMarketContractInstance);
 }
@@ -62,7 +55,7 @@ async function getOffers(poolmarketContractInstance: PoolMarket) {
     offers.push(covertedOffer);
     console.log(`${i + 1}: ${JSON.stringify(covertedOffer)}`);
   }
-  // console.log(offers);
+  console.log(`Total offers #: ${offers.length}`);
   return offers;
 }
 
@@ -85,7 +78,7 @@ async function getBids(poolmarketContractInstance: PoolMarket) {
     bids.push(convertedBid);
     console.log(`${i + 1}: ${JSON.stringify(convertedBid)}`);
   }
-  // console.log(bids);
+  console.log(`Total bids #: ${bids.length}`);
   return bids;
 }
 

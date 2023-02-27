@@ -8,7 +8,8 @@
     "declaration": true,
     "resolveJsonModule": true,
     "lib": [
-      "ES2021.String"
+      "ES2021.String",
+      "ES2019"
     ]
   },
   "include": [

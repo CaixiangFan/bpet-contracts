@@ -1,1 +1,996 @@
-{"registry":[{"Index":"Index","AssetId":"AssetId","BlockNumber":"BlockNumber","Capacity":"Capacity","OfferControl":"OfferControl"},{"Index":"0x3b8f83aa8b84e26ad0c2723a80da43c6c7b0c9497fe9b2c871ff14bad5f06f15","AssetId":"ME04","BlockNumber":"2","Capacity":"6","OfferControl":"URICA Asset Optimization Ltd."},{"Index":"0x6e2650f014bb4c73fdf942e07eca6502752caeddc1a206df2e5b07924b6b80d8","AssetId":"BHL1","BlockNumber":"2","Capacity":"5","OfferControl":"URICA Asset Optimization Ltd."},{"Index":"0x683c93951a7d65ea554f2655f02787cc36a101245a1e9a211c53909bcdabde74","AssetId":"COD1","BlockNumber":"2","Capacity":"5","OfferControl":"Signalta Resources Limited"},{"Index":"0x4158e1edaedc4a7392031b32a874b3073e9be22f1bbe2a3fd241f29291b74917","AssetId":"ALP1","BlockNumber":"2","Capacity":"7","OfferControl":"Campus Energy Partners LP"},{"Index":"0xcf132384be7801d5cacc5f05a5ac3be92b19c2135e3ec21cfce3f569ab190f43","AssetId":"BFD1","BlockNumber":"2","Capacity":"6","OfferControl":"Horseshoe Power GP Ltd."},{"Index":"0xe0894d27f448318c9b889db416922cff16ecb5eb6b7350e9a89e9986ecb9d94b","AssetId":"ME03","BlockNumber":"2","Capacity":"7","OfferControl":"URICA Asset Optimization Ltd."},{"Index":"0xf44b3b784c94e62a9c3dcaed3af2575c681c20ccdfa804f07a2a6d76892d3f8f","AssetId":"ME02","BlockNumber":"2","Capacity":"8","OfferControl":"URICA Asset Optimization Ltd."},{"Index":"0xd7a82b29ebc8179ac2fd3dfe316c976dcb6788e89f6c2175d03d50733a6cdfbc","AssetId":"WCD1","BlockNumber":"2","Capacity":"20","OfferControl":"URICA Asset Optimization Ltd."},{"Index":"0x6665810842ebcd30e20e01f173b50c71075c9f0b3c2d29327451e422ab16c07f","AssetId":"ALP2","BlockNumber":"2","Capacity":"10","OfferControl":"Campus Energy Partners LP"},{"Index":"0x95c315ed7aac61bd075c0db549dc725f41da641531b14c67a20991cf926330e1","AssetId":"SDH1","BlockNumber":"2","Capacity":"10","OfferControl":"Tourmaline Oil Corp."},{"Index":"0x9c95b4a4d879476d14b0856fefa8054c3fa2e61e3ac217a2276b67bf8c23b7c4","AssetId":"GEN5","BlockNumber":"3","Capacity":"15","OfferControl":"URICA Asset Optimization Ltd."},{"Index":"0x35a589ae5c082b7145eaac6693095485c975caa4f44af03d4362e26ea5b59f1c","AssetId":"SCR6","BlockNumber":"2","Capacity":"483","OfferControl":"Suncor Energy Inc."},{"Index":"0x3bf46f1597fa9a174795808d50f078b6bf814e53c9222d729ad08cf9a389ae5f","AssetId":"BIG","BlockNumber":"7","Capacity":"62","OfferControl":"TransAlta Energy Marketing Corp."},{"Index":"0xb641f6ebedefcb7af957468e3ebde334967bf5ae18791e6c8c52dc89d3af7425","AssetId":"BOW1","BlockNumber":"7","Capacity":"257","OfferControl":"TransAlta Energy Marketing Corp."},{"Index":"0x1007322a83b15aed862a73861579a67ddc1e3a88c75a466cd0efb878949529ee","AssetId":"SUM1","BlockNumber":"3","Capacity":"10","OfferControl":"TransAlta Corporation"},{"Index":"0xdb6ff55d34d581d4ade8f1b68bb3ed77f924f2956301d872eb4a051ce792d1f5","AssetId":"CCMH","BlockNumber":"4","Capacity":"39","OfferControl":"Cancarb Ltd."},{"Index":"0x022b64b99684cd62d7762089648c152963e7e01369f110f65e3e8e069417b2b1","AssetId":"WWD1","BlockNumber":"2","Capacity":"10","OfferControl":"West Fraser Mills Ltd."},{"Index":"0x49a576787466c614eea8949ea25bce55189ded0d6bb52cfb8a16049e950b792b","AssetId":"AFG1","BlockNumber":"5","Capacity":"43","OfferControl":"Alberta Pacific Forest Industries"},{"Index":"0x6023dface3f7d12b74730995373bf4c5f99f32253a3ca6d4b45f5d9b44da6ac2","AssetId":"CRS3","BlockNumber":"3","Capacity":"45","OfferControl":"ENMAX Generation Portfolio Inc."},{"Index":"0x77766252029f2d436cff23766c54de46579e7d2a41bd511b6a4f9568ff5db3c8","AssetId":"APS1","BlockNumber":"5","Capacity":"166","OfferControl":"Heartland Generation Ltd."},{"Index":"0x4d5ceb03167f7afe091f9d8d381a78c6c448fb957e3ef26cf98ba8444414399f","AssetId":"CRS2","BlockNumber":"3","Capacity":"44","OfferControl":"ENMAX Generation Portfolio Inc."},{"Index":"0xe1b5a16fd5fcb06d1dc4ab568f8f0829eca44ec33d673bcf7a49569796bfdb69","AssetId":"KH2","BlockNumber":"6","Capacity":"395","OfferControl":"TransAlta Generation Partnership"},{"Index":"0xcc6036e80e433676822846b6a908e00432c4caa8e04da2c35a3ec10332c019ab","AssetId":"CRS1","BlockNumber":"3","Capacity":"44","OfferControl":"ENMAX Generation Portfolio Inc."},{"Index":"0xb2d5cb049de3502fd9e3f5053b4215214223d7d4b537ded4d6b80665c93a8360","AssetId":"ENC1","BlockNumber":"7","Capacity":"44","OfferControl":"Capital Power GP Holdings Inc."},{"Index":"0x275d251b48fefe2a39ea0a2eba2d98aa33e861144c083051465a1a43e1f2168b","AssetId":"ENC2","BlockNumber":"7","Capacity":"99","OfferControl":"Capital Power GP Holdings Inc."},{"Index":"0x2cd7e06e5650aedb5ec3e36a6e41a424f3b97e2098f28216bba143a0773d1327","AssetId":"ENC3","BlockNumber":"7","Capacity":"99","OfferControl":"Capital Power GP Holdings Inc."},{"Index":"0x84ae0d670e9005cdd4df24ee2cc2e8e4fced0d5c1952e49e5b8802fcecbad306","AssetId":"BRA","BlockNumber":"7","Capacity":"340","OfferControl":"TransAlta Energy Marketing Corp."},{"Index":"0xf9cd6550a3867c32254d766c7cd2804793c6a023675236ae967b561d4503cc97","AssetId":"EC01","BlockNumber":"4","Capacity":"112","OfferControl":"ENMAX Cavalier LP"},{"Index":"0xbee0709488d660d1ab12280c409c56116628b190b2edc8d1f9f3f9469405cbdf","AssetId":"CAL1","BlockNumber":"6","Capacity":"307","OfferControl":"Calgary Energy Centre No. 2 Inc."},{"Index":"0xc7ca023b42974982959a709d5a727f03d086db883628741dad179ce154fdaf66","AssetId":"ALS1","BlockNumber":"3","Capacity":"103","OfferControl":"Air Liquide Canada Inc."},{"Index":"0x1a970b9e5e624a76e7dcd37a4b65820ff1491f64e22694f4c0a23048115785ca","AssetId":"VVW1","BlockNumber":"2","Capacity":"47","OfferControl":"Heartland Generation Ltd."},{"Index":"0x497633282b87aa9fed3312d2cd2ef3051aa097839359f449447b4eba0e541219","AssetId":"SET1","BlockNumber":"2","Capacity":"16","OfferControl":"Enbridge Pipelines Inc."},{"Index":"0x9b49bb7f63163572fdb09e471c9a03f5e6fba8ae2d083fea43f261b9fd58eea3","AssetId":"DOWG","BlockNumber":"5","Capacity":"223","OfferControl":"Dow Chemical Canada ULC "},{"Index":"0xcb8dbbea2479545256a92477544a3bea4825edddfa0a7dc1e2201ee26b05299d","AssetId":"VVW2","BlockNumber":"2","Capacity":"47","OfferControl":"Heartland Generation Ltd."},{"Index":"0x0ee84b2e711e36f75fefb8c1f33c4c15d30aa1012d3eb2e1b004a3de2039d55f","AssetId":"PH1","BlockNumber":"2","Capacity":"37","OfferControl":"Heartland Generation Ltd."},{"Index":"0x83a65071e133152bf19bd8829eb2d205191bfd2d5de80d6c108f94cbfd77806f","AssetId":"EGC1","BlockNumber":"7","Capacity":"840","OfferControl":"Capital Power GP Holdings Inc.; ENMAX Energy Corporation"},{"Index":"0xfcafe8081b8e70f3b6c535a8ba8bf3a764d1510e3b37f4c4092faf1e3339e5d7","AssetId":"CMH1","BlockNumber":"7","Capacity":"242","OfferControl":"City of Medicine Hat"},{"Index":"0xff50224b934837d10656cf3bdaf344e0181598e811fc4ac5978126ea6074945e","AssetId":"DAI1","BlockNumber":"2","Capacity":"24","OfferControl":"Mercer Peace River Pulp Ltd."},{"Index":"0x5f81a7460e1f323a5601a98bdf95458d00d0e8ae25f14bb53c3b8f19744895a7","AssetId":"NPP1","BlockNumber":"7","Capacity":"101","OfferControl":"Exelon Generation Company, LLC"},{"Index":"0x4c82dba07f4329951e093053c5d81ae84f63fb72d742d25deb355edec66b0fb0","AssetId":"GEN6","BlockNumber":"2","Capacity":"10","OfferControl":"URICA Asset Optimization Ltd."},{"Index":"0xa98f7e5caf1224d4c3aa28cae96332b2a12fec18d716d1d573709a718cfff87a","AssetId":"SH2","BlockNumber":"7","Capacity":"400","OfferControl":"Alberta Power (2000) Ltd."},{"Index":"0x417a9cb3f54ffa3d34e91a07156ea5f9370c3316022797a23c4ddd32723ed5a2","AssetId":"EAGL","BlockNumber":"3","Capacity":"25","OfferControl":"Whitecourt Power Ltd."},{"Index":"0x5c7395adb6669f466688ad848beb6cd1e549ea78cd28b01bd5a08a313e75e5a3","AssetId":"SH1","BlockNumber":"7","Capacity":"400","OfferControl":"TransAlta Cogeneration LP"},{"Index":"0x1610e995c6a861998bf8829c6c196a678ba4fec920408ed74dec7199782a7627","AssetId":"RB5","BlockNumber":"2","Capacity":"50","OfferControl":"Heartland Generation Ltd."},{"Index":"0x0bca4df91b446353f957d6744c85f723fa3da38045303560b4e653d988ecac41","AssetId":"ANC1","BlockNumber":"1","Capacity":"63","OfferControl":"Alberta Newsprint Company"},{"Index":"0x396939c10f7db28f01f34b783c61d3318c76a0fcb6ed2c1d8111e590a19f2d9a","AssetId":"HRT1","BlockNumber":"2","Capacity":"52","OfferControl":"Fengate Central Utilities Block GP Inc."},{"Index":"0x587760f4e0021a05f974466412bf6fd2a53928f986f3404f7a35b38de6c93bfa","AssetId":"JOF1","BlockNumber":"5","Capacity":"295","OfferControl":"Heartland Generation Ltd."},{"Index":"0x7d59f285966051d31a3543fa229ca43298c4c0f11d664e4b41a938812f2a779a","AssetId":"HRM","BlockNumber":"3","Capacity":"206","OfferControl":"Milner Power Limited Partnership  by its General Partner Milner Power Inc. "},{"Index":"0xbbab63060de7e323c634adf08a23577d45aa5b7aaab63c5c2193daf8e18c7ed0","AssetId":"FH1","BlockNumber":"3","Capacity":"199","OfferControl":"Suncor Energy Inc."},{"Index":"0x34092ce91cf2244b9257e76e8adc77f9501d6a75531c332cb042fa854a8cf5cc","AssetId":"GN1","BlockNumber":"6","Capacity":"400","OfferControl":"Capital Power GP Holdings Inc."},{"Index":"0x74179f36eeb46b708a522da54a7bc9b2da6d6a6c01df63c095cba005e3e37c5e","AssetId":"TC01","BlockNumber":"2","Capacity":"85","OfferControl":"TransCanada Energy Ltd"},{"Index":"0x770e2847736a60194b78ddb56b281108b41316558eae5c05537e045f233c5706","AssetId":"GN2","BlockNumber":"2","Capacity":"400","OfferControl":"Capital Power GP Holdings Inc."},{"Index":"0x5e84a0b0e9067406cf7a6b5ca4ab869af888620963bc4fe016b759ee1f0184c4","AssetId":"MKR1","BlockNumber":"3","Capacity":"200","OfferControl":"Heartland Generation Ltd."},{"Index":"0x434535402e35d27b412d046ea5ac81b96bcc4410efa5a126364d8a44a30d5d5e","AssetId":"DRW1","BlockNumber":"1","Capacity":"3","OfferControl":"URICA Asset Optimization Ltd."},{"Index":"0x6d0d6f656a91ea39c8ee4331dd613a35f22eb1cfd3445999940afe9a4b4b26a0","AssetId":"OMRH","BlockNumber":"1","Capacity":"4","OfferControl":"ATCO Power (2010) Ltd."},{"Index":"0x84df01fd4629f0b27f07d66f5db2ae837509c11b03295cf3e2514a9ab300e629","AssetId":"DKSN","BlockNumber":"1","Capacity":"4","OfferControl":"Algonquin Power Operating Trust"},{"Index":"0x2b05e540a75c1f2b95850bb8a095531e558e16bfff4f52e1d0e459d6b879f093","AssetId":"MUL1","BlockNumber":"1","Capacity":"5","OfferControl":"Tourmaline Oil Corp."},{"Index":"0x7715ee09bdb0bc986dcc1aa3bafe77c717fb7d1f73c1a03eab196ce37d881744","AssetId":"GPEC","BlockNumber":"1","Capacity":"12","OfferControl":"Canadian Forest Products Ltd."},{"Index":"0x9beadb1e30a2bcb3b6bd1dc555b707e7aa99ec074aa938622d71710db4ac96de","AssetId":"BRD1","BlockNumber":"1","Capacity":"11","OfferControl":"Alberta Solar One, Inc."},{"Index":"0xdeab8badbac01debf640993b58cf26d8a3e1e72f399b313868bc893b649112d5","AssetId":"UOC1","BlockNumber":"1","Capacity":"12","OfferControl":"University of Calgary"},{"Index":"0x3c8813061abc440c5831c719f4184ce8a827210518921025caf42d487d0bc5a8","AssetId":"NRG3","BlockNumber":"1","Capacity":"12","OfferControl":"NRGreen Power Limited Partnership"},{"Index":"0x62b16e9de71ee377cd0c3c101eb1c7e7f6e521e6170038d5467b7e34fc2ec70c","AssetId":"BUL1","BlockNumber":"1","Capacity":"13","OfferControl":"Bull Creek Wind Power Limited Partnership"},{"Index":"0xfd779001518d0381291bd0382ce724d4559b4e60b83a534d9dac5631b931b5f8","AssetId":"TLM2","BlockNumber":"1","Capacity":"13","OfferControl":"Repsol Canada Energy Partnership"},{"Index":"0x7d8a649ad7959840c7c4c108917a9f877c4ed8f2df2077ac38116e08ada6ea03","AssetId":"BSC1","BlockNumber":"1","Capacity":"15","OfferControl":"Brooks Solar Corporation"},{"Index":"0xce374a7bf6403c2ab78ccef7a96ebcf480caa33d69bcb5390491dfbe6d3e5d18","AssetId":"BUL2","BlockNumber":"1","Capacity":"16","OfferControl":"Bull Creek Wind Power Limited Partnership"},{"Index":"0xb87c0ae11f0c9100a59f7864da739444a470831b1af2fdca6698833e5977727a","AssetId":"STR1","BlockNumber":"1","Capacity":"18","OfferControl":"Capital Power (Ontario) Limited Partnership"},{"Index":"0xaef3f7f41e015d25ed0ea5a83671fb439f568caeeb4e767eb152108d6ed7762d","AssetId":"WEF1","BlockNumber":"1","Capacity":"19","OfferControl":"Suffield Solar LP"},{"Index":"0x64993f5233ddae2d6cec5ee3576d9fc6239c0ebb7710ea751a9983a4f7f66487","AssetId":"INF1","BlockNumber":"1","Capacity":"19","OfferControl":"Innisfail Solar Corporation"},{"Index":"0xb7ea6d375a00fc93bc98d6ec695e2c077b864ab68688d1ff2d98085e0f71a42d","AssetId":"ERV2","BlockNumber":"3","Capacity":"20","OfferControl":"URICA Asset Optimization Ltd."},{"Index":"0xe247fa46456f62bd07d7ea2e4c919a610076e31fd433e88952f6929dc2562dac","AssetId":"ERV1","BlockNumber":"1","Capacity":"20","OfferControl":"URICA Asset Optimization Ltd."},{"Index":"0x978da48db385da394e0b5b67b3be1b44c15ed7393e1abd18a9ae5950d95a1c80","AssetId":"CRE3","BlockNumber":"1","Capacity":"20","OfferControl":"TransAlta Corporation"},{"Index":"0x5f55323d79446379ac5dd5d27b5f4947672f03c8fec46190e75a53b8bd87b34f","AssetId":"BUR1","BlockNumber":"1","Capacity":"20","OfferControl":"Suffield Solar LP"},{"Index":"0x305b64e4ac3c0754eab7c67ed6003d7b7a1f52151696df45cc1c63c3fadcb342","AssetId":"VXH1","BlockNumber":"1","Capacity":"22","OfferControl":"Taber Solar 1 Inc."},{"Index":"0x5b8232348d80f6f14342e4b550df7c2c9e31c416b8eaacc24fa3cdf966916141","AssetId":"JER1","BlockNumber":"1","Capacity":"23","OfferControl":"Suffield Solar LP"},{"Index":"0x151693dd1cb54f1b22e7efcb9475f40115c862e3a941d59d8416363cac716b48","AssetId":"HYS1","BlockNumber":"1","Capacity":"23","OfferControl":"Suffield Solar LP"},{"Index":"0x80c394be11fa60b182d5afaec60556adbbcd10e5d6d7e29f34d1ddbdbf8cc833","AssetId":"SUF1","BlockNumber":"1","Capacity":"23","OfferControl":"Suffield Solar LP"},{"Index":"0x15bae7d3c5c33a6780725297af8a187bff1f238359a44f3be3cacc45934187d0","AssetId":"HUL1","BlockNumber":"1","Capacity":"25","OfferControl":"Taber Solar 2 Inc."},{"Index":"0xc66ad077f90d583104f535a0059c5ba3a5eb55cceaeb97f7215f14a1c045f4f6","AssetId":"SCR2","BlockNumber":"1","Capacity":"30","OfferControl":"Suncor Energy Products Inc."},{"Index":"0x3032edeb4d216233e0041d821dc880702daef39b748fabcdc954e62a92c032bc","AssetId":"SCR3","BlockNumber":"1","Capacity":"30","OfferControl":"Suncor Energy Products Inc."},{"Index":"0xf26019e76b1ef7095b12741eff0a1e59bf0f1e3cbdc08afbaa220a30513914b1","AssetId":"BCR2","BlockNumber":"1","Capacity":"27","OfferControl":"TransCanada Energy Ltd"},{"Index":"0xc3244a6f2f1b1c232b4406706b7617cf2330b3ce267669e98aec64a3e3a92a57","AssetId":"CRR2","BlockNumber":"1","Capacity":"29","OfferControl":"Pincher Creek Limited Partnership"},{"Index":"0xc08cfb009f6d511eba4c1c112a8f3ee0051330e1bad9efb96c300204ded57894","AssetId":"HMT1","BlockNumber":"1","Capacity":"38","OfferControl":"AltaGas Ltd."},{"Index":"0xdfb438a70b0a62539853c47a72958cf2ebff1c0a2d6e0b1deab11c78c5ff591d","AssetId":"CR1","BlockNumber":"1","Capacity":"39","OfferControl":"TransAlta Corporation"},{"Index":"0x26f52dd0b14cb445b3792e528ffeb21ed30d4a8fc8063e0b5755e532b75de009","AssetId":"RTL1","BlockNumber":"1","Capacity":"65","OfferControl":"BHE Canada Rattlesnake L.P."},{"Index":"0x388a104137fc0fd1cc2b9e1412d4ce0ce7435a6bb14ea6e6c872056aeb913d96","AssetId":"SCR1","BlockNumber":"1","Capacity":"40","OfferControl":"Suncor Energy Inc."},{"Index":"0x46a3b2d6985ae441cbef64860010f7d95c12edf55fd16b424ea43d726df7e354","AssetId":"SCL1","BlockNumber":"1","Capacity":"88","OfferControl":"Syncrude Canada Ltd."},{"Index":"0xcf0947711c416c5f1338fea2b5bb9acff00b9acc2e3bfea1dc22421c5525763c","AssetId":"WEY1","BlockNumber":"1","Capacity":"43","OfferControl":"International Paper Canada Pulp Holdings ULC"},{"Index":"0xbb0efdbcaa44af2e994405fb38408e82258804468c205e8b6d9ec5c55e8e6180","AssetId":"OWF1","BlockNumber":"1","Capacity":"46","OfferControl":"Oldman 2 Wind Farm Ltd."},{"Index":"0xe1a1908329bdf30b71fea8a48a56413279ddd5b29cf60b72cd4d1850f6498c63","AssetId":"RL1","BlockNumber":"1","Capacity":"47","OfferControl":"Heartland Generation Ltd."},{"Index":"0x1ed66c06b87216dfa413e021c72a835342ac085a857b1db5329a6155ce34f175","AssetId":"ESBC","BlockNumber":"1","Capacity":"100","OfferControl":"TransCanada Energy Sales Ltd."},{"Index":"0x98f813fe01399f854fa2ce76997161dcc0aa0350a0c5cf720eaa2de5c0b4b6d2","AssetId":"SPSK","BlockNumber":"1","Capacity":"153","OfferControl":"NorthPoint Energy Solutions Inc."},{"Index":"0xaf3c2a1d7cf339d6f51c6a76dd55368d25ac98ba56aa9b48e4abf344937cc865","AssetId":"IEW1","BlockNumber":"1","Capacity":"66","OfferControl":"TransAlta Corporation"},{"Index":"0xf483c6ecf24c9d43c38c38b8fe607178ed49097ba7ab2b2fbfcbc3d20f37a76c","AssetId":"CLR1","BlockNumber":"1","Capacity":"58","OfferControl":"Claresholm Solar LP"},{"Index":"0x8ce6d7a582b7be00af7837229e56ad36f9a6ba0310a098e474ea8af2b5873b51","AssetId":"BCRK","BlockNumber":"1","Capacity":"60","OfferControl":"TransCanada Energy Ltd"},{"Index":"0x4567be173577ffe8d7dffd1f2e5a1a2ca06886e753c566626ad14f808e37880f","AssetId":"KHW1","BlockNumber":"1","Capacity":"63","OfferControl":"Kettles Hill Wind Energy Inc."},{"Index":"0xc44ee88e1ca26317eb576e548dc3b1b1042a7405a6058325678617576951bb60","AssetId":"GWW1","BlockNumber":"1","Capacity":"71","OfferControl":"TransAlta Corporation"},{"Index":"0x82758aeb1232dc07d92f7ed04aea541b86b5619eb735b8c8aaec1bfe64711b3b","AssetId":"IEW2","BlockNumber":"1","Capacity":"66","OfferControl":"TransAlta Corporation"},{"Index":"0x6666b8dd80b699c636126a1b1d42736bbb47cca637e1f4cab003d45e3ebbd40b","AssetId":"BTR1","BlockNumber":"1","Capacity":"66","OfferControl":"TransAlta Corporation"},{"Index":"0xe3bc6f956f7c8473d706980845cb0f0cb72fcf7e0892ef736af45b5a6f1bc974","AssetId":"ARD1","BlockNumber":"1","Capacity":"68","OfferControl":"TransAlta Corporation"},{"Index":"0xcf743551fb89965cc121349ca9a6f3183b11f9f736351291c09256e432dbac48","AssetId":"AKE1","BlockNumber":"1","Capacity":"73","OfferControl":"ENMAX Energy Corporation 12"},{"Index":"0x0d042ec7abee85f45a69abf5fedb0cdb84c573fac2c608a10537be9fd5fb1846","AssetId":"FNG1","BlockNumber":"1","Capacity":"68","OfferControl":"Powerex Corp. "},{"Index":"0xff2ea5815f45b2c241a8a8850f54ef0aaef0f08f87a621448af41d92a87ab73f","AssetId":"TC02","BlockNumber":"1","Capacity":"75","OfferControl":"Pembina NGL Corporation; TransCanada Energy Ltd"},{"Index":"0x187cfb1ce0bbd61c34e10246b84c8a7dd3df8978cd4ab81686aa59d49e862d67","AssetId":"CLR2","BlockNumber":"1","Capacity":"75","OfferControl":"Claresholm Solar LP"},{"Index":"0x410bd683d1c553d7983b2c440489c49149feccd9d07cba5bd34731796986e744","AssetId":"CRR1","BlockNumber":"1","Capacity":"77","OfferControl":"Castle Rock Ridge LP"},{"Index":"0x716dedb56e536bb7de638247f3247547e41e3238094f4168231b89f6fe1a276f","AssetId":"TAB1","BlockNumber":"1","Capacity":"81","OfferControl":"ENMAX Energy Corporation"},{"Index":"0x27c58df252109862bb450bd14faa2b295f100bbfa78802197c04c2c29942b082","AssetId":"EC04","BlockNumber":"1","Capacity":"89","OfferControl":"Cenovus FCCL Ltd."},{"Index":"0x1caaf23fd8b21dce7891582c8b32d1d4755fadbb1bb3accc6a11c8cda4554d1b","AssetId":"NEP1","BlockNumber":"1","Capacity":"82","OfferControl":"Ghost Pine Windfarm, LP"},{"Index":"0xf01a6eea23b76669a00bdd10dd251bda9048d40982ee5c7b3507198201d3c554","AssetId":"PR1","BlockNumber":"1","Capacity":"90","OfferControl":"Heartland Generation Ltd."},{"Index":"0x07aa1852e8ab785c5847a79e7cba9b3d74698abfa6fce52f57fc7465fdfac450","AssetId":"SCR4","BlockNumber":"1","Capacity":"88","OfferControl":"Oldman 2 Wind Farm Ltd."},{"Index":"0xe9e2b471128251e74738b285aa22c313ac4f9a7fe1cecaee7c631219ea760d43","AssetId":"CL01","BlockNumber":"1","Capacity":"93","OfferControl":"Cenovus FCCL Ltd."},{"Index":"0x344da6709b9a5eb8b085d24622e1c8f319dadd2c269fbac68eacc59f2f7cb024","AssetId":"RIV1","BlockNumber":"1","Capacity":"105","OfferControl":"Riverview Limited Partnership"},{"Index":"0x2710542b293acf51b724b76887a1f1bfa48339416457ef67f1a75def7149b92c","AssetId":"WRW1","BlockNumber":"1","Capacity":"130","OfferControl":"TransAlta Corporation"},{"Index":"0x9c0a2ccc8209123b721e833e32cf4565a56422c5d7bd04e9e27be1859b9d03a0","AssetId":"MEG1","BlockNumber":"1","Capacity":"130","OfferControl":"MEG Energy Corp."},{"Index":"0x5b7592fb9422cd82bf8fd79afb7eebe2f5a6da8a87d33b63270b1ce9b8202bfd","AssetId":"MOMT","BlockNumber":"1","Capacity":"295","OfferControl":"Morgan Stanley Capital Group Inc."},{"Index":"0xdcabd9725dde97846f8d22dc03c6694934fa896b6d759fdef0faba8f51f3048c","AssetId":"HAL1","BlockNumber":"1","Capacity":"150","OfferControl":"Halkirk I Wind Project LP"},{"Index":"0xad42187f1d0998d4a8b707991cbdc1972623477946c4eff084d80e3c784ed190","AssetId":"WHT2","BlockNumber":"1","Capacity":"151","OfferControl":"Whitla 2 Wind Generation L.P."},{"Index":"0xe08273447e9f834923661aa24f253ff69ace1ad07f07e9c5163263046e15329f","AssetId":"IOR1","BlockNumber":"1","Capacity":"169","OfferControl":"Imperial Oil Limited"},{"Index":"0xec1ba046543b3aeb3ab1ab73d20979b29c9abd26b64706171cc6d8509a6baa1e","AssetId":"IOR2","BlockNumber":"1","Capacity":"172","OfferControl":"Imperial Oil Limited 1"},{"Index":"0xf98b2f231facb96f5c1d54ce3790530b30052ce53ccddeb954c7bdb43a5f4711","AssetId":"NX02","BlockNumber":"1","Capacity":"185","OfferControl":"Nexen Inc."},{"Index":"0xb7eec7901c8fb247f386d28b73d7daf27aef28623bf5ab6b4f8039f1d0596be2","AssetId":"MKRC","BlockNumber":"1","Capacity":"200","OfferControl":"TransCanada Energy Ltd"},{"Index":"0x0fd18f6f8d86dbca135970fcfce337cacb8d7fe68f389934d1c725f941059606","AssetId":"WHT1","BlockNumber":"1","Capacity":"202","OfferControl":"Capital Power (Whitla) L.P."},{"Index":"0x9842f436748777f979debb743783c95462d25daef5df83ac621e0163d41d6a43","AssetId":"SCR5","BlockNumber":"1","Capacity":"297","OfferControl":"Suncor Energy Inc."},{"Index":"0xdf0bde7b1695510cd793c294e1f4219a285214613f22d049273979252a35846b","AssetId":"PWBC","BlockNumber":"1","Capacity":"607","OfferControl":"Powerex Corp. "},{"Index":"0x93b16dbd247855b232faa46de1d0cb4d39d20ea5af72bed0563bc42a6c689119","AssetId":"BSR1","BlockNumber":"1","Capacity":"300","OfferControl":"EDF Renewables Development Inc."},{"Index":"0x68f0c57242094b1a1cca96c20caceb494e8972be591a9bff84eb396c3870de7d","AssetId":"KH3","BlockNumber":"5","Capacity":"463","OfferControl":"TransAlta Energy Marketing Corp."},{"Index":"0xc6bb39cdb862102800aef774b4e2779dd003fce4600813c0bf7d8bd99f6d8e19","AssetId":"GN3","BlockNumber":"1","Capacity":"466","OfferControl":"Capital Power GP Holdings Inc."},{"Index":"0x3e6cc555bdb1aa8e4c6558e604f9f14ec8bf7f668d4ca1e4c70b04da6075177a","AssetId":"NAT1","BlockNumber":"3","Capacity":"20","OfferControl":"URICA Asset Optimization Ltd."},{"Index":"0xcccc5268415b10b1f28fae174fefad60b19183746b19c9e408f55d751d9badd6","AssetId":"NPC3","BlockNumber":"2","Capacity":"9","OfferControl":"Northstone Power Corp."},{"Index":"0x18b5f1bbce25984460fd5c8b8febfe8139a2c23377a540abb83746f191cb0c26","AssetId":"NPC2","BlockNumber":"2","Capacity":"9","OfferControl":"Northstone Power Corp."},{"Index":"0x188899a2029ac0bcfe0b736a1054b5f958e779cf5437102a4d23efcbcad8145b","AssetId":"WST1","BlockNumber":"1","Capacity":"13","OfferControl":"DAPP Power LP"},{"Index":"0x421c2a13e79aad906bdbea6e970787f9b98e885928401e99d50dbb6d7eafbf43","AssetId":"SD6","BlockNumber":"5","Capacity":"401","OfferControl":"TransAlta Generation Partnership"},{"Index":"0x255c97825bdd127f0fa63a88edc85c66125de9970b647a4b3166f349c06fd256","AssetId":"EMXS","BlockNumber":"1","Capacity":"50","OfferControl":"Capital Power GP Holdings Inc."},{"Index":"0xdf16a74eae6525993825036b3a8da9f3fb28e121aec3afbe675a4e613aea6899","AssetId":"RESK","BlockNumber":"1","Capacity":"123","OfferControl":"Rainbow Energy Marketing Corporation"},{"Index":"0x3a243c8ec42766a3f1540add242253f69cb755b81a3258cc4d5d15800ed9eab1","AssetId":"BR5","BlockNumber":"6","Capacity":"385","OfferControl":"Heartland Generation Ltd."},{"Index":"0x19d2c8f817fed6175235ff0c84daec50643eeaf57f1daef285f0b229423f899e","AssetId":"CWSK","BlockNumber":"1","Capacity":"27","OfferControl":"Canadian Wood Products Montreal Inc."},{"Index":"0xbcb54f674cd7bde4bb20d113fc620bbea15f88f80a36d75dae83aca28ff80469","AssetId":"TISK","BlockNumber":"1","Capacity":"11","OfferControl":"TEC Energy Inc."},{"Index":"0x6597c4dbb32d8da22090b1403e457874cb66b18f767404219ff46c5174254ebc","AssetId":"STR2","BlockNumber":"1","Capacity":"22","OfferControl":"Capital Power (Ontario) Limited Partnership"},{"Index":"0x2478e615f9a2a0b1cc979f188d859d5a741604506f83937900c80794d474ba30","AssetId":"DYBC","BlockNumber":"1","Capacity":"48","OfferControl":"Dynasty Power Inc."},{"Index":"0xd2ce760f1d055d6f7d634ac3de003814ea3e0a3978ae0422a3559bab93565d23","AssetId":"TAY1","BlockNumber":"7","Capacity":"14","OfferControl":"TransAlta Corporation"},{"Index":"0xd8f9742d623f165bb8addbe87a1905565a375f7b88631d394873bde892843caf","AssetId":"EMXB","BlockNumber":"1","Capacity":"50","OfferControl":"Capital Power GP Holdings Inc."},{"Index":"0x9c91ca2b6256b0dee05c29d11297fce458fb3d5a66820e29221ef391ab2b03dc","AssetId":"BR4","BlockNumber":"4","Capacity":"155","OfferControl":"Heartland Generation Ltd."},{"Index":"0x76074297ce7e5873aa50454fa1248c324bb3123ae52f6fc08f5c998139c50fc1","AssetId":"NX01","BlockNumber":"1","Capacity":"56","OfferControl":"Nexen Inc."}]}
+{
+    "ME04": {
+        "Index": "0x3b8f83aa8b84e26ad0c2723a80da43c6c7b0c9497fe9b2c871ff14bad5f06f15",
+        "AssetId": "ME04",
+        "BlockNumber": "2",
+        "Capacity": "6",
+        "OfferControl": "URICA Asset Optimization Ltd."
+    },
+    "BHL1": {
+        "Index": "0x6e2650f014bb4c73fdf942e07eca6502752caeddc1a206df2e5b07924b6b80d8",
+        "AssetId": "BHL1",
+        "BlockNumber": "2",
+        "Capacity": "5",
+        "OfferControl": "URICA Asset Optimization Ltd."
+    },
+    "COD1": {
+        "Index": "0x683c93951a7d65ea554f2655f02787cc36a101245a1e9a211c53909bcdabde74",
+        "AssetId": "COD1",
+        "BlockNumber": "2",
+        "Capacity": "5",
+        "OfferControl": "Signalta Resources Limited"
+    },
+    "ALP1": {
+        "Index": "0x4158e1edaedc4a7392031b32a874b3073e9be22f1bbe2a3fd241f29291b74917",
+        "AssetId": "ALP1",
+        "BlockNumber": "2",
+        "Capacity": "7",
+        "OfferControl": "Campus Energy Partners LP"
+    },
+    "BFD1": {
+        "Index": "0xcf132384be7801d5cacc5f05a5ac3be92b19c2135e3ec21cfce3f569ab190f43",
+        "AssetId": "BFD1",
+        "BlockNumber": "2",
+        "Capacity": "6",
+        "OfferControl": "Horseshoe Power GP Ltd."
+    },
+    "ME03": {
+        "Index": "0xe0894d27f448318c9b889db416922cff16ecb5eb6b7350e9a89e9986ecb9d94b",
+        "AssetId": "ME03",
+        "BlockNumber": "2",
+        "Capacity": "7",
+        "OfferControl": "URICA Asset Optimization Ltd."
+    },
+    "ME02": {
+        "Index": "0xf44b3b784c94e62a9c3dcaed3af2575c681c20ccdfa804f07a2a6d76892d3f8f",
+        "AssetId": "ME02",
+        "BlockNumber": "2",
+        "Capacity": "8",
+        "OfferControl": "URICA Asset Optimization Ltd."
+    },
+    "WCD1": {
+        "Index": "0xd7a82b29ebc8179ac2fd3dfe316c976dcb6788e89f6c2175d03d50733a6cdfbc",
+        "AssetId": "WCD1",
+        "BlockNumber": "2",
+        "Capacity": "20",
+        "OfferControl": "URICA Asset Optimization Ltd."
+    },
+    "ALP2": {
+        "Index": "0x6665810842ebcd30e20e01f173b50c71075c9f0b3c2d29327451e422ab16c07f",
+        "AssetId": "ALP2",
+        "BlockNumber": "2",
+        "Capacity": "10",
+        "OfferControl": "Campus Energy Partners LP"
+    },
+    "SDH1": {
+        "Index": "0x95c315ed7aac61bd075c0db549dc725f41da641531b14c67a20991cf926330e1",
+        "AssetId": "SDH1",
+        "BlockNumber": "2",
+        "Capacity": "10",
+        "OfferControl": "Tourmaline Oil Corp."
+    },
+    "GEN5": {
+        "Index": "0x9c95b4a4d879476d14b0856fefa8054c3fa2e61e3ac217a2276b67bf8c23b7c4",
+        "AssetId": "GEN5",
+        "BlockNumber": "3",
+        "Capacity": "15",
+        "OfferControl": "URICA Asset Optimization Ltd."
+    },
+    "SCR6": {
+        "Index": "0x35a589ae5c082b7145eaac6693095485c975caa4f44af03d4362e26ea5b59f1c",
+        "AssetId": "SCR6",
+        "BlockNumber": "2",
+        "Capacity": "483",
+        "OfferControl": "Suncor Energy Inc."
+    },
+    "BIG": {
+        "Index": "0x3bf46f1597fa9a174795808d50f078b6bf814e53c9222d729ad08cf9a389ae5f",
+        "AssetId": "BIG",
+        "BlockNumber": "7",
+        "Capacity": "62",
+        "OfferControl": "TransAlta Energy Marketing Corp."
+    },
+    "BOW1": {
+        "Index": "0xb641f6ebedefcb7af957468e3ebde334967bf5ae18791e6c8c52dc89d3af7425",
+        "AssetId": "BOW1",
+        "BlockNumber": "7",
+        "Capacity": "257",
+        "OfferControl": "TransAlta Energy Marketing Corp."
+    },
+    "SUM1": {
+        "Index": "0x1007322a83b15aed862a73861579a67ddc1e3a88c75a466cd0efb878949529ee",
+        "AssetId": "SUM1",
+        "BlockNumber": "3",
+        "Capacity": "10",
+        "OfferControl": "TransAlta Corporation"
+    },
+    "CCMH": {
+        "Index": "0xdb6ff55d34d581d4ade8f1b68bb3ed77f924f2956301d872eb4a051ce792d1f5",
+        "AssetId": "CCMH",
+        "BlockNumber": "4",
+        "Capacity": "39",
+        "OfferControl": "Cancarb Ltd."
+    },
+    "WWD1": {
+        "Index": "0x022b64b99684cd62d7762089648c152963e7e01369f110f65e3e8e069417b2b1",
+        "AssetId": "WWD1",
+        "BlockNumber": "2",
+        "Capacity": "10",
+        "OfferControl": "West Fraser Mills Ltd."
+    },
+    "AFG1": {
+        "Index": "0x49a576787466c614eea8949ea25bce55189ded0d6bb52cfb8a16049e950b792b",
+        "AssetId": "AFG1",
+        "BlockNumber": "5",
+        "Capacity": "43",
+        "OfferControl": "Alberta Pacific Forest Industries"
+    },
+    "CRS3": {
+        "Index": "0x6023dface3f7d12b74730995373bf4c5f99f32253a3ca6d4b45f5d9b44da6ac2",
+        "AssetId": "CRS3",
+        "BlockNumber": "3",
+        "Capacity": "45",
+        "OfferControl": "ENMAX Generation Portfolio Inc."
+    },
+    "APS1": {
+        "Index": "0x77766252029f2d436cff23766c54de46579e7d2a41bd511b6a4f9568ff5db3c8",
+        "AssetId": "APS1",
+        "BlockNumber": "5",
+        "Capacity": "166",
+        "OfferControl": "Heartland Generation Ltd."
+    },
+    "CRS2": {
+        "Index": "0x4d5ceb03167f7afe091f9d8d381a78c6c448fb957e3ef26cf98ba8444414399f",
+        "AssetId": "CRS2",
+        "BlockNumber": "3",
+        "Capacity": "44",
+        "OfferControl": "ENMAX Generation Portfolio Inc."
+    },
+    "KH2": {
+        "Index": "0xe1b5a16fd5fcb06d1dc4ab568f8f0829eca44ec33d673bcf7a49569796bfdb69",
+        "AssetId": "KH2",
+        "BlockNumber": "6",
+        "Capacity": "395",
+        "OfferControl": "TransAlta Generation Partnership"
+    },
+    "CRS1": {
+        "Index": "0xcc6036e80e433676822846b6a908e00432c4caa8e04da2c35a3ec10332c019ab",
+        "AssetId": "CRS1",
+        "BlockNumber": "3",
+        "Capacity": "44",
+        "OfferControl": "ENMAX Generation Portfolio Inc."
+    },
+    "ENC1": {
+        "Index": "0xb2d5cb049de3502fd9e3f5053b4215214223d7d4b537ded4d6b80665c93a8360",
+        "AssetId": "ENC1",
+        "BlockNumber": "7",
+        "Capacity": "44",
+        "OfferControl": "Capital Power GP Holdings Inc."
+    },
+    "ENC2": {
+        "Index": "0x275d251b48fefe2a39ea0a2eba2d98aa33e861144c083051465a1a43e1f2168b",
+        "AssetId": "ENC2",
+        "BlockNumber": "7",
+        "Capacity": "99",
+        "OfferControl": "Capital Power GP Holdings Inc."
+    },
+    "ENC3": {
+        "Index": "0x2cd7e06e5650aedb5ec3e36a6e41a424f3b97e2098f28216bba143a0773d1327",
+        "AssetId": "ENC3",
+        "BlockNumber": "7",
+        "Capacity": "99",
+        "OfferControl": "Capital Power GP Holdings Inc."
+    },
+    "BRA": {
+        "Index": "0x84ae0d670e9005cdd4df24ee2cc2e8e4fced0d5c1952e49e5b8802fcecbad306",
+        "AssetId": "BRA",
+        "BlockNumber": "7",
+        "Capacity": "340",
+        "OfferControl": "TransAlta Energy Marketing Corp."
+    },
+    "EC01": {
+        "Index": "0xf9cd6550a3867c32254d766c7cd2804793c6a023675236ae967b561d4503cc97",
+        "AssetId": "EC01",
+        "BlockNumber": "4",
+        "Capacity": "112",
+        "OfferControl": "ENMAX Cavalier LP"
+    },
+    "CAL1": {
+        "Index": "0xbee0709488d660d1ab12280c409c56116628b190b2edc8d1f9f3f9469405cbdf",
+        "AssetId": "CAL1",
+        "BlockNumber": "6",
+        "Capacity": "307",
+        "OfferControl": "Calgary Energy Centre No. 2 Inc."
+    },
+    "ALS1": {
+        "Index": "0xc7ca023b42974982959a709d5a727f03d086db883628741dad179ce154fdaf66",
+        "AssetId": "ALS1",
+        "BlockNumber": "3",
+        "Capacity": "103",
+        "OfferControl": "Air Liquide Canada Inc."
+    },
+    "VVW1": {
+        "Index": "0x1a970b9e5e624a76e7dcd37a4b65820ff1491f64e22694f4c0a23048115785ca",
+        "AssetId": "VVW1",
+        "BlockNumber": "2",
+        "Capacity": "47",
+        "OfferControl": "Heartland Generation Ltd."
+    },
+    "SET1": {
+        "Index": "0x497633282b87aa9fed3312d2cd2ef3051aa097839359f449447b4eba0e541219",
+        "AssetId": "SET1",
+        "BlockNumber": "2",
+        "Capacity": "16",
+        "OfferControl": "Enbridge Pipelines Inc."
+    },
+    "DOWG": {
+        "Index": "0x9b49bb7f63163572fdb09e471c9a03f5e6fba8ae2d083fea43f261b9fd58eea3",
+        "AssetId": "DOWG",
+        "BlockNumber": "5",
+        "Capacity": "223",
+        "OfferControl": "Dow Chemical Canada ULC "
+    },
+    "VVW2": {
+        "Index": "0xcb8dbbea2479545256a92477544a3bea4825edddfa0a7dc1e2201ee26b05299d",
+        "AssetId": "VVW2",
+        "BlockNumber": "2",
+        "Capacity": "47",
+        "OfferControl": "Heartland Generation Ltd."
+    },
+    "PH1": {
+        "Index": "0x0ee84b2e711e36f75fefb8c1f33c4c15d30aa1012d3eb2e1b004a3de2039d55f",
+        "AssetId": "PH1",
+        "BlockNumber": "2",
+        "Capacity": "37",
+        "OfferControl": "Heartland Generation Ltd."
+    },
+    "EGC1": {
+        "Index": "0x83a65071e133152bf19bd8829eb2d205191bfd2d5de80d6c108f94cbfd77806f",
+        "AssetId": "EGC1",
+        "BlockNumber": "7",
+        "Capacity": "840",
+        "OfferControl": "Capital Power GP Holdings Inc.; ENMAX Energy Corporation"
+    },
+    "CMH1": {
+        "Index": "0xfcafe8081b8e70f3b6c535a8ba8bf3a764d1510e3b37f4c4092faf1e3339e5d7",
+        "AssetId": "CMH1",
+        "BlockNumber": "7",
+        "Capacity": "242",
+        "OfferControl": "City of Medicine Hat"
+    },
+    "DAI1": {
+        "Index": "0xff50224b934837d10656cf3bdaf344e0181598e811fc4ac5978126ea6074945e",
+        "AssetId": "DAI1",
+        "BlockNumber": "2",
+        "Capacity": "24",
+        "OfferControl": "Mercer Peace River Pulp Ltd."
+    },
+    "NPP1": {
+        "Index": "0x5f81a7460e1f323a5601a98bdf95458d00d0e8ae25f14bb53c3b8f19744895a7",
+        "AssetId": "NPP1",
+        "BlockNumber": "7",
+        "Capacity": "101",
+        "OfferControl": "Exelon Generation Company, LLC"
+    },
+    "GEN6": {
+        "Index": "0x4c82dba07f4329951e093053c5d81ae84f63fb72d742d25deb355edec66b0fb0",
+        "AssetId": "GEN6",
+        "BlockNumber": "2",
+        "Capacity": "10",
+        "OfferControl": "URICA Asset Optimization Ltd."
+    },
+    "SH2": {
+        "Index": "0xa98f7e5caf1224d4c3aa28cae96332b2a12fec18d716d1d573709a718cfff87a",
+        "AssetId": "SH2",
+        "BlockNumber": "7",
+        "Capacity": "400",
+        "OfferControl": "Alberta Power (2000) Ltd."
+    },
+    "EAGL": {
+        "Index": "0x417a9cb3f54ffa3d34e91a07156ea5f9370c3316022797a23c4ddd32723ed5a2",
+        "AssetId": "EAGL",
+        "BlockNumber": "3",
+        "Capacity": "25",
+        "OfferControl": "Whitecourt Power Ltd."
+    },
+    "SH1": {
+        "Index": "0x5c7395adb6669f466688ad848beb6cd1e549ea78cd28b01bd5a08a313e75e5a3",
+        "AssetId": "SH1",
+        "BlockNumber": "7",
+        "Capacity": "400",
+        "OfferControl": "TransAlta Cogeneration LP"
+    },
+    "RB5": {
+        "Index": "0x1610e995c6a861998bf8829c6c196a678ba4fec920408ed74dec7199782a7627",
+        "AssetId": "RB5",
+        "BlockNumber": "2",
+        "Capacity": "50",
+        "OfferControl": "Heartland Generation Ltd."
+    },
+    "ANC1": {
+        "Index": "0x0bca4df91b446353f957d6744c85f723fa3da38045303560b4e653d988ecac41",
+        "AssetId": "ANC1",
+        "BlockNumber": "1",
+        "Capacity": "63",
+        "OfferControl": "Alberta Newsprint Company"
+    },
+    "HRT1": {
+        "Index": "0x396939c10f7db28f01f34b783c61d3318c76a0fcb6ed2c1d8111e590a19f2d9a",
+        "AssetId": "HRT1",
+        "BlockNumber": "2",
+        "Capacity": "52",
+        "OfferControl": "Fengate Central Utilities Block GP Inc."
+    },
+    "JOF1": {
+        "Index": "0x587760f4e0021a05f974466412bf6fd2a53928f986f3404f7a35b38de6c93bfa",
+        "AssetId": "JOF1",
+        "BlockNumber": "5",
+        "Capacity": "295",
+        "OfferControl": "Heartland Generation Ltd."
+    },
+    "HRM": {
+        "Index": "0x7d59f285966051d31a3543fa229ca43298c4c0f11d664e4b41a938812f2a779a",
+        "AssetId": "HRM",
+        "BlockNumber": "3",
+        "Capacity": "206",
+        "OfferControl": "Milner Power Limited Partnership  by its General Partner Milner Power Inc. "
+    },
+    "FH1": {
+        "Index": "0xbbab63060de7e323c634adf08a23577d45aa5b7aaab63c5c2193daf8e18c7ed0",
+        "AssetId": "FH1",
+        "BlockNumber": "3",
+        "Capacity": "199",
+        "OfferControl": "Suncor Energy Inc."
+    },
+    "GN1": {
+        "Index": "0x34092ce91cf2244b9257e76e8adc77f9501d6a75531c332cb042fa854a8cf5cc",
+        "AssetId": "GN1",
+        "BlockNumber": "6",
+        "Capacity": "400",
+        "OfferControl": "Capital Power GP Holdings Inc."
+    },
+    "TC01": {
+        "Index": "0x74179f36eeb46b708a522da54a7bc9b2da6d6a6c01df63c095cba005e3e37c5e",
+        "AssetId": "TC01",
+        "BlockNumber": "2",
+        "Capacity": "85",
+        "OfferControl": "TransCanada Energy Ltd"
+    },
+    "GN2": {
+        "Index": "0x770e2847736a60194b78ddb56b281108b41316558eae5c05537e045f233c5706",
+        "AssetId": "GN2",
+        "BlockNumber": "2",
+        "Capacity": "400",
+        "OfferControl": "Capital Power GP Holdings Inc."
+    },
+    "MKR1": {
+        "Index": "0x5e84a0b0e9067406cf7a6b5ca4ab869af888620963bc4fe016b759ee1f0184c4",
+        "AssetId": "MKR1",
+        "BlockNumber": "3",
+        "Capacity": "200",
+        "OfferControl": "Heartland Generation Ltd."
+    },
+    "DRW1": {
+        "Index": "0x434535402e35d27b412d046ea5ac81b96bcc4410efa5a126364d8a44a30d5d5e",
+        "AssetId": "DRW1",
+        "BlockNumber": "1",
+        "Capacity": "3",
+        "OfferControl": "URICA Asset Optimization Ltd."
+    },
+    "OMRH": {
+        "Index": "0x6d0d6f656a91ea39c8ee4331dd613a35f22eb1cfd3445999940afe9a4b4b26a0",
+        "AssetId": "OMRH",
+        "BlockNumber": "1",
+        "Capacity": "4",
+        "OfferControl": "ATCO Power (2010) Ltd."
+    },
+    "DKSN": {
+        "Index": "0x84df01fd4629f0b27f07d66f5db2ae837509c11b03295cf3e2514a9ab300e629",
+        "AssetId": "DKSN",
+        "BlockNumber": "1",
+        "Capacity": "4",
+        "OfferControl": "Algonquin Power Operating Trust"
+    },
+    "MUL1": {
+        "Index": "0x2b05e540a75c1f2b95850bb8a095531e558e16bfff4f52e1d0e459d6b879f093",
+        "AssetId": "MUL1",
+        "BlockNumber": "1",
+        "Capacity": "5",
+        "OfferControl": "Tourmaline Oil Corp."
+    },
+    "GPEC": {
+        "Index": "0x7715ee09bdb0bc986dcc1aa3bafe77c717fb7d1f73c1a03eab196ce37d881744",
+        "AssetId": "GPEC",
+        "BlockNumber": "1",
+        "Capacity": "12",
+        "OfferControl": "Canadian Forest Products Ltd."
+    },
+    "BRD1": {
+        "Index": "0x9beadb1e30a2bcb3b6bd1dc555b707e7aa99ec074aa938622d71710db4ac96de",
+        "AssetId": "BRD1",
+        "BlockNumber": "1",
+        "Capacity": "11",
+        "OfferControl": "Alberta Solar One, Inc."
+    },
+    "UOC1": {
+        "Index": "0xdeab8badbac01debf640993b58cf26d8a3e1e72f399b313868bc893b649112d5",
+        "AssetId": "UOC1",
+        "BlockNumber": "1",
+        "Capacity": "12",
+        "OfferControl": "University of Calgary"
+    },
+    "NRG3": {
+        "Index": "0x3c8813061abc440c5831c719f4184ce8a827210518921025caf42d487d0bc5a8",
+        "AssetId": "NRG3",
+        "BlockNumber": "1",
+        "Capacity": "12",
+        "OfferControl": "NRGreen Power Limited Partnership"
+    },
+    "BUL1": {
+        "Index": "0x62b16e9de71ee377cd0c3c101eb1c7e7f6e521e6170038d5467b7e34fc2ec70c",
+        "AssetId": "BUL1",
+        "BlockNumber": "1",
+        "Capacity": "13",
+        "OfferControl": "Bull Creek Wind Power Limited Partnership"
+    },
+    "TLM2": {
+        "Index": "0xfd779001518d0381291bd0382ce724d4559b4e60b83a534d9dac5631b931b5f8",
+        "AssetId": "TLM2",
+        "BlockNumber": "1",
+        "Capacity": "13",
+        "OfferControl": "Repsol Canada Energy Partnership"
+    },
+    "BSC1": {
+        "Index": "0x7d8a649ad7959840c7c4c108917a9f877c4ed8f2df2077ac38116e08ada6ea03",
+        "AssetId": "BSC1",
+        "BlockNumber": "1",
+        "Capacity": "15",
+        "OfferControl": "Brooks Solar Corporation"
+    },
+    "BUL2": {
+        "Index": "0xce374a7bf6403c2ab78ccef7a96ebcf480caa33d69bcb5390491dfbe6d3e5d18",
+        "AssetId": "BUL2",
+        "BlockNumber": "1",
+        "Capacity": "16",
+        "OfferControl": "Bull Creek Wind Power Limited Partnership"
+    },
+    "STR1": {
+        "Index": "0xb87c0ae11f0c9100a59f7864da739444a470831b1af2fdca6698833e5977727a",
+        "AssetId": "STR1",
+        "BlockNumber": "1",
+        "Capacity": "18",
+        "OfferControl": "Capital Power (Ontario) Limited Partnership"
+    },
+    "WEF1": {
+        "Index": "0xaef3f7f41e015d25ed0ea5a83671fb439f568caeeb4e767eb152108d6ed7762d",
+        "AssetId": "WEF1",
+        "BlockNumber": "1",
+        "Capacity": "19",
+        "OfferControl": "Suffield Solar LP"
+    },
+    "INF1": {
+        "Index": "0x64993f5233ddae2d6cec5ee3576d9fc6239c0ebb7710ea751a9983a4f7f66487",
+        "AssetId": "INF1",
+        "BlockNumber": "1",
+        "Capacity": "19",
+        "OfferControl": "Innisfail Solar Corporation"
+    },
+    "ERV2": {
+        "Index": "0xb7ea6d375a00fc93bc98d6ec695e2c077b864ab68688d1ff2d98085e0f71a42d",
+        "AssetId": "ERV2",
+        "BlockNumber": "3",
+        "Capacity": "20",
+        "OfferControl": "URICA Asset Optimization Ltd."
+    },
+    "ERV1": {
+        "Index": "0xe247fa46456f62bd07d7ea2e4c919a610076e31fd433e88952f6929dc2562dac",
+        "AssetId": "ERV1",
+        "BlockNumber": "1",
+        "Capacity": "20",
+        "OfferControl": "URICA Asset Optimization Ltd."
+    },
+    "CRE3": {
+        "Index": "0x978da48db385da394e0b5b67b3be1b44c15ed7393e1abd18a9ae5950d95a1c80",
+        "AssetId": "CRE3",
+        "BlockNumber": "1",
+        "Capacity": "20",
+        "OfferControl": "TransAlta Corporation"
+    },
+    "BUR1": {
+        "Index": "0x5f55323d79446379ac5dd5d27b5f4947672f03c8fec46190e75a53b8bd87b34f",
+        "AssetId": "BUR1",
+        "BlockNumber": "1",
+        "Capacity": "20",
+        "OfferControl": "Suffield Solar LP"
+    },
+    "VXH1": {
+        "Index": "0x305b64e4ac3c0754eab7c67ed6003d7b7a1f52151696df45cc1c63c3fadcb342",
+        "AssetId": "VXH1",
+        "BlockNumber": "1",
+        "Capacity": "22",
+        "OfferControl": "Taber Solar 1 Inc."
+    },
+    "JER1": {
+        "Index": "0x5b8232348d80f6f14342e4b550df7c2c9e31c416b8eaacc24fa3cdf966916141",
+        "AssetId": "JER1",
+        "BlockNumber": "1",
+        "Capacity": "23",
+        "OfferControl": "Suffield Solar LP"
+    },
+    "HYS1": {
+        "Index": "0x151693dd1cb54f1b22e7efcb9475f40115c862e3a941d59d8416363cac716b48",
+        "AssetId": "HYS1",
+        "BlockNumber": "1",
+        "Capacity": "23",
+        "OfferControl": "Suffield Solar LP"
+    },
+    "SUF1": {
+        "Index": "0x80c394be11fa60b182d5afaec60556adbbcd10e5d6d7e29f34d1ddbdbf8cc833",
+        "AssetId": "SUF1",
+        "BlockNumber": "1",
+        "Capacity": "23",
+        "OfferControl": "Suffield Solar LP"
+    },
+    "HUL1": {
+        "Index": "0x15bae7d3c5c33a6780725297af8a187bff1f238359a44f3be3cacc45934187d0",
+        "AssetId": "HUL1",
+        "BlockNumber": "1",
+        "Capacity": "25",
+        "OfferControl": "Taber Solar 2 Inc."
+    },
+    "SCR2": {
+        "Index": "0xc66ad077f90d583104f535a0059c5ba3a5eb55cceaeb97f7215f14a1c045f4f6",
+        "AssetId": "SCR2",
+        "BlockNumber": "1",
+        "Capacity": "30",
+        "OfferControl": "Suncor Energy Products Inc."
+    },
+    "SCR3": {
+        "Index": "0x3032edeb4d216233e0041d821dc880702daef39b748fabcdc954e62a92c032bc",
+        "AssetId": "SCR3",
+        "BlockNumber": "1",
+        "Capacity": "30",
+        "OfferControl": "Suncor Energy Products Inc."
+    },
+    "BCR2": {
+        "Index": "0xf26019e76b1ef7095b12741eff0a1e59bf0f1e3cbdc08afbaa220a30513914b1",
+        "AssetId": "BCR2",
+        "BlockNumber": "1",
+        "Capacity": "27",
+        "OfferControl": "TransCanada Energy Ltd"
+    },
+    "CRR2": {
+        "Index": "0xc3244a6f2f1b1c232b4406706b7617cf2330b3ce267669e98aec64a3e3a92a57",
+        "AssetId": "CRR2",
+        "BlockNumber": "1",
+        "Capacity": "29",
+        "OfferControl": "Pincher Creek Limited Partnership"
+    },
+    "HMT1": {
+        "Index": "0xc08cfb009f6d511eba4c1c112a8f3ee0051330e1bad9efb96c300204ded57894",
+        "AssetId": "HMT1",
+        "BlockNumber": "1",
+        "Capacity": "38",
+        "OfferControl": "AltaGas Ltd."
+    },
+    "CR1": {
+        "Index": "0xdfb438a70b0a62539853c47a72958cf2ebff1c0a2d6e0b1deab11c78c5ff591d",
+        "AssetId": "CR1",
+        "BlockNumber": "1",
+        "Capacity": "39",
+        "OfferControl": "TransAlta Corporation"
+    },
+    "RTL1": {
+        "Index": "0x26f52dd0b14cb445b3792e528ffeb21ed30d4a8fc8063e0b5755e532b75de009",
+        "AssetId": "RTL1",
+        "BlockNumber": "1",
+        "Capacity": "65",
+        "OfferControl": "BHE Canada Rattlesnake L.P."
+    },
+    "SCR1": {
+        "Index": "0x388a104137fc0fd1cc2b9e1412d4ce0ce7435a6bb14ea6e6c872056aeb913d96",
+        "AssetId": "SCR1",
+        "BlockNumber": "1",
+        "Capacity": "40",
+        "OfferControl": "Suncor Energy Inc."
+    },
+    "SCL1": {
+        "Index": "0x46a3b2d6985ae441cbef64860010f7d95c12edf55fd16b424ea43d726df7e354",
+        "AssetId": "SCL1",
+        "BlockNumber": "1",
+        "Capacity": "88",
+        "OfferControl": "Syncrude Canada Ltd."
+    },
+    "WEY1": {
+        "Index": "0xcf0947711c416c5f1338fea2b5bb9acff00b9acc2e3bfea1dc22421c5525763c",
+        "AssetId": "WEY1",
+        "BlockNumber": "1",
+        "Capacity": "43",
+        "OfferControl": "International Paper Canada Pulp Holdings ULC"
+    },
+    "OWF1": {
+        "Index": "0xbb0efdbcaa44af2e994405fb38408e82258804468c205e8b6d9ec5c55e8e6180",
+        "AssetId": "OWF1",
+        "BlockNumber": "1",
+        "Capacity": "46",
+        "OfferControl": "Oldman 2 Wind Farm Ltd."
+    },
+    "RL1": {
+        "Index": "0xe1a1908329bdf30b71fea8a48a56413279ddd5b29cf60b72cd4d1850f6498c63",
+        "AssetId": "RL1",
+        "BlockNumber": "1",
+        "Capacity": "47",
+        "OfferControl": "Heartland Generation Ltd."
+    },
+    "ESBC": {
+        "Index": "0x1ed66c06b87216dfa413e021c72a835342ac085a857b1db5329a6155ce34f175",
+        "AssetId": "ESBC",
+        "BlockNumber": "1",
+        "Capacity": "100",
+        "OfferControl": "TransCanada Energy Sales Ltd."
+    },
+    "SPSK": {
+        "Index": "0x98f813fe01399f854fa2ce76997161dcc0aa0350a0c5cf720eaa2de5c0b4b6d2",
+        "AssetId": "SPSK",
+        "BlockNumber": "1",
+        "Capacity": "153",
+        "OfferControl": "NorthPoint Energy Solutions Inc."
+    },
+    "IEW1": {
+        "Index": "0xaf3c2a1d7cf339d6f51c6a76dd55368d25ac98ba56aa9b48e4abf344937cc865",
+        "AssetId": "IEW1",
+        "BlockNumber": "1",
+        "Capacity": "66",
+        "OfferControl": "TransAlta Corporation"
+    },
+    "CLR1": {
+        "Index": "0xf483c6ecf24c9d43c38c38b8fe607178ed49097ba7ab2b2fbfcbc3d20f37a76c",
+        "AssetId": "CLR1",
+        "BlockNumber": "1",
+        "Capacity": "58",
+        "OfferControl": "Claresholm Solar LP"
+    },
+    "BCRK": {
+        "Index": "0x8ce6d7a582b7be00af7837229e56ad36f9a6ba0310a098e474ea8af2b5873b51",
+        "AssetId": "BCRK",
+        "BlockNumber": "1",
+        "Capacity": "60",
+        "OfferControl": "TransCanada Energy Ltd"
+    },
+    "KHW1": {
+        "Index": "0x4567be173577ffe8d7dffd1f2e5a1a2ca06886e753c566626ad14f808e37880f",
+        "AssetId": "KHW1",
+        "BlockNumber": "1",
+        "Capacity": "63",
+        "OfferControl": "Kettles Hill Wind Energy Inc."
+    },
+    "GWW1": {
+        "Index": "0xc44ee88e1ca26317eb576e548dc3b1b1042a7405a6058325678617576951bb60",
+        "AssetId": "GWW1",
+        "BlockNumber": "1",
+        "Capacity": "71",
+        "OfferControl": "TransAlta Corporation"
+    },
+    "IEW2": {
+        "Index": "0x82758aeb1232dc07d92f7ed04aea541b86b5619eb735b8c8aaec1bfe64711b3b",
+        "AssetId": "IEW2",
+        "BlockNumber": "1",
+        "Capacity": "66",
+        "OfferControl": "TransAlta Corporation"
+    },
+    "BTR1": {
+        "Index": "0x6666b8dd80b699c636126a1b1d42736bbb47cca637e1f4cab003d45e3ebbd40b",
+        "AssetId": "BTR1",
+        "BlockNumber": "1",
+        "Capacity": "66",
+        "OfferControl": "TransAlta Corporation"
+    },
+    "ARD1": {
+        "Index": "0xe3bc6f956f7c8473d706980845cb0f0cb72fcf7e0892ef736af45b5a6f1bc974",
+        "AssetId": "ARD1",
+        "BlockNumber": "1",
+        "Capacity": "68",
+        "OfferControl": "TransAlta Corporation"
+    },
+    "AKE1": {
+        "Index": "0xcf743551fb89965cc121349ca9a6f3183b11f9f736351291c09256e432dbac48",
+        "AssetId": "AKE1",
+        "BlockNumber": "1",
+        "Capacity": "73",
+        "OfferControl": "ENMAX Energy Corporation 12"
+    },
+    "FNG1": {
+        "Index": "0x0d042ec7abee85f45a69abf5fedb0cdb84c573fac2c608a10537be9fd5fb1846",
+        "AssetId": "FNG1",
+        "BlockNumber": "1",
+        "Capacity": "68",
+        "OfferControl": "Powerex Corp. "
+    },
+    "TC02": {
+        "Index": "0xff2ea5815f45b2c241a8a8850f54ef0aaef0f08f87a621448af41d92a87ab73f",
+        "AssetId": "TC02",
+        "BlockNumber": "1",
+        "Capacity": "75",
+        "OfferControl": "Pembina NGL Corporation; TransCanada Energy Ltd"
+    },
+    "CLR2": {
+        "Index": "0x187cfb1ce0bbd61c34e10246b84c8a7dd3df8978cd4ab81686aa59d49e862d67",
+        "AssetId": "CLR2",
+        "BlockNumber": "1",
+        "Capacity": "75",
+        "OfferControl": "Claresholm Solar LP"
+    },
+    "CRR1": {
+        "Index": "0x410bd683d1c553d7983b2c440489c49149feccd9d07cba5bd34731796986e744",
+        "AssetId": "CRR1",
+        "BlockNumber": "1",
+        "Capacity": "77",
+        "OfferControl": "Castle Rock Ridge LP"
+    },
+    "TAB1": {
+        "Index": "0x716dedb56e536bb7de638247f3247547e41e3238094f4168231b89f6fe1a276f",
+        "AssetId": "TAB1",
+        "BlockNumber": "1",
+        "Capacity": "81",
+        "OfferControl": "ENMAX Energy Corporation"
+    },
+    "EC04": {
+        "Index": "0x27c58df252109862bb450bd14faa2b295f100bbfa78802197c04c2c29942b082",
+        "AssetId": "EC04",
+        "BlockNumber": "1",
+        "Capacity": "89",
+        "OfferControl": "Cenovus FCCL Ltd."
+    },
+    "NEP1": {
+        "Index": "0x1caaf23fd8b21dce7891582c8b32d1d4755fadbb1bb3accc6a11c8cda4554d1b",
+        "AssetId": "NEP1",
+        "BlockNumber": "1",
+        "Capacity": "82",
+        "OfferControl": "Ghost Pine Windfarm, LP"
+    },
+    "PR1": {
+        "Index": "0xf01a6eea23b76669a00bdd10dd251bda9048d40982ee5c7b3507198201d3c554",
+        "AssetId": "PR1",
+        "BlockNumber": "1",
+        "Capacity": "90",
+        "OfferControl": "Heartland Generation Ltd."
+    },
+    "SCR4": {
+        "Index": "0x07aa1852e8ab785c5847a79e7cba9b3d74698abfa6fce52f57fc7465fdfac450",
+        "AssetId": "SCR4",
+        "BlockNumber": "1",
+        "Capacity": "88",
+        "OfferControl": "Oldman 2 Wind Farm Ltd."
+    },
+    "CL01": {
+        "Index": "0xe9e2b471128251e74738b285aa22c313ac4f9a7fe1cecaee7c631219ea760d43",
+        "AssetId": "CL01",
+        "BlockNumber": "1",
+        "Capacity": "93",
+        "OfferControl": "Cenovus FCCL Ltd."
+    },
+    "RIV1": {
+        "Index": "0x344da6709b9a5eb8b085d24622e1c8f319dadd2c269fbac68eacc59f2f7cb024",
+        "AssetId": "RIV1",
+        "BlockNumber": "1",
+        "Capacity": "105",
+        "OfferControl": "Riverview Limited Partnership"
+    },
+    "WRW1": {
+        "Index": "0x2710542b293acf51b724b76887a1f1bfa48339416457ef67f1a75def7149b92c",
+        "AssetId": "WRW1",
+        "BlockNumber": "1",
+        "Capacity": "130",
+        "OfferControl": "TransAlta Corporation"
+    },
+    "MEG1": {
+        "Index": "0x9c0a2ccc8209123b721e833e32cf4565a56422c5d7bd04e9e27be1859b9d03a0",
+        "AssetId": "MEG1",
+        "BlockNumber": "1",
+        "Capacity": "130",
+        "OfferControl": "MEG Energy Corp."
+    },
+    "MOMT": {
+        "Index": "0x5b7592fb9422cd82bf8fd79afb7eebe2f5a6da8a87d33b63270b1ce9b8202bfd",
+        "AssetId": "MOMT",
+        "BlockNumber": "1",
+        "Capacity": "295",
+        "OfferControl": "Morgan Stanley Capital Group Inc."
+    },
+    "HAL1": {
+        "Index": "0xdcabd9725dde97846f8d22dc03c6694934fa896b6d759fdef0faba8f51f3048c",
+        "AssetId": "HAL1",
+        "BlockNumber": "1",
+        "Capacity": "150",
+        "OfferControl": "Halkirk I Wind Project LP"
+    },
+    "WHT2": {
+        "Index": "0xad42187f1d0998d4a8b707991cbdc1972623477946c4eff084d80e3c784ed190",
+        "AssetId": "WHT2",
+        "BlockNumber": "1",
+        "Capacity": "151",
+        "OfferControl": "Whitla 2 Wind Generation L.P."
+    },
+    "IOR1": {
+        "Index": "0xe08273447e9f834923661aa24f253ff69ace1ad07f07e9c5163263046e15329f",
+        "AssetId": "IOR1",
+        "BlockNumber": "1",
+        "Capacity": "169",
+        "OfferControl": "Imperial Oil Limited"
+    },
+    "IOR2": {
+        "Index": "0xec1ba046543b3aeb3ab1ab73d20979b29c9abd26b64706171cc6d8509a6baa1e",
+        "AssetId": "IOR2",
+        "BlockNumber": "1",
+        "Capacity": "172",
+        "OfferControl": "Imperial Oil Limited 1"
+    },
+    "NX02": {
+        "Index": "0xf98b2f231facb96f5c1d54ce3790530b30052ce53ccddeb954c7bdb43a5f4711",
+        "AssetId": "NX02",
+        "BlockNumber": "1",
+        "Capacity": "185",
+        "OfferControl": "Nexen Inc."
+    },
+    "MKRC": {
+        "Index": "0xb7eec7901c8fb247f386d28b73d7daf27aef28623bf5ab6b4f8039f1d0596be2",
+        "AssetId": "MKRC",
+        "BlockNumber": "1",
+        "Capacity": "200",
+        "OfferControl": "TransCanada Energy Ltd"
+    },
+    "WHT1": {
+        "Index": "0x0fd18f6f8d86dbca135970fcfce337cacb8d7fe68f389934d1c725f941059606",
+        "AssetId": "WHT1",
+        "BlockNumber": "1",
+        "Capacity": "202",
+        "OfferControl": "Capital Power (Whitla) L.P."
+    },
+    "SCR5": {
+        "Index": "0x9842f436748777f979debb743783c95462d25daef5df83ac621e0163d41d6a43",
+        "AssetId": "SCR5",
+        "BlockNumber": "1",
+        "Capacity": "297",
+        "OfferControl": "Suncor Energy Inc."
+    },
+    "PWBC": {
+        "Index": "0xdf0bde7b1695510cd793c294e1f4219a285214613f22d049273979252a35846b",
+        "AssetId": "PWBC",
+        "BlockNumber": "1",
+        "Capacity": "607",
+        "OfferControl": "Powerex Corp. "
+    },
+    "BSR1": {
+        "Index": "0x93b16dbd247855b232faa46de1d0cb4d39d20ea5af72bed0563bc42a6c689119",
+        "AssetId": "BSR1",
+        "BlockNumber": "1",
+        "Capacity": "300",
+        "OfferControl": "EDF Renewables Development Inc."
+    },
+    "KH3": {
+        "Index": "0x68f0c57242094b1a1cca96c20caceb494e8972be591a9bff84eb396c3870de7d",
+        "AssetId": "KH3",
+        "BlockNumber": "5",
+        "Capacity": "463",
+        "OfferControl": "TransAlta Energy Marketing Corp."
+    },
+    "GN3": {
+        "Index": "0xc6bb39cdb862102800aef774b4e2779dd003fce4600813c0bf7d8bd99f6d8e19",
+        "AssetId": "GN3",
+        "BlockNumber": "1",
+        "Capacity": "466",
+        "OfferControl": "Capital Power GP Holdings Inc."
+    },
+    "NAT1": {
+        "Index": "0x3e6cc555bdb1aa8e4c6558e604f9f14ec8bf7f668d4ca1e4c70b04da6075177a",
+        "AssetId": "NAT1",
+        "BlockNumber": "3",
+        "Capacity": "20",
+        "OfferControl": "URICA Asset Optimization Ltd."
+    },
+    "NPC3": {
+        "Index": "0xcccc5268415b10b1f28fae174fefad60b19183746b19c9e408f55d751d9badd6",
+        "AssetId": "NPC3",
+        "BlockNumber": "2",
+        "Capacity": "9",
+        "OfferControl": "Northstone Power Corp."
+    },
+    "NPC2": {
+        "Index": "0x18b5f1bbce25984460fd5c8b8febfe8139a2c23377a540abb83746f191cb0c26",
+        "AssetId": "NPC2",
+        "BlockNumber": "2",
+        "Capacity": "9",
+        "OfferControl": "Northstone Power Corp."
+    },
+    "WST1": {
+        "Index": "0x188899a2029ac0bcfe0b736a1054b5f958e779cf5437102a4d23efcbcad8145b",
+        "AssetId": "WST1",
+        "BlockNumber": "1",
+        "Capacity": "13",
+        "OfferControl": "DAPP Power LP"
+    },
+    "SD6": {
+        "Index": "0x421c2a13e79aad906bdbea6e970787f9b98e885928401e99d50dbb6d7eafbf43",
+        "AssetId": "SD6",
+        "BlockNumber": "5",
+        "Capacity": "401",
+        "OfferControl": "TransAlta Generation Partnership"
+    },
+    "EMXS": {
+        "Index": "0x255c97825bdd127f0fa63a88edc85c66125de9970b647a4b3166f349c06fd256",
+        "AssetId": "EMXS",
+        "BlockNumber": "1",
+        "Capacity": "50",
+        "OfferControl": "Capital Power GP Holdings Inc."
+    },
+    "RESK": {
+        "Index": "0xdf16a74eae6525993825036b3a8da9f3fb28e121aec3afbe675a4e613aea6899",
+        "AssetId": "RESK",
+        "BlockNumber": "1",
+        "Capacity": "123",
+        "OfferControl": "Rainbow Energy Marketing Corporation"
+    },
+    "BR5": {
+        "Index": "0x3a243c8ec42766a3f1540add242253f69cb755b81a3258cc4d5d15800ed9eab1",
+        "AssetId": "BR5",
+        "BlockNumber": "6",
+        "Capacity": "385",
+        "OfferControl": "Heartland Generation Ltd."
+    },
+    "CWSK": {
+        "Index": "0x19d2c8f817fed6175235ff0c84daec50643eeaf57f1daef285f0b229423f899e",
+        "AssetId": "CWSK",
+        "BlockNumber": "1",
+        "Capacity": "27",
+        "OfferControl": "Canadian Wood Products Montreal Inc."
+    },
+    "TISK": {
+        "Index": "0xbcb54f674cd7bde4bb20d113fc620bbea15f88f80a36d75dae83aca28ff80469",
+        "AssetId": "TISK",
+        "BlockNumber": "1",
+        "Capacity": "11",
+        "OfferControl": "TEC Energy Inc."
+    },
+    "STR2": {
+        "Index": "0x6597c4dbb32d8da22090b1403e457874cb66b18f767404219ff46c5174254ebc",
+        "AssetId": "STR2",
+        "BlockNumber": "1",
+        "Capacity": "22",
+        "OfferControl": "Capital Power (Ontario) Limited Partnership"
+    },
+    "DYBC": {
+        "Index": "0x2478e615f9a2a0b1cc979f188d859d5a741604506f83937900c80794d474ba30",
+        "AssetId": "DYBC",
+        "BlockNumber": "1",
+        "Capacity": "48",
+        "OfferControl": "Dynasty Power Inc."
+    },
+    "TAY1": {
+        "Index": "0xd2ce760f1d055d6f7d634ac3de003814ea3e0a3978ae0422a3559bab93565d23",
+        "AssetId": "TAY1",
+        "BlockNumber": "7",
+        "Capacity": "14",
+        "OfferControl": "TransAlta Corporation"
+    },
+    "EMXB": {
+        "Index": "0xd8f9742d623f165bb8addbe87a1905565a375f7b88631d394873bde892843caf",
+        "AssetId": "EMXB",
+        "BlockNumber": "1",
+        "Capacity": "50",
+        "OfferControl": "Capital Power GP Holdings Inc."
+    },
+    "BR4": {
+        "Index": "0x9c91ca2b6256b0dee05c29d11297fce458fb3d5a66820e29221ef391ab2b03dc",
+        "AssetId": "BR4",
+        "BlockNumber": "4",
+        "Capacity": "155",
+        "OfferControl": "Heartland Generation Ltd."
+    },
+    "NX01": {
+        "Index": "0x76074297ce7e5873aa50454fa1248c324bb3123ae52f6fc08f5c998139c50fc1",
+        "AssetId": "NX01",
+        "BlockNumber": "1",
+        "Capacity": "56",
+        "OfferControl": "Nexen Inc."
+    }
+}

@@ -8,14 +8,6 @@ import * as registryJson from "../aeso/registry.json";
 import { EXPOSED_KEY, setupGoerliProvider, setupProvider } from "./utils";
 import { PoolMarket } from "../typechain";
 
-type Register = {
-  Index: number;
-  AssetId: string;
-  BlockNumber: number;
-  Capacity: number;
-  OfferControl: string;
-}
-
 type SubmitOffer = {
   Index: number;
   Date: string;
@@ -71,26 +63,29 @@ async function main() {
     if (error) {
       console.error(error);
     }
+    // TODO: improve offer submission perforamnce
+    // 1. update registry object to {'asseid': {}} => hashmap. DONE
+    // 2. use multiprocess in typescript
+    // 3. use async process
+
+    // convert json object to map for faster retrieve
+    let registeredUsers = new Map(Object.entries(registryJson));
     // skip the header line
     for (let i = 1; i < result.length; i++) {
-      if (result[i].Date == "2022-03-01" && result[i].HE == 1) {
-        for (var item of registryJson.registry) {
-          if (item.AssetId == result[i].AssetId) {
-            const wallet = new ethers.Wallet(item.Index);
-            const contract = getContract(wallet);
-            const submitOfferTx = await contract.submitOffer(
-              result[i].BlockNumber,
-              result[i].AvailableMW,
-              result[i].Price
-            );
-            await submitOfferTx.wait();
-            console.log(submitOfferTx.hash, 
-              result[i].BlockNumber,
-              result[i].AvailableMW,
-              result[i].Price);
-            continue;
-          }
-        }
+      if (result[i].Date == "2022-03-01" && result[i].HE == 2) {
+        const priKey = registeredUsers.get(result[i].AssetId)?.Index ?? EXPOSED_KEY;
+        const wallet = new ethers.Wallet(priKey);
+        const contract = getContract(wallet);
+        const submitOfferTx = await contract.submitOffer(
+          result[i].BlockNumber,
+          result[i].AvailableMW,
+          result[i].Price
+        );
+        await submitOfferTx.wait();
+        console.log(submitOfferTx.hash, 
+          result[i].BlockNumber,
+          result[i].AvailableMW,
+          result[i].Price);
       }
     }
   });

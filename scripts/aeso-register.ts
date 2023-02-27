@@ -49,14 +49,14 @@ async function main() {
       console.error(error);
     }
     const MNEMONIC = process.env.DEFAULT_MNEMONIC ?? DEFAULT_MNEMONIC
-    const registeredData = {};
+    var registeredData = new Map<string, Register>();
     // skip the header line
     for (let i = 1; i < result.length; i++) {
       const path = DEFAULT_PATH + i
       const wallet = ethers.Wallet.fromMnemonic(MNEMONIC, path)
       
       result[i].Index = wallet.privateKey;
-      // registeredData[result[i].AssetId as keyof Register] = result[i];
+      registeredData.set(result[i].AssetId, result[i]);
       const registryContract = getContract(wallet);
       const registerTx = await registryContract.registerSupplier(
         wallet.address,
@@ -68,9 +68,13 @@ async function main() {
       await registerTx.wait();
       console.log(registerTx);
     }
-    console.log(result);
-    let json = JSON.stringify({registry: result});
-    fs.writeFile('./aeso/registry.json', json, 'utf8', (error) => {console.log(error)});
+    const jsonObj = Object.fromEntries(registeredData);
+    console.log(JSON.stringify(jsonObj, undefined, 4));
+    fs.writeFile(
+      './aeso/registry.json', 
+      JSON.stringify(jsonObj, undefined, 4), 
+      'utf8', 
+      (error) => {console.log(error)});
   });
 }
 
