@@ -61,7 +61,7 @@ describe("Testing Registry Contract", () => {
       await registryContract.connect(accounts[0]).registerSupplier(
         accounts[0].address, "ENG04", 3, 300, "Albera Energy Ltd.");
 
-      console.log('Successfully register account first time: ', accounts[0].address);
+      // console.log('Successfully register account first time: ', accounts[0].address);
       await expect(registryContract.connect(accounts[0]).registerSupplier(
         accounts[0].address, "ENG04", 3, 300, "Albera Energy Ltd."
       )).to.be.revertedWith("Account has already registered");
@@ -83,7 +83,7 @@ describe("Testing Registry Contract", () => {
       await registryContract.connect(accounts[0]).registerConsumer(
         accounts[0].address, "CONSUMER1", 300, "Albera Energy Ltd.");
 
-      console.log('Successfully register account first time: ', accounts[0].address);
+      // console.log('Successfully register account first time: ', accounts[0].address);
       await expect(registryContract.connect(accounts[0]).registerConsumer(
         accounts[0].address, "CONSUMER1", 300, "Albera Energy Ltd."
       )).to.be.revertedWith("Account has already registered");
@@ -119,7 +119,7 @@ describe("Testing Registry Contract", () => {
         );
       await tx.wait();
       const registryInfo = await registryContract.connect(accounts[0]).getSupplier(accounts[1].address);
-      console.log(registryInfo);
+      // console.log(registryInfo);
       expect(registryInfo.assetId).to.be.eq("ENG04");
     });
     it("Admin can get other consumer's registration info", async () => {
@@ -128,7 +128,7 @@ describe("Testing Registry Contract", () => {
         );
       await tx.wait();
       const registryInfo = await registryContract.connect(accounts[0]).getConsumer(accounts[1].address);
-      console.log(registryInfo);
+      // console.log(registryInfo);
       expect(registryInfo.assetId).to.be.eq("UAENG");
     });
   });
@@ -151,19 +151,19 @@ describe("Testing Registry Contract", () => {
     });
     it("Non-registry admin cannot delete a registered supplier", async () => {
       const registeredSuppliers = await registryContract.getAllSuppliers();
-      console.log('Initial: ',registeredSuppliers);
+      // console.log('Initial: ',registeredSuppliers);
       await expect(registryContract.connect(accounts[1]).deleteSupplier(
         accounts[2].address)).to.be.reverted;
       const newRegisteredSuppliers = await registryContract.getAllSuppliers();
-      console.log('New: ', newRegisteredSuppliers);
+      // console.log('New: ', newRegisteredSuppliers);
     });
     it("registry admin deletes a registered supplier", async () => {
       const registeredSuppliers = await registryContract.getAllSuppliers();
-      console.log('Initial: ',registeredSuppliers);
+      // console.log('Initial: ',registeredSuppliers);
       const deleteTx = await registryContract.deleteSupplier(accounts[1].address);
       await deleteTx.wait();
       const newRegisteredSuppliers = await registryContract.getAllSuppliers();
-      console.log('New: ', newRegisteredSuppliers);
+      // console.log('New: ', newRegisteredSuppliers);
     });
   });
 })

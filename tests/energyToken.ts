@@ -81,13 +81,13 @@ describe("Testing ERC20 Token", () => {
     });
     it("account has balance decreased", async () => {
       const balanceOfBN = await tokenContract.balanceOf(accounts[2].address);
-      console.log('balance: ', ethers.utils.formatEther(balanceOfBN));
+      // console.log('balance: ', ethers.utils.formatEther(balanceOfBN));
       const burnAmountBN = ethers.utils.parseEther("5");
       const owner = await tokenContract.owner();
       const approveTx = await tokenContract.connect(accounts[2]).approve(owner, burnAmountBN);
       await approveTx.wait();
       const allowance = await tokenContract.allowance(accounts[2].address, owner);
-      console.log('Allowance: ', ethers.utils.formatEther(allowance));
+      // console.log('Allowance: ', ethers.utils.formatEther(allowance));
       expect(balanceOfBN).to.be.eq(TEST_MINT_VALUE);
       const burnFromTx = await tokenContract.burnFrom(accounts[2].address, burnAmountBN);
       await burnFromTx.wait();
@@ -96,7 +96,7 @@ describe("Testing ERC20 Token", () => {
     });
     it("decreases the total token supply", async () => {
       const totalSupplyBN = await tokenContract.totalSupply();
-      console.log('total supply: ', ethers.utils.formatEther(totalSupplyBN));
+      // console.log('total supply: ', ethers.utils.formatEther(totalSupplyBN));
       const owner = await tokenContract.owner();
       const burnAmountBN = ethers.utils.parseEther("4");
       const approveTx = await tokenContract.connect(accounts[2]).approve(owner, burnAmountBN);
@@ -105,7 +105,7 @@ describe("Testing ERC20 Token", () => {
       const burnFromTx = await tokenContract.burnFrom(accounts[2].address, burnAmountBN);
       await burnFromTx.wait();
       const newTotalSupplyBN = await tokenContract.totalSupply();
-      console.log('total supply afterwards: ', ethers.utils.formatEther(newTotalSupplyBN));
+      // console.log('total supply afterwards: ', ethers.utils.formatEther(newTotalSupplyBN));
       expect(newTotalSupplyBN).to.eq(ethers.utils.parseEther("6"));
     });
   });

@@ -114,7 +114,7 @@ describe("Testing PoolMarket Contract", () => {
   describe("when offer is submitted", async () => {
     it("ENG01 submits a valid offer", async () => {
       const registeredSuppliers = await registryContract.getAllSuppliers();
-      console.log(registeredSuppliers);
+      // console.log(registeredSuppliers);
       const isRegistered = await registryContract
         .connect(accounts[1])
         .isRegisteredSupplier(accounts[1].address);
@@ -125,12 +125,12 @@ describe("Testing PoolMarket Contract", () => {
         .submitOffer(0, 5, 50);
       await tx.wait();
       const validOfferIDs = await poolMarketContract.getValidOfferIDs();
-      console.log(validOfferIDs);
+      // console.log(validOfferIDs);
       expect(validOfferIDs.length).to.eq(1);
     });
     it("ENG01 update a valid offer with different price", async () => {
       const registeredSuppliers = await registryContract.getAllSuppliers();
-      console.log(registeredSuppliers);
+      // console.log(registeredSuppliers);
       const isRegistered = await registryContract
         .connect(accounts[1])
         .isRegisteredSupplier(accounts[1].address);
@@ -141,7 +141,7 @@ describe("Testing PoolMarket Contract", () => {
         .submitOffer(0, 5, 50);
       await tx.wait();
       const validOfferIDs = await poolMarketContract.getValidOfferIDs();
-      console.log(validOfferIDs);
+      // console.log(validOfferIDs);
       expect(validOfferIDs.length).to.eq(1);
       // update an offer with different amount and price
       const tx2 = await poolMarketContract
@@ -149,12 +149,12 @@ describe("Testing PoolMarket Contract", () => {
         .submitOffer(0, 30, 45);
       await tx2.wait();
       const validOfferIDs2 = await poolMarketContract.getValidOfferIDs();
-      console.log(validOfferIDs2);
+      // console.log(validOfferIDs2);
       expect(validOfferIDs2.length).to.eq(1);
       const updatedOffer = await poolMarketContract.energyOffers(
         validOfferIDs2[0]
       );
-      console.log(updatedOffer);
+      // console.log(updatedOffer);
       expect(updatedOffer.price).to.eq(45);
     });
     it("Emits an event when ENG01 submits an offer", async () => {
@@ -162,7 +162,7 @@ describe("Testing PoolMarket Contract", () => {
         ["string", "uint8"],
         [accounts[1].address, 0]
       );
-      console.log(offerId);
+      // console.log(offerId);
       await expect(
         poolMarketContract.connect(accounts[1]).submitOffer(0, 5, 50)
       ).to.emit(poolMarketContract, "OfferSubmitted");
@@ -218,14 +218,14 @@ describe("Testing PoolMarket Contract", () => {
         [accounts[0].address]
       );
       const bid = await poolMarketContract.getEnergyBid(bidId);
-      console.log(bid);
+      // console.log(bid);
 
       const tx = await poolMarketContract
         .connect(accounts[9])
         .submitBid(70, 20);
       await tx.wait();
       const newbid = await poolMarketContract.getEnergyBid(bidId);
-      console.log(newbid);
+      // console.log(newbid);
       const energyBids2 = await poolMarketContract.getValidBidIDs();
       expect(energyBids1.length).to.eq(energyBids2.length);
       const updateDemandTx2 = await poolMarketContract.calculateSMP(true);
@@ -239,13 +239,13 @@ describe("Testing PoolMarket Contract", () => {
       const demand = await poolMarketContract.getLatestTotalDemand();
       expect(demand).to.eq(61);
       const energyBids1 = await poolMarketContract.getValidBidIDs();
-      console.log(energyBids1);
+      // console.log(energyBids1);
       const tx = await poolMarketContract
         .connect(accounts[9])
         .submitBid(30, 20);
       await tx.wait();
       const energyBids2 = await poolMarketContract.getValidBidIDs();
-      console.log(energyBids2);
+      // console.log(energyBids2);
       const updateDemandTx2 = await poolMarketContract.calculateSMP(true);
       await updateDemandTx2.wait();
       const newDemand = await poolMarketContract.getLatestTotalDemand();
@@ -257,7 +257,7 @@ describe("Testing PoolMarket Contract", () => {
       const demand = await poolMarketContract.getLatestTotalDemand();
       expect(demand).to.eq(61);
       const energyBids1 = await poolMarketContract.getValidBidIDs();
-      console.log(energyBids1);
+      // console.log(energyBids1);
       const registerTx = await registryContract
         .connect(accounts[7])
         .registerConsumer(
@@ -337,7 +337,7 @@ describe("Testing PoolMarket Contract", () => {
     });
     it("update an ail demand over total registered capacity", async () => {
       const totalRegisteredCapacity = await registryContract.getTotalCapacity();
-      console.log(totalRegisteredCapacity);
+      // console.log(totalRegisteredCapacity);
       const registerTx = await registryContract
         .connect(accounts[7])
         .registerConsumer(
@@ -390,9 +390,9 @@ describe("Testing PoolMarket Contract", () => {
       const dispatchedOffers = await poolMarketContract.getDispatchedOffers(
         currHour
       );
-      console.log(dispatchedOffers);
+      // console.log(dispatchedOffers);
       const validOfferIDs = await poolMarketContract.getValidOfferIDs();
-      console.log(validOfferIDs);
+      // console.log(validOfferIDs);
       expect(dispatchedOffers.length).to.eq(3);
     });
     it("calculate pool price after calculating smp", async () => {
@@ -434,11 +434,11 @@ describe("Testing PoolMarket Contract", () => {
       const dispatchedOffers2 = await poolMarketContract.getDispatchedOffers(
         currHour1
       );
-      console.log(dispatchedOffers2);
+      // console.log(dispatchedOffers2);
 
       const poolPrice = await poolMarketContract.getPoolPrice(currHour1);
-      console.log(poolPrice);
-      console.log(smp);
+      // console.log(poolPrice);
+      // console.log(smp);
     });
     it("revert when calculating pool price in the future", async () => {
       const currBlock = await ethers.provider.getBlock("latest");
