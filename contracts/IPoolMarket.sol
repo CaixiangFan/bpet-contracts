@@ -1,13 +1,17 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity 0.8.19;
 
 interface IPoolMarket {
-  struct DispatchedOffer {
-    address supplierAccount; //Offer supplier account
-    uint dispatchedAmount; //Dispatched amount
-    uint dispatchedAt; //Dispatched timestamp
-  }
+    struct DispatchedOffer {
+        address supplierAccount; //Offer supplier account
+        uint256 dispatchedAmount; //Dispatched amount
+        uint256 dispatchedAt; //Dispatched timestamp
+    }
 
-  function getPoolPrice(uint hour) external view returns(uint);
-  function getDispatchedOffers(uint hour) external view returns(DispatchedOffer[] memory);
+    function getPoolPrice(uint256 hour) external view returns (uint256);
+
+    function getDispatchedOffers(uint256 hour)
+        external
+        view
+        returns (DispatchedOffer[] memory);
 }

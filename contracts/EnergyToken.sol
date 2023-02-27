@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-
-  /**
+/**
   @dev EnergyToken is designed to be a ERC20 stablecoin similar to USDC.
   To buy energy tokens, buyers simply transfers fiat money (e.g., USD) to the market bank account.
   The minter will mint the same amount of energy tokens to buyer's token account.
