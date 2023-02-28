@@ -1,12 +1,10 @@
-import { ethers, Contract } from "ethers";
+import { ethers } from "ethers";
 import "dotenv/config";
 import { parse } from "csv-parse";
 import * as path from "path";
 import * as fs from "fs";
-import * as poolmarketJson from "../artifacts/contracts/PoolMarket.sol/PoolMarket.json";
-import * as registryJson from "../aeso/registry.json";
-import { EXPOSED_KEY, setupGoerliProvider, setupProvider } from "./utils";
-import { PoolMarket } from "../typechain";
+import * as registryJson from "../aeso/Registry_20220301_20220314.json";
+import { EXPOSED_KEY, getPoolMarketContract } from "./utils";
 
 type SubmitOffer = {
   Index: number;
@@ -20,24 +18,6 @@ type SubmitOffer = {
   Size: number;
   AvailableMW: number;
   OfferControl: string;
-}
-
-function getContract(wallet: ethers.Wallet): PoolMarket {
-  var provider = setupGoerliProvider();
-  const network = process.env.PROVIDER_NETWORK;
-  if (network === "Besu") {
-    provider = setupProvider();
-  }
-
-  const contractAddress = String(process.env.POOLMARKET_CONTRACT_ADDRESS);
-  const signer = wallet.connect(provider);
-  const contractInstance: PoolMarket = new Contract(
-    contractAddress,
-    poolmarketJson.abi,
-    signer
-  ) as PoolMarket;
-
-  return contractInstance;
 }
 
 async function main() {
@@ -63,25 +43,25 @@ async function main() {
     if (error) {
       console.error(error);
     }
-    // TODO: improve offer submission perforamnce
-    // 1. update registry object to {'asseid': {}} => hashmap. DONE
-    // 2. use multiprocess in typescript
-    // 3. use async process
 
     // convert json object to map for faster retrieve
     let registeredUsers = new Map(Object.entries(registryJson));
     // skip the header line
     for (let i = 1; i < result.length; i++) {
+      // TODO: improve offer submission perforamnce
+      // 1. for each day, iterate hours ending from 1 to 24
+      // 2. compare current offers with previous hour, submit new offers and delete non-existing ones
+      // 3. use async process
       if (result[i].Date == "2022-03-01" && result[i].HE == 2) {
         const priKey = registeredUsers.get(result[i].AssetId)?.Index ?? EXPOSED_KEY;
         const wallet = new ethers.Wallet(priKey);
-        const contract = getContract(wallet);
+        const contract = getPoolMarketContract(wallet);
         const submitOfferTx = await contract.submitOffer(
           result[i].BlockNumber,
           result[i].AvailableMW,
           result[i].Price
         );
-        await submitOfferTx.wait();
+        // await submitOfferTx.wait();
         console.log(submitOfferTx.hash, 
           result[i].BlockNumber,
           result[i].AvailableMW,

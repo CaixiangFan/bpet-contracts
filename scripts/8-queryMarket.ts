@@ -1,39 +1,15 @@
-import { ethers, Contract, BigNumber } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import "dotenv/config";
-import * as marketJson from "../artifacts/contracts/PoolMarket.sol/PoolMarket.json";
-import * as tokenJson from "../artifacts/contracts/EnergyToken.sol/EnergyToken.json";
-import { EXPOSED_KEY, setupProvider, setupGoerliProvider } from "./utils";
-import { PoolMarket, EnergyToken } from "../typechain";
-
-async function main() {
-  var provider = setupGoerliProvider();
-  const network = process.env.PROVIDER_NETWORK;
-  if (network === "Besu") {
-    provider = setupProvider();
-  }
-
-  const poolMarketContractAddress = String(
-    process.env.POOLMARKET_CONTRACT_ADDRESS
-  );
-  const priKey = process.env.PRIVATE_KEY ?? EXPOSED_KEY;
-  const wallet = new ethers.Wallet(priKey ?? EXPOSED_KEY);
-  const poolMarketSigner = wallet.connect(provider);
-  const poolMarketContractInstance: PoolMarket = new Contract(
-    poolMarketContractAddress,
-    marketJson.abi,
-    poolMarketSigner
-  ) as PoolMarket;
-
-  await getOffers(poolMarketContractInstance);
-  await getBids(poolMarketContractInstance);
-}
+import { EXPOSED_KEY, getPoolMarketContract } from "./utils";
 
 function convertBigNumberToNumber(value: BigNumber) {
   const decimals = 18;
   return Math.round(Number(ethers.utils.formatEther(value)) * 10 ** decimals);
 }
 
-async function getOffers(poolmarketContractInstance: PoolMarket) {
+async function queryOffers() {
+  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
+  const poolmarketContractInstance = getPoolMarketContract(wallet);
   const offerIds = await poolmarketContractInstance.getValidOfferIDs();
   var offers = [];
   console.log("All submitted offers:");
@@ -42,7 +18,7 @@ async function getOffers(poolmarketContractInstance: PoolMarket) {
     var offer = await poolmarketContractInstance.getEnergyOffer(offerIds[i]);
     var amount = convertBigNumberToNumber(offer.amount);
     var price = convertBigNumberToNumber(offer.price);
-    var submitMinute = convertBigNumberToNumber(offer.submitMinute);
+    var submitMinute = new Date(convertBigNumberToNumber(offer.submitMinute) * 1000).toLocaleString("en-us");
     var supplierAccount = offer.supplierAccount;
     var isValid = offer.isValid;
     var covertedOffer = {
@@ -56,10 +32,13 @@ async function getOffers(poolmarketContractInstance: PoolMarket) {
     console.log(`${i + 1}: ${JSON.stringify(covertedOffer)}`);
   }
   console.log(`Total offers #: ${offers.length}`);
+  console.log("============End===========");
   return offers;
 }
 
-async function getBids(poolmarketContractInstance: PoolMarket) {
+async function queryBids() {
+  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
+  const poolmarketContractInstance = getPoolMarketContract(wallet);
   const bidIds = await poolmarketContractInstance.getValidBidIDs();
   var bids = [];
   console.log("All submitted bids:");
@@ -69,18 +48,52 @@ async function getBids(poolmarketContractInstance: PoolMarket) {
     var submitTimeStamp = convertBigNumberToNumber(bid.submitMinute);
     var submitTime = new Date(submitTimeStamp * 1000);
     var convertedBid = {
-      submitTime: submitTime.toLocaleTimeString("en-us"),
       amount: convertBigNumberToNumber(bid.amount),
       price: convertBigNumberToNumber(bid.price),
-      submitminute: convertBigNumberToNumber(bid.submitMinute),
+      submitminute: submitTime.toLocaleString("en-us"),
       account: bid.consumerAccount,
     };
     bids.push(convertedBid);
     console.log(`${i + 1}: ${JSON.stringify(convertedBid)}`);
   }
   console.log(`Total bids #: ${bids.length}`);
+  console.log("============End===========");
   return bids;
 }
+
+async function queryPoolPrices() {
+  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
+  const poolmarketContractInstance = getPoolMarketContract(wallet);
+  const poolPriceHours = await poolmarketContractInstance.getPoolpriceHours();
+  console.log("All pool prices:");
+  console.log("=======================");
+  for (var hour in poolPriceHours) {
+    const poolPrice = await poolmarketContractInstance.getPoolPrice(hour);
+    console.log({hour, poolPrice});
+  }
+  console.log("============End===========");
+}
+
+async function main() {
+  var query = process.argv[2] ?? undefined;
+  switch (query) {
+    case "offers":
+      await queryOffers();
+      break;
+    case "bids":
+      await queryBids();
+      break;
+    case "poolprices":
+      await queryPoolPrices();
+      break;
+    case undefined:
+      await queryOffers();
+      await queryBids();
+      await queryPoolPrices();
+      break;
+  }
+}
+
 
 main().catch((error) => {
   console.error(error);
