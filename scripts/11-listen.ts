@@ -36,10 +36,10 @@ async function listenPoolmarketEvents() {
 async function listenETKEvents() {
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
   const tokenContractInstance = getETKContract(wallet);
-  const receiver = process.env.ETK_RECEIVER ?? DEFAULT_RECEIVER;
-  console.log("Transfering 1 token to receiver ...");
-  const transferTx = await tokenContractInstance.transfer(receiver, 1);
-  await transferTx.wait();
+  // const receiver = process.env.ETK_RECEIVER ?? DEFAULT_RECEIVER;
+  // console.log("Transfering 1 token to receiver ...");
+  // const transferTx = await tokenContractInstance.transfer(receiver, 1);
+  // await transferTx.wait();
   console.log("Listening to ETK contract...");
   tokenContractInstance.on("Transfer", (log) => {
     console.log({ log });

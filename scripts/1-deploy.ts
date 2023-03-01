@@ -5,29 +5,32 @@ import * as tokenJson from "../artifacts/contracts/EnergyToken.sol/EnergyToken.j
 import * as registryJson from "../artifacts/contracts/Registry.sol/Registry.json";
 import * as poolMarketJson from "../artifacts/contracts/PoolMarket.sol/PoolMarket.json";
 import * as paymentJson from "../artifacts/contracts/Payment.sol/Payment.json";
-import { EXPOSED_KEY, setupGoerliProvider, setupProvider } from "./utils";
+import { EXPOSED_KEY, setupProvider } from "./utils";
 import nodes from '/mnt/bpet/deploy/nodes.json'
 
-const dirPathUpdates = [".env", 
-                        "/mnt/bpet-front/.env", 
-                        "/mnt/bpet-microservice/admin/.env", 
-                        "/mnt/bpet-microservice/etk/.env", 
-                        "/mnt/bpet-microservice/poolmarket/.env",
-                        "/mnt/bpet-microservice/register/.env"
-                      ]
+// Global parameters:
+const envDirs = [
+                ".env", 
+                "/mnt/bpet-front/.env", 
+                "/mnt/bpet-microservice/admin/.env", 
+                "/mnt/bpet-microservice/etk/.env", 
+                "/mnt/bpet-microservice/poolmarket/.env",
+                "/mnt/bpet-microservice/register/.env"
+              ]
 const urlre = /:\/\/.*:854/g
 const url = `://${nodes['besu-1']}:854`
-// Global parameters:
+const abiDirs = [
+                "/mnt/bpet-microservice/admin/src/contracts",
+                "/mnt/bpet-microservice/etk/src/contracts",
+                "/mnt/bpet-microservice/poolmarket/src/contracts",
+                "/mnt/bpet-microservice/register/src/contracts",
+                "/mnt/bpet-front/utils/contracts"
+                ]
+
 const MINALLOWEDPRICE = 0;
 const MAXALLOWEDPRICE = 1000;
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
-var provider = setupGoerliProvider();
-const network = process.env.PROVIDER_NETWORK;
-if (network === "Besu") {
-  updateLocalEnvFileURL();
-  provider = setupProvider();
-}
-
+var provider = setupProvider();
 const signer = wallet.connect(provider);
 
 async function deployEnergyToken() {
@@ -105,6 +108,13 @@ async function deployPayment(
 }
 
 async function main() {
+  // update besu RPC URLs in the local .env file
+  await updateURLs();
+
+  // update ABIs to back-end microservices and front-end Dapp
+  await updateABIs();
+
+  // deploy contracts to besu
   const tokenAddress = await deployEnergyToken();
   const registryAddress = await deployRegistry();
   const poolmarketAddress = await deployPoolMarket(registryAddress);
@@ -123,8 +133,9 @@ async function main() {
   console.log(`PAYMENT_CONTRACT_ADDRESS = ${paymentAddress}`);
 
   console.log("=====================");
-  console.log("Updating contracts addresses in the .env file...");
+  console.log("Updating contracts addresses in the .env files...");
 
+  // post deployment: update deployed contract addresses to .env files
   await updateEnvFiles(
     tokenAddress,
     registryAddress,
@@ -133,9 +144,28 @@ async function main() {
   );
 }
 
-async function updateLocalEnvFileURL() {
+async function updateABIs() {
+  console.log('Updating front-end and back-end ABI JSON files ... ');
+  for(var abiDir of abiDirs ) {
+    try {
+      const etkAbiPath = abiDir+'/EnergyToken.sol/EnergyToken.json';
+      await _fs.promises.writeFile(etkAbiPath, JSON.stringify(tokenJson, undefined, 4), "utf8");
+      const poomarketAbiPath = abiDir+'/PoolMarket.sol/PoolMarket.json';
+      await _fs.promises.writeFile(poomarketAbiPath, JSON.stringify(poolMarketJson, undefined, 4), "utf8");
+      const registryAbiPath = abiDir+'/Registry.sol/Registry.json';
+      await _fs.promises.writeFile(registryAbiPath, JSON.stringify(registryJson, undefined, 4), "utf8");
+      const paymentAbiPath = abiDir+'/Payment.sol/Payment.json';
+      await _fs.promises.writeFile(paymentAbiPath, JSON.stringify(paymentJson, undefined, 4), "utf8");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+
+async function updateURLs() {
+  console.log('Updating RPC URLs in the local .env file ... ');
     const firstUpdate = async () => {
-      var dirpath = dirPathUpdates[0];
+      var dirpath = envDirs[0];
       try {
         const fileData = await _fs.promises.readFile(dirpath);
         var fileAsStr = fileData.toString("utf8").replace(urlre, url);
@@ -153,8 +183,8 @@ async function updateEnvFiles(
   poolmarketAddress: string,
   paymentAddress: string
 ) {
-
-  for(var dirpath of dirPathUpdates ) {
+  console.log('Post deployment: updating contract addressed to front-end and back-end .env files ... ');
+  for(var dirpath of envDirs ) {
     try {
       const fileData = await _fs.promises.readFile(dirpath);
       var fileAsStr = fileData.toString("utf8").replaceAll(urlre, url);

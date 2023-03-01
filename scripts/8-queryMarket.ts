@@ -2,14 +2,16 @@ import { ethers, BigNumber } from "ethers";
 import "dotenv/config";
 import { EXPOSED_KEY, getPoolMarketContract } from "./utils";
 
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
+const poolmarketContractInstance = getPoolMarketContract(wallet);
+
 function convertBigNumberToNumber(value: BigNumber) {
   const decimals = 18;
   return Math.round(Number(ethers.utils.formatEther(value)) * 10 ** decimals);
 }
 
 async function queryOffers() {
-  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
-  const poolmarketContractInstance = getPoolMarketContract(wallet);
+
   const offerIds = await poolmarketContractInstance.getValidOfferIDs();
   var offers = [];
   console.log("All submitted offers:");
@@ -37,8 +39,6 @@ async function queryOffers() {
 }
 
 async function queryBids() {
-  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
-  const poolmarketContractInstance = getPoolMarketContract(wallet);
   const bidIds = await poolmarketContractInstance.getValidBidIDs();
   var bids = [];
   console.log("All submitted bids:");
@@ -62,8 +62,6 @@ async function queryBids() {
 }
 
 async function queryPoolPrices() {
-  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
-  const poolmarketContractInstance = getPoolMarketContract(wallet);
   const poolPriceHours = await poolmarketContractInstance.getPoolpriceHours();
   console.log("All pool prices:");
   console.log("=======================");
@@ -71,6 +69,14 @@ async function queryPoolPrices() {
     const poolPrice = await poolmarketContractInstance.getPoolPrice(hour);
     console.log({hour, poolPrice});
   }
+  console.log("============End===========");
+}
+
+async function queryTotalDemand() {
+  const latestTotalDemand = await poolmarketContractInstance.getLatestTotalDemand();
+  console.log("The latest total demand:");
+  console.log("=======================");
+  console.log(convertBigNumberToNumber(latestTotalDemand));
   console.log("============End===========");
 }
 
@@ -86,10 +92,14 @@ async function main() {
     case "poolprices":
       await queryPoolPrices();
       break;
+    case "totaldemand":
+      await queryTotalDemand();
+      break;
     case undefined:
       await queryOffers();
       await queryBids();
       await queryPoolPrices();
+      await queryTotalDemand();
       break;
   }
 }

@@ -67,9 +67,9 @@ async function registerConsumers() {
   try {
     const registerConsumerTx1 = await registryContract1.registerConsumer(
       wallet_consumer1.address,
-      "CONSUMER1",
-      200,
-      "Alberta Consumer Ltd1"
+      "AIL",
+      50000,
+      "Alberta Internal Load Ltd."
     );
     await registerConsumerTx1.wait();
     console.log(registerConsumerTx1);
@@ -77,40 +77,40 @@ async function registerConsumers() {
     console.log(error);
   }
 
-  console.log("Registered Consumer2 ", wallet_consumer2.address);
-  const registryContract2 = getRegistryContract(wallet_consumer1);
-  const registerConsumerTx2 = await registryContract2.registerConsumer(
-    wallet_consumer2.address,
-    "CONSUMER2",
-    300,
-    "Alberta Consumer Ltd2"
-  );
-  await registerConsumerTx2.wait();
-  console.log(registerConsumerTx2);
+  // console.log("Registered Consumer2 ", wallet_consumer2.address);
+  // const registryContract2 = getRegistryContract(wallet_consumer1);
+  // const registerConsumerTx2 = await registryContract2.registerConsumer(
+  //   wallet_consumer2.address,
+  //   "CONSUMER2",
+  //   300,
+  //   "Alberta Consumer Ltd2"
+  // );
+  // await registerConsumerTx2.wait();
+  // console.log(registerConsumerTx2);
 
-  console.log("Registered Consumer3 ", wallet_consumer3.address);
-  const registryContract3 = getRegistryContract(wallet_consumer1);
-  const registerConsumerTx3 = await registryContract3.registerConsumer(
-    wallet_consumer3.address,
-    "CONSUMER3",
-    400,
-    "Alberta Consumer Ltd3"
-  );
-  await registerConsumerTx3.wait();
-  console.log(registerConsumerTx3);
+  // console.log("Registered Consumer3 ", wallet_consumer3.address);
+  // const registryContract3 = getRegistryContract(wallet_consumer1);
+  // const registerConsumerTx3 = await registryContract3.registerConsumer(
+  //   wallet_consumer3.address,
+  //   "CONSUMER3",
+  //   400,
+  //   "Alberta Consumer Ltd3"
+  // );
+  // await registerConsumerTx3.wait();
+  // console.log(registerConsumerTx3);
 }
 
 async function main() {
 
-  await registerSuppliers();
+  // await registerSuppliers();
   await registerConsumers();
 
   const wallet_admin = new ethers.Wallet(
     process.env.PRIVATE_KEY ?? EXPOSED_KEY
   );
   const contract = getRegistryContract(wallet_admin);
-  const registeredSuppliers = await contract.getAllSuppliers();
-  console.log("Registered Suppliers:  ", registeredSuppliers);
+  // const registeredSuppliers = await contract.getAllSuppliers();
+  // console.log("Registered Suppliers:  ", registeredSuppliers);
 
   const registeredConsumers = await contract.getAllConsumers();
   console.log("Registered Consumers:  ", registeredConsumers);

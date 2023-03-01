@@ -45,8 +45,8 @@ async function main() {
         result[i].Capacity,
         result[i].OfferControl
       );
-      await registerTx.wait();
-      console.log(registerTx);
+      // await registerTx.wait();
+      // console.log(registerTx);
     }
     const jsonObj = Object.fromEntries(registeredData);
     console.log(JSON.stringify(jsonObj, undefined, 4));
