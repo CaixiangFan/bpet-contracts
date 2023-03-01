@@ -221,6 +221,7 @@ contract PoolMarket is Ownable, IPoolMarket {
         // update current bid or add a new bid
         energyBids[bidId] = Bid(_amount, _price, submitMinute, msg.sender);
         emit BidSubmitted(_amount, _price, msg.sender);
+        updateDemand();
     }
 
     /**
@@ -247,13 +248,13 @@ contract PoolMarket is Ownable, IPoolMarket {
     }
 
     ///@dev Calculate the system marginal price. This happens regularly through external function calls.
-    function calculateSMP(bool bidUpdated) public onlyOwner {
+    function calculateSMP() public onlyOwner {
         if (validBidIDs.length > 0 && validOfferIDs.length > 0) {
             //during calculating the SMP, system cannot accept new offers/bids
             //this requires a high-performance blockchain system to process this transaction
             //in a very short time, otherwise services stop for a long period time
             marketState = MarketState.Closed;
-            if (bidUpdated) updateDemand();
+            // if (bidUpdated) updateDemand();
             uint256 aggregatedOfferAmount = 0;
             // get the latest total demand
             uint256 latestTotalDemand = getLatestTotalDemand();
@@ -323,7 +324,7 @@ contract PoolMarket is Ownable, IPoolMarket {
         require(hour < block.timestamp, "Hour is not valid");
         //calculate a smp for that hour timestamp before calculating pool price
         //this makes sure at least one msp exists in that hour
-        calculateSMP(true);
+        calculateSMP();
         uint256 poolPrice = 0;
         uint256 cummulatedPrice = 0;
         for (uint256 i = 0; i < systemMarginalMinutes.length; i++) {
