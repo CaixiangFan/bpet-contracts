@@ -1,9 +1,7 @@
-import { ethers, Contract } from "ethers";
+import { ethers } from "ethers";
 import "dotenv/config";
-import * as registryJson from "../artifacts/contracts/Registry.sol/Registry.json";
-import * as tokenJson from "../artifacts/contracts/EnergyToken.sol/EnergyToken.json";
 import { EXPOSED_KEY, getRegistryContract } from "./utils";
-import { Registry, EnergyToken } from "../typechain";
+import { Registry } from "../typechain";
 
 async function main() {
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);

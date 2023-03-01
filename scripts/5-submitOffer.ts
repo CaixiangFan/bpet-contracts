@@ -52,7 +52,7 @@ async function main() {
       // 1. for each day, iterate hours ending from 1 to 24
       // 2. compare current offers with previous hour, submit new offers and delete non-existing ones
       // 3. use async process
-      if (result[i].Date == "2022-03-01" && result[i].HE == 2) {
+      if (result[i].Date == "2022-03-01" && result[i].HE == 1) {
         const priKey = registeredUsers.get(result[i].AssetId)?.Index ?? EXPOSED_KEY;
         const wallet = new ethers.Wallet(priKey);
         const contract = getPoolMarketContract(wallet);
@@ -61,7 +61,7 @@ async function main() {
           result[i].AvailableMW,
           result[i].Price
         );
-        // await submitOfferTx.wait();
+        await submitOfferTx.wait();
         console.log(submitOfferTx.hash, 
           result[i].BlockNumber,
           result[i].AvailableMW,

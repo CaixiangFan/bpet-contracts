@@ -17,18 +17,16 @@ async function queryOffers() {
   console.log("All submitted offers:");
   console.log("=======================");
   for (let i = 0; i < offerIds.length; i++) {
-    var offer = await poolmarketContractInstance.getEnergyOffer(offerIds[i]);
+    var offer = await poolmarketContractInstance.energyOffers(offerIds[i]);
     var amount = convertBigNumberToNumber(offer.amount);
     var price = convertBigNumberToNumber(offer.price);
     var submitMinute = new Date(convertBigNumberToNumber(offer.submitMinute) * 1000).toLocaleString("en-us");
     var supplierAccount = offer.supplierAccount;
-    var isValid = offer.isValid;
     var covertedOffer = {
       amount,
       price,
       submitMinute,
       supplierAccount,
-      isValid,
     };
     offers.push(covertedOffer);
     console.log(`${i + 1}: ${JSON.stringify(covertedOffer)}`);
@@ -44,7 +42,7 @@ async function queryBids() {
   console.log("All submitted bids:");
   console.log("=======================");
   for (let i = 0; i < bidIds.length; i++) {
-    var bid = await poolmarketContractInstance.getEnergyBid(bidIds[i]);
+    var bid = await poolmarketContractInstance.energyBids(bidIds[i]);
     var submitTimeStamp = convertBigNumberToNumber(bid.submitMinute);
     var submitTime = new Date(submitTimeStamp * 1000);
     var convertedBid = {

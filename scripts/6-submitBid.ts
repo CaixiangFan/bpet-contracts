@@ -4,7 +4,6 @@ import { parse } from "csv-parse";
 import * as path from "path";
 import * as fs from "fs";
 import { EXPOSED_KEY, getPoolMarketContract } from "./utils";
-import { resolve } from "dns";
 
 type SubmitBid = {
   Index: any;
@@ -37,7 +36,8 @@ async function main() {
     const wallet = new ethers.Wallet(process.env.CONSUMER1_PRIVATE_KEY ?? EXPOSED_KEY);
     const poolmarketContractInstance = getPoolMarketContract(wallet);
     // skip the header line
-    var i = 568;
+    // must start with the 1st item and keep align with offer submissions 
+    var i = 442;
     var intervalId = setInterval(async () => {
       const currMinute: number = +(result[i].Time.split(':')[1]);
       const currHour: number = result[i].Time.includes('24:') ? 0 : +(result[i].Time.split(':')[0]);

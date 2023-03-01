@@ -175,7 +175,7 @@ describe("Testing PoolMarket Contract", () => {
       expect(isRegistered).to.eq(true);
       await expect(
         poolMarketContract.connect(accounts[1]).submitOffer(0, 500, 50)
-      ).to.revertedWith("Offered amount exceeds capacity");
+      ).to.revertedWith("Invalid amount");
       const validOfferIDs = await poolMarketContract.getValidOfferIDs();
       expect(validOfferIDs.length).to.eq(0);
     });
@@ -193,6 +193,8 @@ describe("Testing PoolMarket Contract", () => {
   });
   describe("when update demand", async () => {
     beforeEach(async () => {
+      // submitOffer(blockNum, amount, price)
+      // submitBid(amount, price)
       const [tx1, tx2, tx3, tx4, tx5] = await Promise.all([
         poolMarketContract.connect(accounts[1]).submitOffer(0, 35, 50),
         poolMarketContract.connect(accounts[2]).submitOffer(1, 27, 55),
@@ -211,20 +213,19 @@ describe("Testing PoolMarket Contract", () => {
       await updateDemandTx.wait();
       const latestDemand = await poolMarketContract.getLatestTotalDemand();
       expect(latestDemand).to.eq(61);
-      const assetId = "FACTORY2";
       const energyBids1 = await poolMarketContract.getValidBidIDs();
       const bidId = ethers.utils.solidityKeccak256(
         ["string"],
         [accounts[0].address]
       );
-      const bid = await poolMarketContract.getEnergyBid(bidId);
+      const bid = await poolMarketContract.energyBids(bidId);
       // console.log(bid);
 
       const tx = await poolMarketContract
         .connect(accounts[9])
         .submitBid(70, 20);
       await tx.wait();
-      const newbid = await poolMarketContract.getEnergyBid(bidId);
+      const newbid = await poolMarketContract.energyBids(bidId);
       // console.log(newbid);
       const energyBids2 = await poolMarketContract.getValidBidIDs();
       expect(energyBids1.length).to.eq(energyBids2.length);
