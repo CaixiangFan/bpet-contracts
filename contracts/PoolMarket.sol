@@ -242,9 +242,6 @@ contract PoolMarket is Ownable, IPoolMarket {
    */
     function calculatePoolPrice(uint256 hour) public onlyOwner {
         require(hour < block.timestamp, "Hour is not valid");
-        //calculate a smp for that hour timestamp before calculating pool price
-        //this makes sure at least one msp exists in that hour
-        calculateSMP();
         uint256 poolPrice = 0;
         uint256 cummulatedPrice = 0;
         for (uint256 i = 0; i < systemMarginalMinutes.length; i++) {
