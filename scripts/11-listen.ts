@@ -1,15 +1,12 @@
-import { ethers, Contract, BigNumber } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import "dotenv/config";
 import * as registryJson from "../artifacts/contracts/Registry.sol/Registry.json";
 import {
   getPoolMarketContract,
   getETKContract,
   EXPOSED_KEY,
-  setupProvider,
-  DEFAULT_RECEIVER,
   convertBigNumberToNumber,
 } from "./utils";
-import { PoolMarket, EnergyToken, Registry } from "../typechain";
 
 
 
@@ -36,10 +33,6 @@ async function listenPoolmarketEvents() {
 async function listenETKEvents() {
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
   const tokenContractInstance = getETKContract(wallet);
-  // const receiver = process.env.ETK_RECEIVER ?? DEFAULT_RECEIVER;
-  // console.log("Transfering 1 token to receiver ...");
-  // const transferTx = await tokenContractInstance.transfer(receiver, 1);
-  // await transferTx.wait();
   console.log("Listening to ETK contract...");
   tokenContractInstance.on("Transfer", (log) => {
     console.log({ log });

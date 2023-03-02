@@ -1,119 +1,124 @@
 import { ethers } from "ethers";
 import "dotenv/config";
 import { EXPOSED_KEY, getRegistryContract } from "./utils";
+import { parse } from "csv-parse";
+import * as path from "path";
+import * as fs from "fs";
+
+type Register = {
+  Index: any;
+  AssetId: string;
+  BlockNumber: number;
+  Capacity: number;
+  OfferControl: string;
+}
 
 async function registerSuppliers() {
-  const wallet_supplier1 = new ethers.Wallet(
-    process.env.SUPPLIER1_PRIVATE_KEY ?? EXPOSED_KEY
-  );
-  const wallet_supplier2 = new ethers.Wallet(
-    process.env.SUPPLIER2_PRIVATE_KEY ?? EXPOSED_KEY
-  );
-  const wallet_supplier3 = new ethers.Wallet(
-    process.env.SUPPLIER3_PRIVATE_KEY ?? EXPOSED_KEY
-  );
-
-  console.log("Registered Supplier1 ", wallet_supplier1.address);
-  const registryContract4 = getRegistryContract(wallet_supplier1);
-  const registerSupplierTx1 = await registryContract4.registerSupplier(
-    wallet_supplier1.address,
-    "SUPPLIER1",
-    2,
-    300,
-    "Alberta Solar Farm Ltd1"
-  );
-  await registerSupplierTx1.wait();
-  console.log(registerSupplierTx1);
-
-  console.log("Registered Supplier2 ", wallet_supplier2.address);
-  const registryContract5 = getRegistryContract(wallet_supplier2);
-  const registerSupplierTx2 = await registryContract5.registerSupplier(
-    wallet_supplier2.address,
-    "SUPPLIER2",
-    3,
-    350,
-    "Alberta Enmax Ltd2"
-  );
-  await registerSupplierTx2.wait();
-  console.log(registerSupplierTx2);
-
-  console.log("Registered Supplier3 ", wallet_supplier3.address);
-  const registryContract6 = getRegistryContract(wallet_supplier3);
-  const registerSupplierTx3 = await registryContract6.registerSupplier(
-    wallet_supplier3.address,
-    "SUPPLIER3",
-    4,
-    500,
-    "Alberta Supplier Ltd3"
-  );
-  await registerSupplierTx3.wait();
-  console.log(registerSupplierTx3);
-
+  const priKeys = [
+    process.env.SUPPLIER1_PRIVATE_KEY,
+    process.env.SUPPLIER2_PRIVATE_KEY,
+    process.env.SUPPLIER3_PRIVATE_KEY
+  ];
+  for (let i = 0; i < priKeys.length; i ++) {
+    const wallet = new ethers.Wallet(priKeys[i] ?? EXPOSED_KEY);
+    console.log(`Registering supplier ${wallet.address} ...`);
+    const registryContract = getRegistryContract(wallet);
+    try {
+      const registerSupplierTx = await registryContract.registerSupplier(
+        wallet.address,
+        `SUPPLIER${i+1}`,
+        i + 2,
+        (i + 1) * 200,
+        `Alberta Solar Farm Ltd${i+1}`
+      );
+      await registerSupplierTx.wait();
+      console.log(registerSupplierTx);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 async function registerConsumers() {
-  const wallet_consumer1 = new ethers.Wallet(
-    process.env.CONSUMER1_PRIVATE_KEY ?? EXPOSED_KEY
-  );
-  const wallet_consumer2 = new ethers.Wallet(
-    process.env.CONSUMER2_PRIVATE_KEY ?? EXPOSED_KEY
-  );
-  const wallet_consumer3 = new ethers.Wallet(
-    process.env.CONSUMER3_PRIVATE_KEY ?? EXPOSED_KEY
-  );
+  const priKeys = [
+    process.env.CONSUMER1_PRIVATE_KEY,
+    // process.env.CONSUMER2_PRIVATE_KEY,
+    // process.env.CONSUMER3_PRIVATE_KEY
+  ];
 
-  console.log("Registered Consumer1 ", wallet_consumer1.address);
-  const registryContract1 = getRegistryContract(wallet_consumer1);
-  try {
-    const registerConsumerTx1 = await registryContract1.registerConsumer(
-      wallet_consumer1.address,
-      "AIL",
-      50000,
-      "Alberta Internal Load Ltd."
-    );
-    await registerConsumerTx1.wait();
-    console.log(registerConsumerTx1);
-  } catch (error) {
-    console.log(error);
+  for (var priKey of priKeys) {
+    const wallet = new ethers.Wallet(priKey ?? EXPOSED_KEY);
+    console.log(`Registering consumer ${wallet.address} ...`);
+    const registryContract = getRegistryContract(wallet);
+    try {
+      const registerConsumerTx = await registryContract.registerConsumer(
+        wallet.address,
+        "AIL",
+        50000,
+        "Alberta Internal Load Ltd."
+      );
+      await registerConsumerTx.wait();
+      console.log(registerConsumerTx);
+    } catch (error) {
+      console.log(error);
+    }
   }
+}
 
-  // console.log("Registered Consumer2 ", wallet_consumer2.address);
-  // const registryContract2 = getRegistryContract(wallet_consumer1);
-  // const registerConsumerTx2 = await registryContract2.registerConsumer(
-  //   wallet_consumer2.address,
-  //   "CONSUMER2",
-  //   300,
-  //   "Alberta Consumer Ltd2"
-  // );
-  // await registerConsumerTx2.wait();
-  // console.log(registerConsumerTx2);
+async function registerAESOSuppliers() {
+  const DEFAULT_PATH = ethers.utils.defaultPath;
+  const DEFAULT_MNEMONIC = 'upset fuel enhance depart portion hope core animal innocent will athlete snack';
 
-  // console.log("Registered Consumer3 ", wallet_consumer3.address);
-  // const registryContract3 = getRegistryContract(wallet_consumer1);
-  // const registerConsumerTx3 = await registryContract3.registerConsumer(
-  //   wallet_consumer3.address,
-  //   "CONSUMER3",
-  //   400,
-  //   "Alberta Consumer Ltd3"
-  // );
-  // await registerConsumerTx3.wait();
-  // console.log(registerConsumerTx3);
+  const csvFilePath = path.resolve(__dirname, '../aeso/Registry_20220301_20220314.csv');
+  const headers = ['Index', 'AssetId', 'BlockNumber', 'Capacity', 'OfferControl'];
+  const fileContent = fs.readFileSync(csvFilePath, { encoding: 'utf-8' });
+  
+  parse(fileContent, {
+    delimiter: ',',
+    columns: headers,
+  }, async (error, result: Register[]) => {
+    if (error) {
+      console.error(error);
+    }
+    const MNEMONIC = process.env.DEFAULT_MNEMONIC ?? DEFAULT_MNEMONIC
+    var registeredData = new Map<string, Register>();
+    // skip the header line
+    for (let i = 1; i < result.length; i++) {
+      const path = DEFAULT_PATH + i
+      const wallet = ethers.Wallet.fromMnemonic(MNEMONIC, path)
+      
+      result[i].Index = wallet.privateKey;
+      registeredData.set(result[i].AssetId, result[i]);
+      const registryContract = getRegistryContract(wallet);
+      const registerTx = await registryContract.registerSupplier(
+        wallet.address,
+        result[i].AssetId,
+        result[i].BlockNumber,
+        result[i].Capacity,
+        result[i].OfferControl
+      );
+      // await registerTx.wait();
+      // console.log(registerTx);
+    }
+    const jsonObj = Object.fromEntries(registeredData);
+    console.log(JSON.stringify(jsonObj, undefined, 4));
+    fs.writeFile(
+      './aeso/Registry_20220301_20220314.json', 
+      JSON.stringify(jsonObj, undefined, 4), 
+      'utf8', 
+      (error) => {console.log(error)});
+  });
 }
 
 async function main() {
-
+  //==============RegisterMetaMaskSuppliers===============
   // await registerSuppliers();
+
+  //==============RegisterMetaMaskConsumers===============
   await registerConsumers();
 
-  const wallet_admin = new ethers.Wallet(
-    process.env.PRIVATE_KEY ?? EXPOSED_KEY
-  );
-  const contract = getRegistryContract(wallet_admin);
-  // const registeredSuppliers = await contract.getAllSuppliers();
-  // console.log("Registered Suppliers:  ", registeredSuppliers);
-
-  const registeredConsumers = await contract.getAllConsumers();
-  console.log("Registered Consumers:  ", registeredConsumers);
+  //==============RegisterAESOSuppliers==================
+  await registerAESOSuppliers();
 }
 
 main().catch((error) => {

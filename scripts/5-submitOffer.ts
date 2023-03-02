@@ -50,9 +50,11 @@ async function main() {
     for (let i = 1; i < result.length; i++) {
       // TODO: improve offer submission perforamnce
       // 1. for each day, iterate hours ending from 1 to 24
-      // 2. compare current offers with previous hour, submit new offers and delete non-existing ones
+      // 2. compare current offers set A with previous hour's offers set B:
+      //    1) submit offers of A - B (in A but not in B)
+      //    2) submit Offer(0, 0) for offers of B - A (in B but not in A)
       // 3. use async process
-      if (result[i].Date == "2022-03-01" && result[i].HE == 1) {
+      if (result[i].Date == "2022-03-02" && result[i].HE == 3) {
         const priKey = registeredUsers.get(result[i].AssetId)?.Index ?? EXPOSED_KEY;
         const wallet = new ethers.Wallet(priKey);
         const contract = getPoolMarketContract(wallet);
