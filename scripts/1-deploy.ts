@@ -6,7 +6,7 @@ import * as registryJson from "../artifacts/contracts/Registry.sol/Registry.json
 import * as poolMarketJson from "../artifacts/contracts/PoolMarket.sol/PoolMarket.json";
 import * as paymentJson from "../artifacts/contracts/Payment.sol/Payment.json";
 import { EXPOSED_KEY, setupProvider } from "./utils";
-import nodes from '/mnt/bpet/deploy/nodes.json'
+import nodes from './nodes.json'
 
 // Global parameters:
 const envDirs = [
