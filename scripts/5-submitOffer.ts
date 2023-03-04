@@ -3,6 +3,7 @@ import "dotenv/config";
 import { parse } from "csv-parse";
 import * as path from "path";
 import * as fs from "fs";
+import * as child_process from "child_process";
 import * as registryJson from "../aeso/Registry_20220301_20220314.json";
 import { EXPOSED_KEY, getPoolMarketContract } from "./utils";
 
@@ -56,12 +57,12 @@ async function main() {
         // 2. compare current offers set A with previous hour's offers set B:
         //    1) submit offers of A - B (in A but not in B)
         //    2) submit Offer(0, 0) for offers of B - A (in B but not in A)
-        // 3. use async process
-        if (result[i].Date == "2022-03-01" && result[i].HE == 4) {
+        // 3. use child_process to improve concurrency
+        if (result[i].Date == "2022-03-03" && result[i].HE == 1) {
           const priKey =
             registeredUsers.get(result[i].AssetId)?.Index ?? EXPOSED_KEY;
           const wallet = new ethers.Wallet(priKey);
-          const contract = getPoolMarketContract(wallet);
+          // const contract = getPoolMarketContract(wallet);
           var _blockNumber = result[i].BlockNumber;
           var _availableMW = result[i].AvailableMW;
           var _price = result[i].Price;
@@ -70,19 +71,32 @@ async function main() {
             _availableMW = 0;
             _price = 0;
           }
-          const submitOfferTx = await contract.submitOffer(
-            _blockNumber,
-            _availableMW,
-            _price
-          );
-          await submitOfferTx.wait();
-          console.log(
+          // const submitOfferTx = await contract.submitOffer(
+          //   _blockNumber,
+          //   _availableMW,
+          //   _price
+          // );
+          // // await submitOfferTx.wait();
+          // console.log(
+          //   result[i].Merge,
+          //   wallet.address,
+          //   _blockNumber,
+          //   _availableMW,
+          //   _price
+          // );
+          var offerInfo = [
             result[i].Merge,
             wallet.address,
-            _blockNumber,
-            _availableMW,
-            _price
-          );
+            _blockNumber.toString(),
+            _availableMW.toString(),
+            _price.toString(),
+          ];
+          const cp = child_process.fork("submitOffer.ts", offerInfo, {
+            cwd: "./scripts/modules",
+          });
+          cp.on("exit", () => {
+            console.log(`Child process ${i} terminated!`);
+          });
         }
       }
     }
