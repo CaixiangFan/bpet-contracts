@@ -1,106 +1,53 @@
-import { ethers } from "ethers";
 import "dotenv/config";
-import { parse } from "csv-parse";
-import * as path from "path";
-import * as fs from "fs";
 import * as child_process from "child_process";
-import * as registryJson from "../aeso/Registry_20220301_20220314.json";
-import { EXPOSED_KEY, getPoolMarketContract } from "./utils";
+import * as submitOffersJson from "../aeso/SubmitOffer_20220301_20220314.json";
 
-type SubmitOffer = {
-  Index: number;
-  Merge: string;
-  Date: string;
-  HE: number;
-  AssetId: string;
-  BlockNumber: number;
-  Price: number;
-  AvailableMW: number;
-  OfferControl: string;
-};
 
 async function main() {
-  const csvFilePath = path.resolve(
-    __dirname,
-    "../aeso/SubmitOffer_20220301_20220314.csv"
-  );
-  const headers = [
-    "Index",
-    "Merge",
-    "Date",
-    "HE",
-    "AssetId",
-    "BlockNumber",
-    "Price",
-    "AvailableMW",
-    "OfferControl",
-  ];
-  const fileContent = fs.readFileSync(csvFilePath, { encoding: "utf-8" });
+  const currHour = "2022-03-01 0:00:00";
+  const offersMap = new Map(Object.entries(submitOffersJson));
+  const currOffers = offersMap.get(currHour); 
+  const totalCurrOffersNum = currOffers?.length;
+  console.log('Total offers #: ', totalCurrOffersNum);
+  if (currOffers != undefined && totalCurrOffersNum != undefined) {
+    // set worker numbers to make txsPerWorker<=10
+    const maxTxsPerWorker = 10;
+    var workersNum: number = Math.ceil(totalCurrOffersNum / maxTxsPerWorker);
+    if (totalCurrOffersNum <= maxTxsPerWorker) workersNum = totalCurrOffersNum;
 
-  parse(
-    fileContent,
-    {
-      delimiter: ",",
-      columns: headers,
-    },
-    async (error, result: SubmitOffer[]) => {
-      if (error) {
-        console.error(error);
-      }
+    workersNum = 22;
 
-      // convert json object to map for faster retrieve
-      let registeredUsers = new Map(Object.entries(registryJson));
-      // skip the header line
-      for (let i = 1; i < result.length; i++) {
-        // TODO: improve offer submission perforamnce
-        // 1. for each day, iterate hours ending from 1 to 24
-        // 2. compare current offers set A with previous hour's offers set B:
-        //    1) submit offers of A - B (in A but not in B)
-        //    2) submit Offer(0, 0) for offers of B - A (in B but not in A)
-        // 3. use child_process to improve concurrency
-        if (result[i].Date == "2022-03-03" && result[i].HE == 1) {
-          const priKey =
-            registeredUsers.get(result[i].AssetId)?.Index ?? EXPOSED_KEY;
-          const wallet = new ethers.Wallet(priKey);
-          // const contract = getPoolMarketContract(wallet);
-          var _blockNumber = result[i].BlockNumber;
-          var _availableMW = result[i].AvailableMW;
-          var _price = result[i].Price;
-          // check if offer only exists in the previous hour but not in current hour
-          if (result[i].Merge == "right_only") {
-            _availableMW = 0;
-            _price = 0;
-          }
-          // const submitOfferTx = await contract.submitOffer(
-          //   _blockNumber,
-          //   _availableMW,
-          //   _price
-          // );
-          // // await submitOfferTx.wait();
-          // console.log(
-          //   result[i].Merge,
-          //   wallet.address,
-          //   _blockNumber,
-          //   _availableMW,
-          //   _price
-          // );
-          var offerInfo = [
-            result[i].Merge,
-            wallet.address,
-            _blockNumber.toString(),
-            _availableMW.toString(),
-            _price.toString(),
-          ];
-          const cp = child_process.fork("submitOffer.ts", offerInfo, {
-            cwd: "./scripts/modules",
-          });
-          cp.on("exit", () => {
-            console.log(`Child process ${i} terminated!`);
-          });
-        }
+    const step:number = Math.ceil(currOffers.length / workersNum);
+    
+    var startIdx: number = 0;
+    var endIdx: number = step - 1;
+    console.log(`txs/per worker: ${step}, workersNum ${workersNum}`);
+
+    for (let i = endIdx; i < currOffers.length;) {
+      // console.log('current offer: ', currOffers[i]);
+      if (currOffers[i].AssetId == currOffers[i+1].AssetId) {
+        i++;
+        endIdx = i;
+        continue;
+      } 
+      const range: string[] = [startIdx.toString(), endIdx.toString(), currHour];
+      console.log('range: ', range);
+      const offersOfCurrRange = currOffers.slice(startIdx, endIdx+1);
+      var offersOfCurrRangeAssetID = [];
+      for (let j = 0; j < offersOfCurrRange.length; j++) offersOfCurrRangeAssetID.push(offersOfCurrRange[j].AssetId);
+      console.log(offersOfCurrRangeAssetID);
+      // const cp = child_process.fork("submitOffer.ts", range, {cwd: "./scripts/modules"});
+
+      startIdx = endIdx + 1;
+      i = startIdx + step - 1;
+      endIdx = i;
+      if (endIdx > currOffers.length - 1) {
+        endIdx = currOffers.length - 1;
+        console.log('range: ', [startIdx.toString(), endIdx.toString()]);
+        // child_process.fork("submitOffer.ts", [startIdx.toString(), endIdx.toString(), currHour], {cwd: "./scripts/modules"});
       }
     }
-  );
+  }
 }
 
 main().catch((error) => {
