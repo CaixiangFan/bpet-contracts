@@ -1,8 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IRegistry} from "./IRegistry.sol";
 
 /// @title P2P-ET Registry
@@ -95,41 +94,29 @@ contract Registry is Ownable, IRegistry {
         return registeredConsumerAccounts;
     }
 
-    function getSupplier(address supplierAddress)
-        public
-        view
-        override
-        returns (Supplier memory)
-    {
+    function getSupplier(
+        address supplierAddress
+    ) public view override returns (Supplier memory) {
         // require(supplierAddress == msg.sender || msg.sender == authorizedEntity, "Cannot query others");
         return registeredSuppliers[supplierAddress];
     }
 
-    function getConsumer(address consumerAddress)
-        public
-        view
-        override
-        returns (Consumer memory)
-    {
+    function getConsumer(
+        address consumerAddress
+    ) public view override returns (Consumer memory) {
         // require(consumerAddress == msg.sender || msg.sender == authorizedEntity, "Cannot query others");
         return registeredConsumers[consumerAddress];
     }
 
-    function isRegisteredSupplier(address account)
-        public
-        view
-        override
-        returns (bool)
-    {
+    function isRegisteredSupplier(
+        address account
+    ) public view override returns (bool) {
         return bytes(registeredSuppliers[account].assetId).length != 0;
     }
 
-    function isRegisteredConsumer(address account)
-        public
-        view
-        override
-        returns (bool)
-    {
+    function isRegisteredConsumer(
+        address account
+    ) public view override returns (bool) {
         return bytes(registeredConsumers[account].assetId).length != 0;
     }
 

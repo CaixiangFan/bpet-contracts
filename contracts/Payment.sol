@@ -1,8 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IPoolMarket} from "./IPoolMarket.sol";
 import {IEnergyToken} from "./IEnergyToken.sol";
 import {IRegistry} from "./IRegistry.sol";
@@ -60,10 +59,10 @@ contract Payment is Ownable {
     /**
   @dev Charges from the distribution network for a specific hour. The latest hour is the last hour.
    */
-    function charge(uint256 _hour, uint256 _meteredAmount)
-        public
-        registeredSupplier(msg.sender)
-    {
+    function charge(
+        uint256 _hour,
+        uint256 _meteredAmount
+    ) public registeredSupplier(msg.sender) {
         uint256 poolPrice = poolMarketContract.getPoolPrice(_hour);
         // should transfer from smart contract to generator
         energyToken.transferFrom(
@@ -76,10 +75,10 @@ contract Payment is Ownable {
     /**
   @dev Pay ETK to the distribution network for a specific hour. The latest hour is the last hour.
    */
-    function pay(uint256 _hour, uint256 _meteredAmount)
-        public
-        registeredConsumer(msg.sender)
-    {
+    function pay(
+        uint256 _hour,
+        uint256 _meteredAmount
+    ) public registeredConsumer(msg.sender) {
         uint256 poolPrice = poolMarketContract.getPoolPrice(_hour);
         // should transfer from buyer to smart contract
         energyToken.transfer(marketAccount, poolPrice * _meteredAmount);

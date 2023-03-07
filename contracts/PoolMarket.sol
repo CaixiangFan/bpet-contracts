@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IRegistry} from "./IRegistry.sol";
 import {IPoolMarket} from "./IPoolMarket.sol";
 
@@ -71,13 +71,18 @@ contract PoolMarket is Ownable, IPoolMarket {
         _;
     }
 
-    modifier validOffer(address account, uint256 amount, uint256 price) {
+    modifier validOffer(
+        address account,
+        uint256 amount,
+        uint256 price
+    ) {
         require(
             price <= maxAllowedPrice && price >= minAllowedPrice,
             "Invalid price"
         );
         require(
-            amount >= 0 && amount <= registryContract.getSupplier(account).capacity, 
+            amount >= 0 &&
+                amount <= registryContract.getSupplier(account).capacity,
             "Invalid amount"
         );
         _;
@@ -93,8 +98,10 @@ contract PoolMarket is Ownable, IPoolMarket {
             "Invalid price"
         );
         require(
-            getLatestTotalDemand() - energyBids[keccak256(abi.encode(bidSender))].amount + amount <=
-            registryContract.getTotalCapacity(),
+            getLatestTotalDemand() -
+                energyBids[keccak256(abi.encode(bidSender))].amount +
+                amount <=
+                registryContract.getTotalCapacity(),
             "Demand exceeds total supply"
         );
         // require(energyToken.balanceOf(bidSender) >= amount * price, "Insufficient ETK balance");
@@ -119,14 +126,24 @@ contract PoolMarket is Ownable, IPoolMarket {
         uint8 blockNumber,
         uint256 amount,
         uint256 price
-    ) public registeredSupplier(msg.sender) validOffer(msg.sender, amount, price) {
+    )
+        public
+        registeredSupplier(msg.sender)
+        validOffer(msg.sender, amount, price)
+    {
         // require(marketState == MarketState.Open, "Market closed");
         // generate offerId as the value keccak256(senderAccount, blockNumber)
         // blockNumber is an int representing identical price and amount of this supplier.
         bytes32 offerId = keccak256(abi.encodePacked(msg.sender, blockNumber));
         // if offerId does not exist, add new offerId to the offer list
-        if (energyOffers[offerId].submitMinute == 0) validOfferIDs.push(offerId);
-        energyOffers[offerId] = Offer(amount, price, (block.timestamp / 60) * 60, msg.sender);
+        if (energyOffers[offerId].submitMinute == 0)
+            validOfferIDs.push(offerId);
+        energyOffers[offerId] = Offer(
+            amount,
+            price,
+            (block.timestamp / 60) * 60,
+            msg.sender
+        );
         emit OfferSubmitted(amount, price, msg.sender);
     }
 
@@ -135,7 +152,10 @@ contract PoolMarket is Ownable, IPoolMarket {
   the new submitted bid from the same account will update the previous one, increasing or decreasing
   the AIL.
    */
-    function submitBid(uint256 _amount, uint256 _price)
+    function submitBid(
+        uint256 _amount,
+        uint256 _price
+    )
         public
         registeredConsumer(msg.sender)
         validBid(_amount, _price, msg.sender)
@@ -147,7 +167,12 @@ contract PoolMarket is Ownable, IPoolMarket {
         // if current bid does not exist, add the bidId to the index list
         if (energyBids[bidId].submitMinute == 0) validBidIDs.push(bidId);
         // update current bid or add a new bid
-        energyBids[bidId] = Bid(_amount, _price, (block.timestamp / 60) * 60, msg.sender);
+        energyBids[bidId] = Bid(
+            _amount,
+            _price,
+            (block.timestamp / 60) * 60,
+            msg.sender
+        );
         emit BidSubmitted(_amount, _price, msg.sender);
         updateDemand();
     }
@@ -318,11 +343,9 @@ contract PoolMarket is Ownable, IPoolMarket {
     /**
   @dev Query the marginal offer of given minute in unix time. 
    */
-    function getMarginalOffer(uint256 minute)
-        public
-        view
-        returns (Offer memory)
-    {
+    function getMarginalOffer(
+        uint256 minute
+    ) public view returns (Offer memory) {
         return energyOffers[systemMarginalOfferIDs[minute]];
     }
 
@@ -338,11 +361,13 @@ contract PoolMarket is Ownable, IPoolMarket {
         return validBidIDs;
     }
 
-    function getTotalDemandMinutes() public view returns(uint256[] memory) {
-      return totalDemandMinutes;
+    function getTotalDemandMinutes() public view returns (uint256[] memory) {
+        return totalDemandMinutes;
     }
 
-    function getDispatchedOffers(uint256 hour) public view override returns (DispatchedOffer[] memory){
+    function getDispatchedOffers(
+        uint256 hour
+    ) public view override returns (DispatchedOffer[] memory) {
         return dispatchedOffers[hour];
     }
 }
