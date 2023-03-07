@@ -3,6 +3,7 @@ import "dotenv/config";
 import { parse } from "csv-parse";
 import * as path from "path";
 import * as fs from "fs";
+import * as schedule from 'node-schedule';
 import { EXPOSED_KEY, getPoolMarketContract } from "./utils";
 
 type SubmitBid = {
@@ -37,23 +38,23 @@ async function main() {
     const poolmarketContractInstance = getPoolMarketContract(wallet);
     // skip the header line
     // must start with the 1st item and keep align with offer submissions 
-    var i = 442;
-    var intervalId = setInterval(async () => {
+    var i = 1;
+    const job = schedule.scheduleJob('50 * * * * *', async () => {
       const currMinute: number = +(result[i].Time.split(':')[1]);
       const currHour: number = result[i].Time.includes('24:') ? 0 : +(result[i].Time.split(':')[0]);
       const amount: number = result[i].DispatchedMW;
       const now = new Date();
-      console.log(`Now ${now.getHours()} : ${now.getMinutes()}, should submit amount ${amount} MW at ${currHour}:${currMinute}`);
-      if (now.getHours() == currHour && now.getMinutes() == currMinute) {
+      console.log(`Now ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}, should submit next bid amount=${amount}MW at ${currHour}:${currMinute}`);
+      if (now.getMinutes() == currMinute) {
         console.log(`Submitting a bid: (${amount} MW, 50 $) at ${currHour}:${currMinute}`);
         const tx = await poolmarketContractInstance.submitBid(amount, 50);
         await tx.wait();
         console.log(tx);
         console.log(`Submitted a bid: (${amount} MW, 50 $) at ${currHour}:${currMinute}`);
         i ++;
-        if (i === result.length) clearInterval(intervalId);
+        if (i === result.length) job.cancel();
       }
-    }, 60000);
+    })
     }
   );
 }

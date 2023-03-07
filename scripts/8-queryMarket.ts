@@ -1,5 +1,6 @@
 import { ethers, BigNumber } from "ethers";
 import "dotenv/config";
+import { SMP } from './modules/smp.dto';
 import { EXPOSED_KEY, getPoolMarketContract } from "./utils";
 
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
@@ -70,6 +71,42 @@ async function queryPoolPrices() {
   console.log("============End===========");
 }
 
+async function querySMP() {
+  var datetime = new Date();
+  const smps = [];
+  const second = datetime.getSeconds();
+  const minute = datetime.getMinutes();
+  const hour = datetime.getHours();
+  const currentTime = Math.floor(datetime.getTime() / 1000);
+  const hourStart = currentTime - second - 60 * minute;
+  for (let i = 1; i <= 60; i++) {
+    var currentMinute = hourStart + 60 * i;
+    if (currentMinute < currentTime) {
+      var smp = await poolmarketContractInstance.getSMP(currentMinute);
+      if (convertBigNumberToNumber(smp) > 0) {
+        var date = new Date(currentMinute * 1000);
+        var he = date.toLocaleDateString('en-us');
+        var minutes = date.getMinutes();
+        var marginalOffer =
+          await poolmarketContractInstance.getMarginalOffer(
+            currentMinute,
+          );
+        var volume = convertBigNumberToNumber(marginalOffer.amount);
+        smps.push(
+          new SMP(
+            `${he} ${hour + 1}`,
+            `${hour}:${minutes}`,
+            convertBigNumberToNumber(smp),
+            volume,
+          ),
+        );
+      }
+    }
+  }
+  console.log(smps);
+  console.log("============End===========");
+}
+
 async function queryTotalDemand() {
   const latestTotalDemand = await poolmarketContractInstance.getLatestTotalDemand();
   console.log("The latest total demand:");
@@ -93,11 +130,15 @@ async function main() {
     case "totaldemand":
       await queryTotalDemand();
       break;
+    case "smp":
+      await querySMP();
+      break;
     case undefined:
       await queryOffers();
       await queryBids();
       await queryPoolPrices();
       await queryTotalDemand();
+      await querySMP();
       break;
   }
 }
