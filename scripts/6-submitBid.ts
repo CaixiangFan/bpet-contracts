@@ -39,13 +39,13 @@ async function main() {
     // skip the header line
     // must start with the 1st item and keep align with offer submissions 
     var i = 1;
-    const job = schedule.scheduleJob('50 * * * * *', async () => {
+    const job = schedule.scheduleJob('55 * * * * *', async () => {
       const currMinute: number = +(result[i].Time.split(':')[1]);
       const currHour: number = result[i].Time.includes('24:') ? 0 : +(result[i].Time.split(':')[0]);
       const amount: number = result[i].DispatchedMW;
       const now = new Date();
       console.log(`Now ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}, should submit next bid amount=${amount}MW at ${currHour}:${currMinute}`);
-      if (now.getMinutes() == currMinute) {
+      if (now.getHours() == currHour && now.getMinutes() == currMinute) {
         console.log(`Submitting a bid: (${amount} MW, 50 $) at ${currHour}:${currMinute}`);
         const tx = await poolmarketContractInstance.submitBid(amount, 50);
         await tx.wait();
