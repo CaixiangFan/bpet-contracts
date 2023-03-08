@@ -11,7 +11,7 @@ contract PoolMarket is Ownable, IPoolMarket {
    */
     struct Offer {
         uint256 amount; //Available MW for dispatch
-        uint256 price; //Price in ETK per MW, 1ETK=1US dollor
+        uint256 price; //Price in ETK cents per MW, 1ETK=1US dollor
         uint256 submitMinute; //Epoch time in minute when this offer is submitted or updated
         address supplierAccount; //The account of the offer supplier
     }
@@ -22,7 +22,7 @@ contract PoolMarket is Ownable, IPoolMarket {
    */
     struct Bid {
         uint256 amount;
-        uint256 price;
+        uint256 price; //Price in ETK cents per MW, 1ETK=1US dollor
         uint256 submitMinute; //Epoch time in minute when this bid is submitted or updated
         address consumerAccount; //The account of the consumer
     }
@@ -267,7 +267,6 @@ contract PoolMarket is Ownable, IPoolMarket {
    */
     function calculatePoolPrice(uint256 hour) public onlyOwner {
         require(hour < block.timestamp, "Hour is not valid");
-        uint256 poolPrice = 0;
         uint256 cummulatedPrice = 0;
         for (uint256 i = 0; i < systemMarginalMinutes.length; i++) {
             uint256 timestamp = systemMarginalMinutes[i];
@@ -293,8 +292,7 @@ contract PoolMarket is Ownable, IPoolMarket {
                 cummulatedPrice += price * durationMinutes;
             }
         }
-        poolPrice = cummulatedPrice / 60;
-        poolPrices[hour] = poolPrice;
+        poolPrices[hour] = cummulatedPrice / 60;
         poolPriceHours.push(hour);
     }
 
@@ -334,7 +332,7 @@ contract PoolMarket is Ownable, IPoolMarket {
     }
 
     /**
-  @dev Query the marginal price of given minute in unix time. 
+  @dev Query the marginal price in cents of the given minute in unix time. 
    */
     function getSMP(uint256 minute) public view returns (uint256) {
         return energyOffers[systemMarginalOfferIDs[minute]].price;

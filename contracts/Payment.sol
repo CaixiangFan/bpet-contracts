@@ -8,9 +8,9 @@ import {IRegistry} from "./IRegistry.sol";
 
 contract Payment is Ownable {
     address private marketAccount;
-    IEnergyToken public energyToken;
-    IPoolMarket public poolMarketContract;
-    IRegistry public registryContract;
+    IEnergyToken private energyToken;
+    IPoolMarket private poolMarketContract;
+    IRegistry private registryContract;
 
     modifier registeredSupplier(address account) {
         require(
@@ -52,7 +52,8 @@ contract Payment is Ownable {
             .getDispatchedOffers(_hour)[i].supplierAccount;
             uint256 amount = poolMarketContract
             .getDispatchedOffers(_hour)[i].dispatchedAmount;
-            energyToken.approve(account, amount * poolPrice);
+            // approve amonut of ETK/USD for the supplier to charge from the consumer
+            energyToken.approve(account, (amount * poolPrice) / 100);
         }
     }
 
@@ -63,7 +64,7 @@ contract Payment is Ownable {
         uint256 _hour,
         uint256 _meteredAmount
     ) public registeredSupplier(msg.sender) {
-        uint256 poolPrice = poolMarketContract.getPoolPrice(_hour);
+        uint256 poolPrice = poolMarketContract.getPoolPrice(_hour) / 100;
         // should transfer from smart contract to generator
         energyToken.transferFrom(
             marketAccount,
@@ -79,7 +80,7 @@ contract Payment is Ownable {
         uint256 _hour,
         uint256 _meteredAmount
     ) public registeredConsumer(msg.sender) {
-        uint256 poolPrice = poolMarketContract.getPoolPrice(_hour);
+        uint256 poolPrice = poolMarketContract.getPoolPrice(_hour) / 100;
         // should transfer from buyer to smart contract
         energyToken.transfer(marketAccount, poolPrice * _meteredAmount);
     }
