@@ -11,10 +11,10 @@ import logging
 url = 'http://ets.aeso.ca/ets_web/ip/Market/Reports/CSMPriceReportServlet?contentType=html'
 mdt = pytz.timezone('America/Edmonton')
 now = datetime.now(mdt).strftime('%Y-%m-%d-%H-%M-%S')
-logging.basicConfig(filename='./data/SystemMarginalPrice-{}.log'.format(now), level=logging.DEBUG,
+logging.basicConfig(filename='./SystemMarginalPrice-{}.log'.format(now), level=logging.DEBUG,
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger = logging.getLogger(__name__)
-with open('./data/SystemMarginalPrice-{}.csv'.format(now), 'a+', newline='') as csv_file:
+with open('./SystemMarginalPrice-{}.csv'.format(now), 'a+', newline='') as csv_file:
     fieldnames = ['Date', 'HE', 'Price', 'Minute']
     output_writer = csv.DictWriter(
         csv_file, fieldnames=fieldnames, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
