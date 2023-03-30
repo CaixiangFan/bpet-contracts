@@ -2,17 +2,8 @@ import { ethers, Contract, BigNumber } from "ethers";
 import "dotenv/config";
 import * as registryJson from "../artifacts/contracts/Registry.sol/Registry.json";
 import * as tokenJson from "../artifacts/contracts/EnergyToken.sol/EnergyToken.json";
-import { EXPOSED_KEY, setupProvider, setupGoerliProvider } from "./utils";
+import { EXPOSED_KEY, setupProvider } from "./utils";
 import { Registry, EnergyToken } from "../typechain";
-
-function getProvider() {
-  var provider = setupGoerliProvider();
-  const network = process.env.PROVIDER_NETWORK;
-  if (network === "Besu") {
-    provider = setupProvider();
-  }
-  return provider;
-}
 
 function convertBigNumberToNumber(value: BigNumber): number {
   const decimals = 18;
@@ -23,7 +14,7 @@ async function getRegistryContractInstance() {
   const registryContractAddress = String(process.env.REGISTRY_CONTRACT_ADDRESS);
   const priKey = process.env.PRIVATE_KEY ?? EXPOSED_KEY;
   const wallet = new ethers.Wallet(priKey ?? EXPOSED_KEY);
-  const provider = getProvider();
+  const provider = setupProvider();
   const registrySigner = wallet.connect(provider);
   const registryContractInstance: Registry = new Contract(
     registryContractAddress,
