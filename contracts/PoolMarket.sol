@@ -3,9 +3,9 @@ pragma solidity 0.8.19;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IRegistry} from "./IRegistry.sol";
-import {IPoolMarket} from "./IPoolMarket.sol";
+import {IMarket} from "./IMarket.sol";
 
-contract PoolMarket is Ownable, IPoolMarket {
+contract PoolMarket is Ownable, IMarket {
     /**
   @dev An asset can submit multiple offers each sitting in a block
    */
@@ -14,6 +14,7 @@ contract PoolMarket is Ownable, IPoolMarket {
         uint256 price; //Price in ETK cents per MW, 1ETK=1US dollor
         uint256 submitMinute; //Epoch time in minute when this offer is submitted or updated
         address supplierAccount; //The account of the offer supplier
+        // uint256 dispatchedAt; //Epoch time in minute when this offer is dispatched
     }
 
     /**
@@ -29,7 +30,7 @@ contract PoolMarket is Ownable, IPoolMarket {
 
     mapping(bytes32 => Offer) public energyOffers; //offerId is the keccak256 Hash value of assetId+blockNumber
     mapping(bytes32 => Bid) public energyBids; //bidId is the keccak256 hash value of assetId
-    mapping(uint256 => DispatchedOffer[]) private dispatchedOffers;
+    mapping(uint256 => DispatchedOffer[]) private dispatchedOffers; // key is the dispatched hour in unix time 
     bytes32[] private validOfferIDs; // The valid offers (only offerIDs) used to calculate the merit order
     bytes32[] private validBidIDs; // The valid bids (only bidIDs) used to calculate the merit order
 
@@ -37,12 +38,12 @@ contract PoolMarket is Ownable, IPoolMarket {
 
     uint256 public minAllowedPrice;
     uint256 public maxAllowedPrice;
-    mapping(uint256 => bytes32) public systemMarginalOfferIDs; //map the time in minute in the form of Unix time (uint32) to the system marginal offerID
-    mapping(uint256 => uint256) private poolPrices; // map the time in hour in the form of Unix time (uint32) to the poolPrices
-    uint256[] private systemMarginalMinutes; //store time in minute in the form of Unix time (uint32) used to index the systemMarginalOfferIDs
-    uint256[] private poolPriceHours; //store time in hour in the form of Unix time (uint32) used to index the poolPrices
-    mapping(uint256 => uint256) public totalDemands; // map the time in minute in the form of Unix time (uint32) to the total demand
-    uint256[] private totalDemandMinutes; // store time in minute in the form of Unix time (uint32) used to index the totalDemands
+    mapping(uint256 => bytes32) public systemMarginalOfferIDs; //map the time in minute in the form of Unix time to the system marginal offerID
+    mapping(uint256 => uint256) private poolPrices; // map the time in hour in the form of Unix time to the poolPrices
+    uint256[] private systemMarginalMinutes; //store time in minute in the form of Unix time used to index the systemMarginalOfferIDs
+    uint256[] private poolPriceHours; //store time in hour in the form of Unix time used to index the poolPrices
+    mapping(uint256 => uint256) public totalDemands; // map the time in minute in the form of Unix time to the total demand
+    uint256[] private totalDemandMinutes; // store time in minute in the form of Unix time used to index the totalDemands
 
     event OfferSubmitted(
         uint256 indexed amount,
@@ -211,6 +212,7 @@ contract PoolMarket is Ownable, IPoolMarket {
                 address supplierAccount = energyOffers[meritOrderOfferIDs[i]]
                     .supplierAccount;
                 uint256 amount = energyOffers[meritOrderOfferIDs[i]].amount;
+                // uint256 price = energyOffers[meritOrderOfferIDs[i]].price;
                 aggregatedOfferAmount += amount;
                 dispatchedOffers[nowHour].push(
                     DispatchedOffer(supplierAccount, amount, block.timestamp)
@@ -222,39 +224,6 @@ contract PoolMarket is Ownable, IPoolMarket {
                     systemMarginalMinutes.push(nowMinute);
                     break;
                 }
-            }
-
-            // Loop to aggregate all dispatched energy of each account
-            for (uint256 j = 0; j < dispatchedOffers[nowHour].length; j++) {
-                address supplierAccount = dispatchedOffers[nowHour][j]
-                    .supplierAccount;
-                uint256 dispatchedAmount = dispatchedOffers[nowHour][j]
-                    .dispatchedAmount;
-                uint256 dispatchedAt = dispatchedOffers[nowHour][j]
-                    .dispatchedAt;
-                for (
-                    uint256 k = j + 1;
-                    k < dispatchedOffers[nowHour].length;
-                    k++
-                ) {
-                    if (
-                        dispatchedOffers[nowHour][k].supplierAccount ==
-                        supplierAccount
-                    ) {
-                        uint256 len = dispatchedOffers[nowHour].length;
-                        dispatchedAmount += dispatchedOffers[nowHour][k]
-                            .dispatchedAmount;
-                        dispatchedOffers[nowHour][k] = dispatchedOffers[
-                            nowHour
-                        ][len - 1];
-                        dispatchedOffers[nowHour].pop();
-                    }
-                }
-                dispatchedOffers[nowHour][j] = DispatchedOffer(
-                    supplierAccount,
-                    dispatchedAmount,
-                    dispatchedAt
-                );
             }
         }
     }
@@ -332,9 +301,12 @@ contract PoolMarket is Ownable, IPoolMarket {
     }
 
     /**
-  @dev Query the marginal price in cents of the given minute in unix time. 
+  @dev Query the marginal price of the given minute in unix time. 
    */
     function getSMP(uint256 minute) public view returns (uint256) {
+        // uint256 queryHour = minute / 60 * 60;
+        // uint256 len = dispatchedOffers[queryHour].length;
+        // return dispatchedOffers[queryHour][len - 1].price;
         return energyOffers[systemMarginalOfferIDs[minute]].price;
     }
 
@@ -344,6 +316,9 @@ contract PoolMarket is Ownable, IPoolMarket {
     function getMarginalOffer(
         uint256 minute
     ) public view returns (Offer memory) {
+        // uint256 queryHour = minute / 60 * 60;
+        // uint256 len = dispatchedOffers[queryHour].length;
+        // return dispatchedOffers[queryHour][len - 1];
         return energyOffers[systemMarginalOfferIDs[minute]];
     }
 

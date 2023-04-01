@@ -49,7 +49,7 @@ async function queryBids() {
     var convertedBid = {
       amount: convertBigNumberToNumber(bid.amount),
       price: convertBigNumberToNumber(bid.price),
-      submitminute: submitTime.toLocaleString("en-us"),
+      submitMinute: submitTime.toLocaleString("en-us"),
       account: bid.consumerAccount,
     };
     bids.push(convertedBid);

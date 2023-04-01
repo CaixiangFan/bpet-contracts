@@ -1,11 +1,14 @@
 import { expect } from "chai";
-// eslint-disable-next-line node/no-unpublished-import
-import { BytesLike, Contract } from "ethers";
+import { BigNumber, Contract } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers, waffle } from "hardhat";
-// eslint-disable-next-line node/no-missing-import
 import { EnergyToken, Registry, PoolMarket } from "../typechain";
 import { isAddress } from "ethers/lib/utils";
+
+function convertBigNumberToNumber(value: BigNumber): number {
+  const decimals = 18;
+  return Math.round(Number(ethers.utils.formatEther(value)) * 10 ** decimals);
+}
 
 describe("Testing PoolMarket Contract", () => {
   let registryContract: Contract;
@@ -429,14 +432,16 @@ describe("Testing PoolMarket Contract", () => {
       const currMinute = Math.floor(currBlock.timestamp / 60) * 60;
       const smp = await poolMarketContract.getSMP(currMinute);
       const currHour1 = Math.floor(currBlock.timestamp / 3600) * 3600;
-      const dispatchedOffers2 = await poolMarketContract.getDispatchedOffers(
-        currHour1
-      );
-      // console.log(dispatchedOffers2);
 
+      const calculatePoolPriceTx = await poolMarketContract.calculatePoolPrice(currHour1);
+      await calculatePoolPriceTx.wait();
       const poolPrice = await poolMarketContract.getPoolPrice(currHour1);
-      // console.log(poolPrice);
-      // console.log(smp);
+      
+      // manually calculate poolprice from smp
+      const minutes = new Date(currBlock.timestamp * 1000).getMinutes();
+      const pp = Math.floor((convertBigNumberToNumber(smp) * (60-minutes)) / 60);
+      // compare calculated with obtained from chain
+      expect(convertBigNumberToNumber(poolPrice)).eq(pp);
     });
     it("revert when calculating pool price in the future", async () => {
       const currBlock = await ethers.provider.getBlock("latest");

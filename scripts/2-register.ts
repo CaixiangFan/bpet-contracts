@@ -32,7 +32,7 @@ async function registerSuppliers() {
         `Alberta Solar Farm Ltd${i+1}`
       );
       await registerSupplierTx.wait();
-      console.log(registerSupplierTx);
+      // console.log(registerSupplierTx);
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +58,7 @@ async function registerConsumers() {
         "Alberta Internal Load Ltd."
       );
       await registerConsumerTx.wait();
-      console.log(registerConsumerTx);
+      // console.log(registerConsumerTx);
     } catch (error) {
       console.log(error);
     }
@@ -111,14 +111,25 @@ async function registerAESOSuppliers() {
 }
 
 async function main() {
-  //==============RegisterMetaMaskSuppliers===============
-  // await registerSuppliers();
-
+  var registry = process.argv[2] ?? undefined;
+  switch (registry) {
+    case "local":
+      //==============RegisterMetaMaskSuppliers===============
+      await registerSuppliers();
+      break;
+    case "aeso":
+      //==============RegisterAESOSuppliers==================
+      await registerAESOSuppliers();
+      break;
+    case undefined:
+      await registerSuppliers();
+      await registerAESOSuppliers();
+      break;
+  }
   //==============RegisterMetaMaskConsumers===============
   await registerConsumers();
 
-  //==============RegisterAESOSuppliers==================
-  await registerAESOSuppliers();
+
 }
 
 main().catch((error) => {
