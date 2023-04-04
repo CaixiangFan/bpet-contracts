@@ -1,7 +1,7 @@
 import { ethers, BigNumber } from "ethers";
 import "dotenv/config";
 import { SMP } from './modules/smp.dto';
-import { EXPOSED_KEY, getPoolMarketContract } from "./utils";
+import { EXPOSED_KEY, getPoolMarketContract, setupProvider } from "./utils";
 
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
 const poolmarketContractInstance = getPoolMarketContract(wallet);
@@ -38,12 +38,15 @@ async function queryOffers() {
 }
 
 async function queryBids() {
-  const bidIds = await poolmarketContractInstance.getValidBidIDs();
-  var bids = [];
+  const provider = setupProvider();
+  const currBlock = await provider.getBlock("latest");
+  const currHour = Math.floor(currBlock.timestamp / 3600) * 3600;
+  const bids = await poolmarketContractInstance.getEnergyBids(currHour);
   console.log("All submitted bids:");
   console.log("=======================");
-  for (let i = 0; i < bidIds.length; i++) {
-    var bid = await poolmarketContractInstance.energyBids(bidIds[i]);
+  var convertedBids = [];
+  for (let i = 0; i < bids.length; i++) {
+    var bid = bids[i];
     var submitTimeStamp = convertBigNumberToNumber(bid.submitMinute);
     var submitTime = new Date(submitTimeStamp * 1000);
     var convertedBid = {
@@ -52,7 +55,7 @@ async function queryBids() {
       submitMinute: submitTime.toLocaleString("en-us"),
       account: bid.consumerAccount,
     };
-    bids.push(convertedBid);
+    convertedBids.push(convertedBid);
     console.log(`${i + 1}: ${JSON.stringify(convertedBid)}`);
   }
   console.log(`Total bids #: ${bids.length}`);

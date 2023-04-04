@@ -66,7 +66,7 @@ async function main() {
   var cmd = process.argv.slice(2)[0];
   switch (cmd) {
     case "mint":
-      await mintETKForConsumers(1000, consumers);
+      await mintETKForConsumers(100000, consumers);
     case "query":
       await queryETKForConsumers(consumers);
       break;

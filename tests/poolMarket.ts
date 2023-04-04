@@ -58,7 +58,7 @@ describe("Testing PoolMarket Contract", () => {
         300,
         "Albera Energy Ltd."
       );
-    await tx1.wait();
+    await tx1.wait(1);
 
     const tx2 = await registryContract
       .connect(accounts[2])
@@ -69,7 +69,7 @@ describe("Testing PoolMarket Contract", () => {
         300,
         "Albera Energy Ltd."
       );
-    await tx2.wait();
+    await tx2.wait(1);
 
     const tx3 = await registryContract
       .connect(accounts[3])
@@ -80,7 +80,7 @@ describe("Testing PoolMarket Contract", () => {
         300,
         "Albera Energy Ltd."
       );
-    await tx3.wait();
+    await tx3.wait(1);
 
     const [tx4, tx5] = await Promise.all([
       registryContract
@@ -100,8 +100,8 @@ describe("Testing PoolMarket Contract", () => {
           "Alberta Factory2 Ltd."
         ),
     ]);
-    await tx4.wait();
-    await tx5.wait();
+    await tx4.wait(1);
+    await tx5.wait(1);
   });
 
   describe("when the poolmarket contract is deployed", async () => {
@@ -205,63 +205,52 @@ describe("Testing PoolMarket Contract", () => {
         poolMarketContract.connect(accounts[8]).submitBid(30, 30),
         poolMarketContract.connect(accounts[9]).submitBid(31, 20),
       ]);
-      await tx1.wait();
-      await tx2.wait();
-      await tx3.wait();
-      await tx4.wait();
-      await tx5.wait();
+      await tx1.wait(1);
+      await tx2.wait(1);
+      await tx3.wait(1);
+      await tx4.wait(1);
+      await tx5.wait(1);
     });
-    it("update ail demand by increasing an existing bid", async () => {
-      const updateDemandTx = await poolMarketContract.calculateSMP();
-      await updateDemandTx.wait();
+    it("update ail demand by increasing an existing bid", async () => {     
       const latestDemand = await poolMarketContract.getLatestTotalDemand();
       expect(latestDemand).to.eq(61);
-      const energyBids1 = await poolMarketContract.getValidBidIDs();
-      const bidId = ethers.utils.solidityKeccak256(
-        ["string"],
-        [accounts[0].address]
-      );
-      const bid = await poolMarketContract.energyBids(bidId);
-      // console.log(bid);
+      const currBlock = await ethers.provider.getBlock("latest");
+      const currHour = Math.floor(currBlock.timestamp / 3600) * 3600;
+      const energyBids1 = await poolMarketContract.getEnergyBids(currHour);
+      console.log({energyBids1});
 
       const tx = await poolMarketContract
         .connect(accounts[9])
         .submitBid(70, 20);
-      await tx.wait();
-      const newbid = await poolMarketContract.energyBids(bidId);
-      // console.log(newbid);
-      const energyBids2 = await poolMarketContract.getValidBidIDs();
-      expect(energyBids1.length).to.eq(energyBids2.length);
-      const updateDemandTx2 = await poolMarketContract.calculateSMP();
-      await updateDemandTx2.wait();
+      await tx.wait(1);
+
+      const energyBids2 = await poolMarketContract.getEnergyBids(currHour);
+      expect(energyBids1.length + 1).to.eq(energyBids2.length);
+
       const newDemand = await poolMarketContract.getLatestTotalDemand();
       expect(newDemand).to.eq(100);
     });
     it("update ail demand by decreasing an existing bid", async () => {
-      const updateDemandTx = await poolMarketContract.calculateSMP();
-      await updateDemandTx.wait();
       const demand = await poolMarketContract.getLatestTotalDemand();
       expect(demand).to.eq(61);
-      const energyBids1 = await poolMarketContract.getValidBidIDs();
-      // console.log(energyBids1);
+      const currBlock = await ethers.provider.getBlock("latest");
+      const currHour = Math.floor(currBlock.timestamp / 3600) * 3600;
+      const energyBids1 = await poolMarketContract.getEnergyBids(currHour);
       const tx = await poolMarketContract
         .connect(accounts[9])
         .submitBid(30, 20);
-      await tx.wait();
-      const energyBids2 = await poolMarketContract.getValidBidIDs();
-      // console.log(energyBids2);
-      const updateDemandTx2 = await poolMarketContract.calculateSMP();
-      await updateDemandTx2.wait();
+      await tx.wait(1);
+      const energyBids2 = await poolMarketContract.getEnergyBids(currHour);
       const newDemand = await poolMarketContract.getLatestTotalDemand();
       expect(newDemand).to.eq(60);
+      expect(energyBids1.length + 1).to.eq(energyBids2.length);
     });
     it("update ail demand by adding a new bid", async () => {
-      const updateDemandTx = await poolMarketContract.calculateSMP();
-      await updateDemandTx.wait();
       const demand = await poolMarketContract.getLatestTotalDemand();
       expect(demand).to.eq(61);
-      const energyBids1 = await poolMarketContract.getValidBidIDs();
-      // console.log(energyBids1);
+      const currBlock = await ethers.provider.getBlock("latest");
+      const currHour = Math.floor(currBlock.timestamp / 3600) * 3600;
+      const energyBids1 = await poolMarketContract.getEnergyBids(currHour);
       const registerTx = await registryContract
         .connect(accounts[7])
         .registerConsumer(
@@ -270,19 +259,17 @@ describe("Testing PoolMarket Contract", () => {
           400,
           "Alberta Factory3 Ltd."
         );
-      await registerTx.wait();
+      await registerTx.wait(1);
       const tx = await poolMarketContract
         .connect(accounts[7])
         .submitBid(39, 20);
-      await tx.wait();
-      const updateDemandTx2 = await poolMarketContract.calculateSMP();
-      await updateDemandTx2.wait();
+      await tx.wait(1);
       const newDemand = await poolMarketContract.getLatestTotalDemand();
+      const energyBids2 = await poolMarketContract.getEnergyBids(currHour);
       expect(newDemand).to.eq(100);
+      expect(energyBids1.length + 1).to.eq(energyBids2.length);
     });
     it("emits an event when updating ail demand", async () => {
-      const updateDemandTx2 = await poolMarketContract.calculateSMP();
-      await updateDemandTx2.wait();
       const registerTx = await registryContract
         .connect(accounts[7])
         .registerConsumer(
@@ -291,11 +278,11 @@ describe("Testing PoolMarket Contract", () => {
           400,
           "Alberta Factory3 Ltd."
         );
-      await registerTx.wait();
-      const tx2 = await poolMarketContract
-        .connect(accounts[7])
-        .submitBid(39, 20);
-      await tx2.wait();
+      await registerTx.wait(1);
+      // emit BidSubmitted(_amount, _price, msg.sender);
+      await expect(
+        poolMarketContract.connect(accounts[7]).submitBid(39, 20)
+      ).to.emit(poolMarketContract, "BidSubmitted").withArgs(39, 20, accounts[7].address);
       const newDemand = await poolMarketContract.getLatestTotalDemand();
       expect(newDemand).to.eq(100);
     });

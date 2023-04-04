@@ -31,8 +31,10 @@ async function registerSuppliers() {
         (i + 1) * 200,
         `Alberta Solar Farm Ltd${i+1}`
       );
-      await registerSupplierTx.wait();
-      // console.log(registerSupplierTx);
+      const receipt = await registerSupplierTx.wait(1);
+      if (receipt.status == 1) {
+        console.log(`Registered ${wallet.address}!`);
+      }
     } catch (error) {
       console.log(error);
     }

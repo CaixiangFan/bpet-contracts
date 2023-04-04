@@ -14,7 +14,6 @@ contract PoolMarket is Ownable, IMarket {
         uint256 price; //Price in ETK cents per MW, 1ETK=1US dollor
         uint256 submitMinute; //Epoch time in minute when this offer is submitted or updated
         address supplierAccount; //The account of the offer supplier
-        // uint256 dispatchedAt; //Epoch time in minute when this offer is dispatched
     }
 
     /**
@@ -28,11 +27,13 @@ contract PoolMarket is Ownable, IMarket {
         address consumerAccount; //The account of the consumer
     }
 
-    mapping(bytes32 => Offer) public energyOffers; //offerId is the keccak256 Hash value of assetId+blockNumber
-    mapping(bytes32 => Bid) public energyBids; //bidId is the keccak256 hash value of assetId
+    // For Alberta market, offers are submitted at the beginning of hour and not allowed to change;
+    // while bids can be submitted and updated anytime in an hour
+    mapping(bytes32 => Offer) public energyOffers; //offerId is the keccak256 Hash value of account+blockNumber
+    mapping(address => uint256[]) private bidHours; // an account has bids in the list of hours in unix time
+    mapping(uint256 => Bid[]) private energyBids; // energy bids of an hour in unix time
     mapping(uint256 => DispatchedOffer[]) private dispatchedOffers; // key is the dispatched hour in unix time 
     bytes32[] private validOfferIDs; // The valid offers (only offerIDs) used to calculate the merit order
-    bytes32[] private validBidIDs; // The valid bids (only bidIDs) used to calculate the merit order
 
     IRegistry internal registryContract;
 
@@ -88,27 +89,6 @@ contract PoolMarket is Ownable, IMarket {
         );
         _;
     }
-
-    modifier validBid(
-        uint256 amount,
-        uint256 price,
-        address bidSender
-    ) {
-        require(
-            price <= maxAllowedPrice && price >= minAllowedPrice,
-            "Invalid price"
-        );
-        require(
-            getLatestTotalDemand() -
-                energyBids[keccak256(abi.encode(bidSender))].amount +
-                amount <=
-                registryContract.getTotalCapacity(),
-            "Demand exceeds total supply"
-        );
-        // require(energyToken.balanceOf(bidSender) >= amount * price, "Insufficient ETK balance");
-        _;
-    }
-
     constructor(
         address _registryContractAddress,
         uint256 _minAllowedPrice,
@@ -132,7 +112,6 @@ contract PoolMarket is Ownable, IMarket {
         registeredSupplier(msg.sender)
         validOffer(msg.sender, amount, price)
     {
-        // require(marketState == MarketState.Open, "Market closed");
         // generate offerId as the value keccak256(senderAccount, blockNumber)
         // blockNumber is an int representing identical price and amount of this supplier.
         bytes32 offerId = keccak256(abi.encodePacked(msg.sender, blockNumber));
@@ -159,23 +138,53 @@ contract PoolMarket is Ownable, IMarket {
     )
         public
         registeredConsumer(msg.sender)
-        validBid(_amount, _price, msg.sender)
     {
-        // require(marketState == MarketState.Open, "Bidding closed");
-        // An account can only maintain a bid state
-        // Generate bidId for a submitted bid based on the sender account
-        bytes32 bidId = keccak256(abi.encode(msg.sender));
-        // if current bid does not exist, add the bidId to the index list
-        if (energyBids[bidId].submitMinute == 0) validBidIDs.push(bidId);
-        // update current bid or add a new bid
-        energyBids[bidId] = Bid(
+        require(
+            _price <= maxAllowedPrice && _price >= minAllowedPrice,
+            "Invalid price"
+        );
+        uint256 currHour = (block.timestamp / 3600) * 3600;
+        uint256 currMinute = (block.timestamp / 60) * 60;
+        // update demands
+        uint256 currAmount = 0; // current bid amount of this account
+        uint256 bidHoursLen = bidHours[msg.sender].length;
+        if (bidHoursLen > 0 && bidHours[msg.sender][bidHoursLen-1] == currHour) {
+          uint256 currHourBidsLen = energyBids[currHour].length;
+          for (uint256 i = currHourBidsLen - 1; i >= 0;) {
+            if (energyBids[currHour][i].consumerAccount == msg.sender) {
+              currAmount = energyBids[currHour][i].amount;
+              break;
+            }
+            unchecked{ i --; }
+          }
+        } else {
+          // if current bid hour does not exist, add current hour to the index list
+          bidHours[msg.sender].push(currHour);
+        }
+        uint256 totalAmount = getLatestTotalDemand();
+        // reset total demand in a new hour
+        if (energyBids[currHour].length == 0) totalAmount = 0;
+        unchecked {
+          totalAmount = totalAmount + _amount;
+          require(totalAmount >= currAmount, "Overflow max uint256");
+          totalAmount = totalAmount - currAmount;
+        }
+        
+        require(
+            totalAmount <= registryContract.getTotalCapacity(),
+            "Demand exceeds total supply"
+        );
+        totalDemands[currMinute] = totalAmount;
+        totalDemandMinutes.push(currMinute);
+
+        // add a new bid
+        energyBids[currHour].push(Bid(
             _amount,
             _price,
-            (block.timestamp / 60) * 60,
+            currMinute,
             msg.sender
-        );
+        ));
         emit BidSubmitted(_amount, _price, msg.sender);
-        updateDemand();
     }
 
     /**
@@ -201,7 +210,8 @@ contract PoolMarket is Ownable, IMarket {
 
     ///@dev Calculate the system marginal price. This happens regularly through external function calls.
     function calculateSMP() public onlyOwner {
-        if (validBidIDs.length > 0 && validOfferIDs.length > 0) {
+        uint256 currHour = (block.timestamp / 3600) * 3600;
+        if (energyBids[currHour].length > 0 && validOfferIDs.length > 0) {
             uint256 aggregatedOfferAmount = 0;
             // get the latest total demand
             uint256 latestTotalDemand = getLatestTotalDemand();
@@ -212,7 +222,6 @@ contract PoolMarket is Ownable, IMarket {
                 address supplierAccount = energyOffers[meritOrderOfferIDs[i]]
                     .supplierAccount;
                 uint256 amount = energyOffers[meritOrderOfferIDs[i]].amount;
-                // uint256 price = energyOffers[meritOrderOfferIDs[i]].price;
                 aggregatedOfferAmount += amount;
                 dispatchedOffers[nowHour].push(
                     DispatchedOffer(supplierAccount, amount, block.timestamp)
@@ -266,20 +275,6 @@ contract PoolMarket is Ownable, IMarket {
     }
 
     /**
-  @dev Updates AIL in realtime. This triggers SMP calculation.
-  AIL is collected from substations/smart meters.
-   */
-    function updateDemand() internal {
-        uint256 totalAmount = 0;
-        for (uint256 i = 0; i < validBidIDs.length; i++) {
-            totalAmount += energyBids[validBidIDs[i]].amount;
-        }
-        uint256 currMinute = (block.timestamp / 60) * 60;
-        totalDemands[currMinute] = totalAmount;
-        totalDemandMinutes.push(currMinute);
-    }
-
-    /**
   @dev Get a snapshot of current total demand.
   In reality, AIL might be collected from substations/smart meters.
    */
@@ -304,9 +299,6 @@ contract PoolMarket is Ownable, IMarket {
   @dev Query the marginal price of the given minute in unix time. 
    */
     function getSMP(uint256 minute) public view returns (uint256) {
-        // uint256 queryHour = minute / 60 * 60;
-        // uint256 len = dispatchedOffers[queryHour].length;
-        // return dispatchedOffers[queryHour][len - 1].price;
         return energyOffers[systemMarginalOfferIDs[minute]].price;
     }
 
@@ -316,9 +308,6 @@ contract PoolMarket is Ownable, IMarket {
     function getMarginalOffer(
         uint256 minute
     ) public view returns (Offer memory) {
-        // uint256 queryHour = minute / 60 * 60;
-        // uint256 len = dispatchedOffers[queryHour].length;
-        // return dispatchedOffers[queryHour][len - 1];
         return energyOffers[systemMarginalOfferIDs[minute]];
     }
 
@@ -330,8 +319,12 @@ contract PoolMarket is Ownable, IMarket {
         return validOfferIDs;
     }
 
-    function getValidBidIDs() public view returns (bytes32[] memory) {
-        return validBidIDs;
+    function getBidHours() external view returns (uint256[] memory) {
+      return bidHours[msg.sender];
+    }
+
+    function getEnergyBids(uint256 hour) external view returns(Bid[] memory) {
+      return energyBids[hour];
     }
 
     function getTotalDemandMinutes() public view returns (uint256[] memory) {

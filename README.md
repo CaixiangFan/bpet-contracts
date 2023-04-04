@@ -1,3 +1,8 @@
+# Smart Contracts
+- To calculate payment, PoolMarket contract needs to record the dispatched duration of each offer. 
+  One solution is to add `dispatchedAt` and `dispatchedEnd` timestamp fields to record an offer dispatchment and compute dilivered amount.
+- Currently, payment relies on the amount input from a pre-assumed smart meter.
+
 # Advanced Sample Hardhat Project
 
 This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
