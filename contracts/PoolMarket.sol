@@ -150,12 +150,11 @@ contract PoolMarket is Ownable, IMarket {
         uint256 bidHoursLen = bidHours[msg.sender].length;
         if (bidHoursLen > 0 && bidHours[msg.sender][bidHoursLen-1] == currHour) {
           uint256 currHourBidsLen = energyBids[currHour].length;
-          for (uint256 i = currHourBidsLen - 1; i >= 0;) {
+          for (uint256 i = currHourBidsLen - 1; i >= 0; i --) {
             if (energyBids[currHour][i].consumerAccount == msg.sender) {
               currAmount = energyBids[currHour][i].amount;
               break;
             }
-            unchecked{ i --; }
           }
         } else {
           // if current bid hour does not exist, add current hour to the index list
