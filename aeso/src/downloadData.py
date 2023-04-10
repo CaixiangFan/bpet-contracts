@@ -44,4 +44,4 @@ def download_data(reportName: str, beginDate: str, endDate: str) -> pd.DataFrame
     return concatedDf
 
 
-download_data('HistoricalSystemMarginalPrice', '09012021', '08312022')
+download_data('HistoricalSystemMarginalPrice', '03012022', '05012022')
