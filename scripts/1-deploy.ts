@@ -28,7 +28,7 @@ const abiDirs = [
                 ]
 
 const MINALLOWEDPRICE = 0;
-const MAXALLOWEDPRICE = 1000;
+const MAXALLOWEDPRICE = 100000; // 1000 dollors = 100,000 cents
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? EXPOSED_KEY);
 var provider = setupProvider();
 const signer = wallet.connect(provider);

@@ -1,10 +1,11 @@
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import "dotenv/config";
 import { parse } from "csv-parse";
 import * as path from "path";
 import * as fs from "fs";
 import * as schedule from 'node-schedule';
 import { EXPOSED_KEY, getPoolMarketContract } from "./utils";
+import * as submitBidsJson from "../aeso/SubmitBid_20220301_20220314.json";
 
 type SubmitBid = {
   Index: any;
@@ -15,15 +16,8 @@ type SubmitBid = {
   HE: number;
   DispatchedMW: number;
 }
-const BIDSFILE = './aeso/SubmitBid_20220301_20220314.json'; 
 
-async function main() {
-  // if (fs.existsSync(BIDSFILE)) {
-  //   console.log(`${BIDSFILE} exists!`);
-  //   return;
-  // }
-
-  // console.log(`Generating ${BIDSFILE} ... `);
+async function generateBidJson() {
   const csvFilePath = path.resolve(__dirname, '../aeso/SubmitBid_20220301_20220314.csv');
   const headers = ['Index', 'Date (HE)','Time', 'Price ($)', 'Date', 'HE', 'DispatchedMW'];
   const fileContent = fs.readFileSync(csvFilePath, { encoding: 'utf-8' });
@@ -34,29 +28,50 @@ async function main() {
     if (error) {
       console.error(error);
     }
-    const wallet = new ethers.Wallet(process.env.CONSUMER1_PRIVATE_KEY ?? EXPOSED_KEY);
-    const poolmarketContractInstance = getPoolMarketContract(wallet);
-    // skip the header line
-    // must start with the 1st item and keep align with offer submissions 
-    var i = 1;
-    const job = schedule.scheduleJob('55 * * * * *', async () => {
-      const currMinute: number = +(result[i].Time.split(':')[1]);
-      const currHour: number = result[i].Time.includes('24:') ? 0 : +(result[i].Time.split(':')[0]);
-      const amount: number = result[i].DispatchedMW;
-      const now = new Date();
-      console.log(`Now ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}, should submit next bid amount=${amount}MW at ${currHour}:${currMinute}`);
-      if (now.getHours() == currHour && now.getMinutes() == currMinute) {
-        console.log(`Submitting a bid: (${amount} MW, 50 $) at ${currHour}:${currMinute}`);
-        const tx = await poolmarketContractInstance.submitBid(amount, 50);
-        await tx.wait();
-        console.log(tx);
-        console.log(`Submitted a bid: (${amount} MW, 50 $) at ${currHour}:${currMinute}`);
-        i ++;
-        if (i === result.length) job.cancel();
-      }
-    })
+    console.log(result);
     }
   );
+}
+
+async function main() {
+  const BIDSFILE = './aeso/SubmitBid_20220301_20220314.json'; 
+  if (! fs.existsSync(BIDSFILE)) {
+    console.log(`${BIDSFILE} not exists!`);
+    console.log(`Generating ${BIDSFILE} ... `);
+    generateBidJson();
+  }
+
+  const offersMap = new Map(Object.entries(submitBidsJson));
+  const minuteKeys = offersMap.keys();
+
+  var currBidTimeStr = minuteKeys.next()?.value.toString();
+  var currBidMinute: number = +(currBidTimeStr.split(':')[1]);
+  const job = schedule.scheduleJob('50 * * * * *', async () => {
+    if (currBidTimeStr == undefined) job.cancel();
+    // check if time minute matches the current nid minute
+    const now = new Date();
+    const currMinute: number = now.getMinutes();
+    // const currSecond: number = now.getSeconds();
+    console.log(`Current time:  ${now.toTimeString()}`);
+    console.log(`Next bid: ${JSON.stringify(offersMap.get(currBidTimeStr))}`)
+    
+
+    if (currBidMinute == currMinute) {
+      const bid = offersMap.get(currBidTimeStr);
+      if (bid != undefined) {
+        console.log(`Submitting bid ${JSON.stringify(bid)}`);
+        const wallet = new ethers.Wallet(process.env.CONSUMER1_PRIVATE_KEY ?? EXPOSED_KEY);
+        const poolmarketContractInstance = getPoolMarketContract(wallet);
+        const amount: number = +bid.Dispatched;
+        const price: number = +(parseFloat(bid["Price ($)"]) * 100);
+        const tx = await poolmarketContractInstance.submitBid(amount, price);
+        await tx.wait();
+
+        currBidTimeStr = minuteKeys.next().value.toString();
+        currBidMinute = +(currBidTimeStr.split(':')[1]);
+      }
+    }
+  })
 }
 
 main().catch((error) => {

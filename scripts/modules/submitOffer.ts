@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import { EXPOSED_KEY, getPoolMarketContract } from "../utils";
 import * as registryJson from "../../aeso/Registry_20220301_20220314.json";
 
@@ -25,17 +25,20 @@ async function main() {
       var _priKey: string = registeredUsers.get(offerObj.AssetId)?.Index ?? EXPOSED_KEY;;
       var _blockNumber: number = offerObj.BlockNumber;
       var _availableMW: number = offerObj.AvailableMW;
-      var _price: number = offerObj.Price; 
+      var _price = +(offerObj.Price * 100); 
       const wallet = new ethers.Wallet(_priKey);
       const contract = getPoolMarketContract(wallet);
-    
-      const submitOfferTx = await contract.submitOffer(
-      _blockNumber,
-      _availableMW,
-      _price
-      );
-      await submitOfferTx.wait();
-      // console.log(submitOfferTx);
+      try {
+        const submitOfferTx = await contract.submitOffer(
+        _blockNumber,
+        _availableMW,
+        _price
+        );
+        const receipt = await submitOfferTx.wait(1);
+        console.log(receipt.transactionHash);
+      } catch (error) {
+        console.log({error});
+      }
     }
   }
 }

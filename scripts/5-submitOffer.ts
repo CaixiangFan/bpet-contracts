@@ -7,9 +7,12 @@ async function main() {
   // const offset = new Date("2023-03-07 0:00:00").getTime() - new Date("2022-03-01 0:00:00").getTime();
   const offersMap = new Map(Object.entries(submitOffersJson));
   const hourKeys = offersMap.keys();
+  // submit the initial offers
   var currHour: string = "2022-03-01 0:00:00";
   submitOffers(currHour);
-  schedule.scheduleJob('0 * * * *', () => {
+  // schedule offer submissions at the begining of each hour
+  schedule.scheduleJob('0 1 * * * *', () => {
+    // resubmit the first hour's offers
     currHour = hourKeys.next().value.toString();
     submitOffers(currHour);
 });
