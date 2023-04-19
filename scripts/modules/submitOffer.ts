@@ -25,7 +25,7 @@ async function main() {
       var _priKey: string = registeredUsers.get(offerObj.AssetId)?.Index ?? EXPOSED_KEY;;
       var _blockNumber: number = offerObj.BlockNumber;
       var _availableMW: number = offerObj.AvailableMW;
-      var _price = +(offerObj.Price * 100); 
+      var _price = Math.round(offerObj.Price * 100); 
       const wallet = new ethers.Wallet(_priKey);
       const contract = getPoolMarketContract(wallet);
       try {
@@ -35,7 +35,7 @@ async function main() {
         _price
         );
         const receipt = await submitOfferTx.wait(1);
-        console.log(receipt.transactionHash);
+        console.log(receipt.transactionHash.slice(0, 10), '...', offerObj.AssetId, offerObj.BlockNumber, offerObj.AvailableMW, offerObj.Price);
       } catch (error) {
         console.log({error});
       }
