@@ -10,6 +10,11 @@ function convertBigNumberToNumber(value: BigNumber): number {
   return Math.round(Number(ethers.utils.formatEther(value)) * 10 ** decimals);
 }
 
+function convertNumberToBigNumber(value: number): BigNumber {
+  const decimals = 18;
+  return ethers.utils.parseEther(String(value));
+}
+
 describe("Testing PoolMarket Contract", () => {
   let registryContract: Contract;
   let etkContract: Contract;
@@ -44,7 +49,7 @@ describe("Testing PoolMarket Contract", () => {
     poolMarketContract = await poolMarketContractFactory.deploy(
       registryContract.address,
       0,
-      1000
+      100000
     );
 
     await poolMarketContract.deployed();
@@ -110,7 +115,7 @@ describe("Testing PoolMarket Contract", () => {
       const maxAllowedPrice = await poolMarketContract.maxAllowedPrice();
       const validOfferIDs = await poolMarketContract.getValidOfferIDs();
       expect(minAllowedPrice).to.eq(0);
-      expect(maxAllowedPrice).to.eq(1000);
+      expect(maxAllowedPrice).to.eq(100000);
       expect(validOfferIDs.length).to.eq(0);
     });
   });
@@ -122,10 +127,10 @@ describe("Testing PoolMarket Contract", () => {
         .connect(accounts[1])
         .isRegisteredSupplier(accounts[1].address);
       expect(isRegistered).to.eq(true);
-
+      // const bnPrice = convertNumberToBigNumber(50.00);
       const tx = await poolMarketContract
         .connect(accounts[1])
-        .submitOffer(0, 5, 50);
+        .submitOffer(0, 5, 5035);
       await tx.wait();
       const validOfferIDs = await poolMarketContract.getValidOfferIDs();
       // console.log(validOfferIDs);
@@ -319,6 +324,7 @@ describe("Testing PoolMarket Contract", () => {
       const calculateSMPTx = await poolMarketContract.calculateSMP();
       await calculateSMPTx.wait();
       const smp = await poolMarketContract.getSMP(currMinute);
+      console.log({smp});
       const newDemand = await poolMarketContract.getLatestTotalDemand();
       expect(smp).to.eq(55);
       expect(newDemand).to.eq(100);
@@ -372,6 +378,7 @@ describe("Testing PoolMarket Contract", () => {
       const calculateSMPTx = await poolMarketContract.calculateSMP();
       await calculateSMPTx.wait();
       const newDemand = await poolMarketContract.getLatestTotalDemand();
+      console.log({newDemand});
       expect(newDemand).to.eq(120);
       const currBlock = await ethers.provider.getBlock("latest");
       const currHour = Math.floor(currBlock.timestamp / 3600) * 3600;
