@@ -35,7 +35,7 @@ async function main() {
         _price
         );
         const receipt = await submitOfferTx.wait(1);
-        console.log(receipt.transactionHash.slice(0, 10), '...', offerObj.AssetId, offerObj.BlockNumber, offerObj.AvailableMW, offerObj.Price);
+        console.log(receipt.transactionHash, offerObj.AssetId, offerObj.BlockNumber, offerObj.AvailableMW, offerObj.Price);
       } catch (error) {
         console.log({error});
       }

@@ -1,4 +1,4 @@
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers";
 import "dotenv/config";
 import { parse } from "csv-parse";
 import * as path from "path";
@@ -51,7 +51,6 @@ async function main() {
     // check if time minute matches the current nid minute
     const now = new Date();
     const currMinute: number = now.getMinutes();
-    // const currSecond: number = now.getSeconds();
     console.log(`Current time:  ${now.toTimeString()}`);
     console.log(`Next bid: ${JSON.stringify(offersMap.get(currBidTimeStr))}`)
     
@@ -63,7 +62,7 @@ async function main() {
         const wallet = new ethers.Wallet(process.env.CONSUMER1_PRIVATE_KEY ?? EXPOSED_KEY);
         const poolmarketContractInstance = getPoolMarketContract(wallet);
         const amount: number = +bid.Dispatched;
-        const price: number = +(parseFloat(bid["Price ($)"]) * 100);
+        const price: number = Math.round(parseFloat(bid["Price ($)"]) * 100);
         const tx = await poolmarketContractInstance.submitBid(amount, price);
         await tx.wait();
 
