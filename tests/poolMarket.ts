@@ -222,7 +222,7 @@ describe("Testing PoolMarket Contract", () => {
       const currBlock = await ethers.provider.getBlock("latest");
       const currHour = Math.floor(currBlock.timestamp / 3600) * 3600;
       const energyBids1 = await poolMarketContract.getEnergyBids(currHour);
-      console.log({energyBids1});
+      // console.log({energyBids1});
 
       const tx = await poolMarketContract
         .connect(accounts[9])
@@ -324,7 +324,7 @@ describe("Testing PoolMarket Contract", () => {
       const calculateSMPTx = await poolMarketContract.calculateSMP();
       await calculateSMPTx.wait();
       const smp = await poolMarketContract.getSMP(currMinute);
-      console.log({smp});
+      // console.log({smp});
       const newDemand = await poolMarketContract.getLatestTotalDemand();
       expect(smp).to.eq(55);
       expect(newDemand).to.eq(100);
@@ -378,7 +378,7 @@ describe("Testing PoolMarket Contract", () => {
       const calculateSMPTx = await poolMarketContract.calculateSMP();
       await calculateSMPTx.wait();
       const newDemand = await poolMarketContract.getLatestTotalDemand();
-      console.log({newDemand});
+      // console.log({newDemand});
       expect(newDemand).to.eq(120);
       const currBlock = await ethers.provider.getBlock("latest");
       const currHour = Math.floor(currBlock.timestamp / 3600) * 3600;
