@@ -21,4 +21,3 @@ venv
 
 # benchmark logs
 caliper-benchmarks/caliper.log
-*.html
